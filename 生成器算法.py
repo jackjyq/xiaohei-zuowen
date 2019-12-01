@@ -1,8 +1,10 @@
 # -*- coding: UTF-8 -*-
+import random
 
 class 生成器:
     def __init__(self)->None:
         # 初始化变量
+        random.seed()
         self.模版 = {}
         self.语料库 = {}
         self.主题 = {
@@ -25,9 +27,10 @@ class 生成器:
                 数据.append(行.strip())
         return 数据
 
-    def 输入主题(self)->None:
-        self.主题["主题动词"] = input("请输入主题动词：")
-        self.主题["主题名词"] = input("请输入主题名词：")
+    def 语料库洗牌(self):
+        random.shuffle(self.语料库["名人名言"])
+        random.shuffle(self.语料库["道德型正例"])
+        random.shuffle(self.语料库["道德型反例"])
 
     def 应用语料(self, 段落:str, 语料计数:dict, 语料类型:str)->str:
         待替换词 = "「" + 语料类型 +"」"
@@ -43,9 +46,11 @@ class 生成器:
             语料计数[语料类型] += 1
         return 段落
 
-    def 生成作文(self)->list:
+    def 生成作文(self, 模版类型:str="一型")->list:
         作文 = []
-        模版 = self.模版["一型"]
+        模版 = self.模版[模版类型]
+        # 洗牌和语料计数可防止重复选取同一条语料
+        self.语料库洗牌()
         语料计数 = {
             "名人名言": 0,
             "正例": 0,
@@ -58,17 +63,4 @@ class 生成器:
             段落 = 段落.replace("「主题动词」", self.主题["主题动词"])
             段落 = 段落.replace("「主题名词」", self.主题["主题名词"])
             作文.append(段落)
-        self.显示作文(作文)
         return 作文
-
-    def 显示作文(self, 作文:str)->None:
-        字数 = 0
-        for 段落 in 作文:
-            字数 += len(段落)
-            print(段落 + "\r\n")
-        print("共" + str(字数) + "字")
-
-if __name__ == "__main__":
-    生成器 = 生成器()
-    # 生成器.输入主题()
-    生成器.生成作文()
