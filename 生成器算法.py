@@ -2,9 +2,9 @@
 import random
 
 class 生成器:
-    def __init__(self)->None:
+    def __init__(self, 随机种子:int=None)->None:
         # 初始化变量
-        random.seed()
+        random.seed(随机种子)
         self.模版 = {}
         self.语料库 = {}
         self.主题 = {
