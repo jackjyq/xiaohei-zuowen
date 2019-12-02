@@ -2,3 +2,6 @@
 __pycache__/
 .DSStore
 python_modules/
+wsgi.ini
+wsgi.py
+zuowen.service

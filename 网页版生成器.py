@@ -20,6 +20,7 @@ def 显示网页():
     主题名词 = "理想"
     作文 = ""
     总段数 = 0
+    总字数 = 0
     if request.method == 'POST':
         # 获取表单信息
         表单 = request.form
