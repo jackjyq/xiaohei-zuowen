@@ -1,0 +1,216 @@
+<html>
+<head>
+  <title>中文作文生成器</title>
+  <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+
+<body>
+  <div id="主体">
+    <div id="标题">中文作文生成器</div>
+
+    <div id="主题">
+      <form action = "http://localhost:5000" method = "POST">
+        <span>主题动词</span>
+        <input type = "text" name = "主题动词" value = {{ 主题动词 }} />
+        <span>主题名词</span>
+        <input type = "text" name = "主题名词" value = {{ 主题名词 }} />
+        <button type = "submit">生成</button>
+     </form>
+    </div>
+
+    <div id="文章">
+        {%for 段数 in range(0, 总段数)%} 
+          <p id="文章">{{作文[段数]}}</p> 
+        {%endfor%} 
+        （共{{总字数}}字）
+    </div>
+
+  </div>
+
+  <div id="页脚">
+    <p><a class="链接" href="https://github.com/Jiangyiqun/Chinese_Essay_Generator">
+        © Jiangyiqun
+    </a></p>
+  </div>
+</body>
+</html>
+
+<style>
+    /* Style Sheet 来自：https://github.com/suulnnka/BullshitGenerator */
+  @media screen and (max-width: 1024px) {
+    html{
+      font-size: 16px;
+      color: #333333;
+    }
+    body{
+      margin: 0;
+    }
+    #主体{
+      border: 2px solid #333333;
+      margin: 6px;
+      padding: 6px;
+      background: #f8f8f8;
+    }
+    #标题{
+      font-size: 22px;
+      line-height: 3rem;
+      text-align: center;
+    }
+    #主题{
+      text-align: center;
+      margin-top: 6px;
+      font-size: 0px;
+    }
+    #主题 span{
+      font-size: 16px;
+      vertical-align: baseline;
+      margin-left: 6px;
+    }
+    #主题 input{
+      border: none;
+      border-bottom: #666666 2px solid;
+      padding: 1px 0 0 0;
+      margin: 0px 6px 0 6px;
+      vertical-align: baseline;
+      font-size: 16px;
+      background: #f8f8f8;
+      color: #333333;
+      text-align: center;
+      width: 15%;
+    }
+    #主题 button{
+      border: 0;
+      padding: 3px 7px 3px 7px;
+      margin: 0;
+      vertical-align: top;
+      font-size: 16px;
+      background: #454545;
+      color: #efefef;
+    }
+    #文章 div{
+      margin-top: 6px;
+      font-size: 2rem;
+      text-align: justify;
+    }
+    #文章 p{
+      text-indent: 2em;
+    }
+    #声明{
+      float: left;
+      margin: 0 0 0 6px;
+    }
+    #声明 p{
+      margin: 0 0 3px 3px;
+      font-size: 1.4rem;
+    }
+    #声明文字{
+      display: none;
+    }
+    #页脚{
+      margin: 6px;
+    }
+    #页脚 p{
+      margin: 3px;
+      font-size: 10px;
+      text-align: right;
+    }
+    .链接{
+      color: #666666;
+    }
+    .图标{
+      height: 1rem;
+      width: 1rem;
+      vertical-align: top;
+      margin-top: 2px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    html{
+      font-size: 1.3vw;
+      color: #333333;
+    }
+    body{
+      margin: 0;
+    }
+    #主体{
+      border: 2px solid #333333;
+      margin: 20px;
+      padding: 20px;
+      background: #f8f8f8;
+    }
+    #标题{
+      font-size: 1.9rem;
+      line-height: 1.9rem;
+      text-align: center;
+    }
+    #主题{
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0px;
+    }
+    #主题 span{
+      font-size: 1rem;
+      vertical-align: baseline;
+      margin-left: 20px;
+    }
+    #主题 input{
+      border: none;
+      border-bottom: #666666 2px solid;
+      padding: 1px 0 0 0;
+      margin: 0px 20px 0 20px;
+      vertical-align: baseline;
+      font-size: 1rem;
+      background: #f8f8f8;
+      color: #333333;
+      text-align: center;
+      width: 18%;
+    }
+    #主题 button{
+      border: 0;
+      padding: 5px 15px 5px 15px;
+      margin: 0;
+      vertical-align: top;
+      font-size: 0.75rem;
+      background: #454545;
+      color: #efefef;
+    }
+    #文章 div{
+      margin-top: 20px;
+      text-align: justify;
+    }
+    #声明{
+      float: left;
+      margin: 0 0 0 20px;
+    }
+    #声明 p{
+      margin: 0 0 5px 5px;
+      font-size: 0.75rem;
+    }
+    #声明文字{
+      display: none;
+    }
+    #页脚{
+      margin: 20px;
+    }
+    #页脚 p{
+      margin: 5px;
+      font-size: 0.75rem;
+      text-align: right;
+    }
+    .链接{
+      color: #666666;
+    }
+    #页脚 span{
+      padding: 2px 0 0 0;
+      vertical-align: baseline;
+    }
+    .图标{
+      height: 0.7rem;
+      width: 0.7rem;
+      vertical-align: top;
+      margin-top: 4px;
+    }
+  }
+</style>
