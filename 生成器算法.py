@@ -5,11 +5,14 @@ from os import listdir
 class 生成器:
     def __init__(self, 随机种子:int=None)->None:
         random.seed(随机种子)
-        self.模版 = self.读取文件("./模版库/模版.txt")
-        self.语料类型大全 = self.获取语料类型()
+        self.模版库 = {}
+        self.模版列表 = self.获取列表("./模版库")
+        for 模版名称 in self.模版列表:
+            self.模版库[模版名称] = self.读取文件("./模版库/"+模版名称+".txt")
+        self.语料列表 = self.获取列表("./语料库")
         self.语料库 = {}
-        for 语料类型 in self.语料类型大全:
-            self.语料库[语料类型] = self.读取文件("./语料库/"+语料类型+".txt")
+        for 语料名称 in self.语料列表:
+            self.语料库[语料名称] = self.读取文件("./语料库/"+语料名称+".txt")
 
     def 读取文件(self, 文件路径:str)->list:
         数据 = []
@@ -20,43 +23,43 @@ class 生成器:
                 数据.append(行.strip())
         return 数据
 
-    def 获取语料类型(self)->list:
-        语料类型 = []
-        for 文件名 in listdir("./语料库"):
-            语料类型.append(文件名[:-4])
-        return 语料类型
+    def 获取列表(self, 目录路径:str)->list:
+        语料名称 = []
+        for 文件名 in listdir(目录路径):
+            语料名称.append(文件名[:-4])
+        return 语料名称
 
     def 语料库洗牌(self)->None:
-        for 语料类型 in self.语料类型大全:
-            random.shuffle(self.语料库[语料类型])
+        for 语料名称 in self.语料列表:
+            random.shuffle(self.语料库[语料名称])
 
-    def 应用语料(self, 段落:str, 语料计数:dict, 语料类型:str)->str:
-        待替换词 = "「"+语料类型+"」"
+    def 应用语料(self, 段落:str, 语料计数:dict, 语料名称:str)->str:
+        待替换词 = "「"+语料名称+"」"
         while 段落.find(待替换词) >= 0:
             # 若存在待替换词
             段落 = 段落.replace(
                 待替换词,
-                self.语料库[语料类型][语料计数[语料类型]],
+                self.语料库[语料名称][语料计数[语料名称]],
                 1)
-            语料计数[语料类型] += 1
+            语料计数[语料名称] += 1
         return 段落
 
     def 初始化语料计数(self)->dict:
         语料计数 = {}
-        for 语料类型 in self.语料类型大全:
-            语料计数[语料类型] = 0
+        for 语料名称 in self.语料列表:
+            语料计数[语料名称] = 0
         return 语料计数
 
     def 生成作文(self, 主题谓语:str="", 主题宾语:str="")->list:
         # 随机选择模版
-        模版 = self.模版
+        模版 = random.choice(list(self.模版库.values()))
         # 随机替换语料
         初稿 = []
         self.语料库洗牌()
         语料计数 = self.初始化语料计数()
         for 段落 in 模版:
-            for 语料类型 in self.语料类型大全:
-                段落 = self.应用语料(段落, 语料计数, 语料类型)
+            for 语料名称 in self.语料列表:
+                段落 = self.应用语料(段落, 语料计数, 语料名称)
             初稿.append(段落)
         # 替换主题词
         定稿 = []
