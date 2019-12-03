@@ -1,219 +1,49 @@
 <html>
 <head>
-  <title>小嘿写作文</title>
+  <title>小嘿在线作文生成器</title>
   <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="keywords" content="作文生成器, 中学作文生成器, 万能作文, 生成器, 高考议论文, 免费作文生成器">
+  <meta name="description" content="小嘿在线作文生成器, 可免费在线自动生成海量作文，绝无重复。">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <div id="主体">
-    <div id="标题">小嘿写作文</div>
-
-    <div id="主题">
-      <form method = "POST">
-        <span>主题动词</span>
-        <input type = "text" name = "主题动词" value = {{ 主题动词 }} />
-        <span>主题名词</span>
-        <input type = "text" name = "主题名词" value = {{ 主题名词 }} />
-        <button type = "submit">生成</button>
-     </form>
+  <div class="card">
+    <div class="card-header">
+      <form method = "POST" style="margin-bottom: 0;">
+        <div class="form-row">
+          <label class="col-form-label">主题动词</label>
+          <div class="col">
+            <input type="text" class="form-control"
+                value={{ 主题动词 }} name="主题动词">
+          </div>
+          <label class="col-form-label">名词</label>
+          <div class="col">
+            <input type="text" class="form-control"
+                value={{ 主题名词 }} name="主题名词">
+          </div>
+          <div class="col">
+            <button type="submit" class="btn btn-primary">
+              生成
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-
-    <div id="文章">
+    <div class="card-body" style="background-color: rgb(237, 228, 210);">
         {%for 段数 in range(0, 总段数)%} 
-          <p id="文章">{{作文[段数]}}</p> 
-        {%endfor%} 
-        （共{{总字数}}字）
+          <p class="card-text" style="text-indent:2em">{{作文[段数]}}</p> 
+        {%endfor%}
+        <p class="card-text">（共{{总字数}}字）</p> 
     </div>
-
-  </div>
-
-  <div id="页脚">
-    <p><a class="链接" href="https://github.com/Jiangyiqun/Chinese_Essay_Generator">
-        © Jiangyiqun
-    </a></p>
-  </div>
+      <div class="card-footer text-muted">
+        <a class="text-center"
+            href="https://github.com/Jiangyiqun/Chinese_Essay_Generator">
+            <small>Copyright © 2019 Jiangyiqun. 保留所有权利</small>
+        </a>
+      </div>
+    </div>
 </body>
 </html>
-
-<style>
-    /* Style Sheet 来自：https://github.com/suulnnka/BullshitGenerator */
-  @media screen and (max-width: 1024px) {
-    html{
-      font-size: 16px;
-      color: #333333;
-    }
-    body{
-      margin: 0;
-    }
-    #主体{
-      border: 2px solid #333333;
-      margin: 6px;
-      padding: 6px;
-      background: #f8f8f8;
-    }
-    #标题{
-      font-size: 22px;
-      line-height: 3rem;
-      text-align: center;
-    }
-    #主题{
-      text-align: center;
-      margin-top: 6px;
-      font-size: 0px;
-    }
-    #主题 span{
-      font-size: 16px;
-      vertical-align: baseline;
-      margin-left: 6px;
-    }
-    #主题 input{
-      border: none;
-      border-bottom: #666666 2px solid;
-      padding: 1px 0 0 0;
-      margin: 0px 6px 0 6px;
-      vertical-align: baseline;
-      font-size: 16px;
-      background: #f8f8f8;
-      color: #333333;
-      text-align: center;
-      width: 15%;
-    }
-    #主题 button{
-      border: 0;
-      padding: 3px 7px 3px 7px;
-      margin: 0;
-      vertical-align: top;
-      font-size: 16px;
-      background: #454545;
-      color: #efefef;
-    }
-    #文章 div{
-      margin-top: 6px;
-      font-size: 2rem;
-      text-align: justify;
-    }
-    #文章 p{
-      text-indent: 2em;
-    }
-    #声明{
-      float: left;
-      margin: 0 0 0 6px;
-    }
-    #声明 p{
-      margin: 0 0 3px 3px;
-      font-size: 1.4rem;
-    }
-    #声明文字{
-      display: none;
-    }
-    #页脚{
-      margin: 6px;
-    }
-    #页脚 p{
-      margin: 3px;
-      font-size: 10px;
-      text-align: right;
-    }
-    .链接{
-      color: #666666;
-    }
-    .图标{
-      height: 1rem;
-      width: 1rem;
-      vertical-align: top;
-      margin-top: 2px;
-    }
-  }
-
-  @media screen and (min-width: 1024px) {
-    html{
-      font-size: 1.3vw;
-      color: #333333;
-    }
-    body{
-      margin: 0;
-    }
-    #主体{
-      border: 2px solid #333333;
-      margin: 20px;
-      padding: 20px;
-      background: #f8f8f8;
-    }
-    #标题{
-      font-size: 1.9rem;
-      line-height: 1.9rem;
-      text-align: center;
-    }
-    #主题{
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0px;
-    }
-    #主题 span{
-      font-size: 1rem;
-      vertical-align: baseline;
-      margin-left: 20px;
-    }
-    #主题 input{
-      border: none;
-      border-bottom: #666666 2px solid;
-      padding: 1px 0 0 0;
-      margin: 0px 20px 0 20px;
-      vertical-align: baseline;
-      font-size: 1rem;
-      background: #f8f8f8;
-      color: #333333;
-      text-align: center;
-      width: 18%;
-    }
-    #主题 button{
-      border: 0;
-      padding: 5px 15px 5px 15px;
-      margin: 0;
-      vertical-align: top;
-      font-size: 0.75rem;
-      background: #454545;
-      color: #efefef;
-    }
-    #文章 div{
-      margin-top: 20px;
-      text-align: justify;
-    }
-    #文章 p{
-      text-indent: 2em;
-    }
-    #声明{
-      float: left;
-      margin: 0 0 0 20px;
-    }
-    #声明 p{
-      margin: 0 0 5px 5px;
-      font-size: 0.75rem;
-    }
-    #声明文字{
-      display: none;
-    }
-    #页脚{
-      margin: 20px;
-    }
-    #页脚 p{
-      margin: 5px;
-      font-size: 0.75rem;
-      text-align: right;
-    }
-    .链接{
-      color: #666666;
-    }
-    #页脚 span{
-      padding: 2px 0 0 0;
-      vertical-align: baseline;
-    }
-    .图标{
-      height: 0.7rem;
-      width: 0.7rem;
-      vertical-align: top;
-      margin-top: 4px;
-    }
-  }
-</style>
