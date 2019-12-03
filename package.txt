@@ -1,5 +1,5 @@
 DOCS="http://ppm.jackjyq.com"
-MAIN_FILE="网页版生成器.py"
+MAIN_FILE="网站服务器.py"
 DEFAULT_ARGS=""
 PACKAGE_LIST="package-lock.txt"
 PACKAGE_PATH="python_modules"

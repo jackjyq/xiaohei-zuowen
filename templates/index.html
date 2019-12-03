@@ -1,28 +1,30 @@
 <html>
 <head>
-  <title>小嘿在线作文生成器</title>
+  <title>小嘿作文生成器</title>
   <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <meta name="keywords" content="作文生成器, 中学作文生成器, 万能作文, 生成器, 高考议论文, 免费作文生成器">
-  <meta name="description" content="小嘿在线作文生成器, 可免费在线自动生成海量作文，绝无重复。">
+  <meta name="keywords" content="作文生成器, 在线作文生成器, 免费作文生成器, 中学作文生成器, 考试作文生成器, 高考作文生成器">
+  <meta name="description" content="小嘿作文生成器, 可免费在线自动生成海量作文。">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 
 <body>
+  <div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8 col-xl-6">
   <div class="card">
     <div class="card-header">
       <form method = "POST" style="margin-bottom: 0;">
         <div class="form-row">
-          <label class="col-form-label">主题动词</label>
+          <label class="col-form-label">主题谓语</label>
           <div class="col">
             <input type="text" class="form-control"
-                value={{ 主题动词 }} name="主题动词">
+                value={{ 主题谓语 }} name="主题谓语">
           </div>
-          <label class="col-form-label">名词</label>
+          <label class="col-form-label">宾语</label>
           <div class="col">
             <input type="text" class="form-control"
-                value={{ 主题名词 }} name="主题名词">
+                value={{ 主题宾语 }} name="主题宾语">
           </div>
           <div class="col">
             <button type="submit" class="btn btn-primary">
@@ -31,19 +33,19 @@
           </div>
         </div>
       </form>
-    </div>
+    </div> <!-- header -->
     <div class="card-body" style="background-color: rgb(237, 228, 210);">
         {%for 段数 in range(0, 总段数)%} 
           <p class="card-text" style="text-indent:2em">{{作文[段数]}}</p> 
         {%endfor%}
-        <p class="card-text">（共{{总字数}}字）</p> 
-    </div>
-      <div class="card-footer text-muted">
-        <a class="text-center"
-            href="https://github.com/Jiangyiqun/Chinese_Essay_Generator">
-            <small>Copyright © 2019 Jiangyiqun. 保留所有权利</small>
-        </a>
-      </div>
-    </div>
+    </div> <!-- body -->
+    <div class="card-footer text-center">
+      <a href="https://github.com/Jiangyiqun/Chinese_Essay_Generator">
+          <small>Copyright © 2019 Jiangyiqun. 保留所有权利</small>
+      </a>
+    </div> <!-- footer -->
+  </div> <!-- card -->
+  </div> <!-- col -->
+  </div> <!-- row -->
 </body>
 </html>
