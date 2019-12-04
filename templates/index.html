@@ -21,7 +21,8 @@
   <div class="row justify-content-center">
   <div class="col" style="max-width: 30rem;">
   <div class="card">
-    <div class="card-header">
+    <div class="card-header"
+        style="background-color: rgb(242, 243, 244);">
       <form method = "POST" style="margin-bottom: 0;">
         <div class="form-row">
           <label class="col-form-label">主题谓语</label>
@@ -35,7 +36,7 @@
                 value={{ 主题宾语 }} name="主题宾语">
           </div>
           <div class="col">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-success">
               生成
             </button>
           </div>
@@ -47,7 +48,8 @@
           <p class="card-text" style="text-indent:2em">{{作文[段数]}}</p> 
         {%endfor%}
     </div> <!-- body -->
-    <div class="card-footer text-center">
+    <div class="card-footer text-center"
+        style="background-color: rgb(242, 243, 244);">
       <small>
         <a href="#">
           生成作文
@@ -57,9 +59,7 @@
           CC0 1.0 通用协议
         </a>
         发布
-      </small>
       <br />
-      <small>
         <a href="https://github.com/Jiangyiqun/Chinese_Essay_Generator">
           项目代码
         </a>

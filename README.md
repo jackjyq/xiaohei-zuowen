@@ -1,21 +1,22 @@
 # 小嘿作文生成器
 
-## 背景
+## 目的
 
-- 研究中学作文结构，方便教学。
-- 顺便生成一些作文，以供娱乐。
+- 研究中学作文结构；
+- 尝试体验中文编程；
+- 顺便生成一些作文。
 
-## 使用
+## 开始使用
 
 [zuowen.jackjyq.com](http://zuowen.jackjyq.com/)
 
-## 部署
+## 本地部署
 
 [![](https://img.shields.io/badge/managed%20by-ppm-red)](http://ppm.jackjyq.com/)
 
 ```
 ppm i
-ppm s
+sudo ppm s  # sudo 是因为我绑定了 80 端口
 ```
 
 或参考[package-lock.txt](./package-lock.txt)自行安装相关 Python 包。
