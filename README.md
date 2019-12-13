@@ -39,6 +39,14 @@ sudo ppm s  # sudo 是因为我绑定了 80 端口
 
 或参考[package-lock.txt](./package-lock.txt)自行安装相关 Python 包。
 
+## 下一步工作
+
+- 增加名言数量
+- 增加 URL query功能`zuowen.jackjyq.com/?谓语=勇于&宾语=尝试`
+- 首页的例子改为链接，且例子是随机的
+- 使用 random.sample() 改进随机算法效率及可读性
+- 增加 全文复制 功能
+
 ## 致谢
 
 - 使用 [Python](https://www.python.org/) 开发生成器算法
