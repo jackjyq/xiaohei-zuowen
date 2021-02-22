@@ -14,6 +14,7 @@ class 生成器:
         for 语料名称 in self.语料列表:
             self.语料库[语料名称] = self.读取文件("./语料库/"+语料名称+".txt")
         self.作文总数 = self.计算作文总数()
+        self.模版名称大全 = list(self.模版库.keys())
 
     def 读取文件(self, 文件路径:str)->list:
         数据 = []
@@ -51,25 +52,6 @@ class 生成器:
             语料计数[语料名称] = 0
         return 语料计数
 
-    def 生成作文(self, 主题谓语:str="", 主题宾语:str="")->list:
-        # 随机选择模版
-        模版 = random.choice(list(self.模版库.values()))
-        # 随机替换语料
-        初稿 = []
-        self.语料库洗牌()
-        语料计数 = self.初始化语料计数()
-        for 段落 in 模版:
-            for 语料名称 in self.语料列表:
-                段落 = self.应用语料(段落, 语料计数, 语料名称)
-            初稿.append(段落)
-        # 替换主题词
-        定稿 = []
-        for 段落 in 初稿:
-            段落 = 段落.replace("「主题谓语」", 主题谓语)
-            段落 = 段落.replace("「主题宾语」", 主题宾语)
-            定稿.append(段落)
-        return 定稿
-    
     def 计算作文总数(self)->int:
         """计算能够生成的作文总数
         """
@@ -94,8 +76,30 @@ class 生成器:
                 模版作文总数 *= 语料数量 - i
         return 模版作文总数
 
+    def 生成作文(self, 主题谓语:str="", 主题宾语:str="", 
+            模版名称:str="经典议论文")->list:
+        # 随机选择模版
+        模版 = self.模版库[模版名称]
+        # 模版 = random.choice(list(self.模版库.values()))
+        # 随机替换语料
+        初稿 = []
+        self.语料库洗牌()
+        语料计数 = self.初始化语料计数()
+        for 段落 in 模版:
+            for 语料名称 in self.语料列表:
+                段落 = self.应用语料(段落, 语料计数, 语料名称)
+            初稿.append(段落)
+        # 替换主题词
+        定稿 = []
+        for 段落 in 初稿:
+            段落 = 段落.replace("「主题谓语」", 主题谓语)
+            段落 = 段落.replace("「主题宾语」", 主题宾语)
+            定稿.append(段落)
+        return 定稿
+
 # 测试代码
 if __name__ == "__main__":
     生成器 = 生成器()
     print(生成器.生成作文("积极", "尝试"))
+    print(生成器.模版名称大全)
     print(生成器.作文总数)
