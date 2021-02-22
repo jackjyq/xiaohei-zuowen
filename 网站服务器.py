@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
-from flask import Flask, render_template, request
+import os
+from flask import Flask, render_template, request, send_from_directory
 from 生成器算法 import 生成器
 
 app = Flask(__name__)
@@ -40,6 +41,12 @@ def 显示网页():
             作文 = 作文,
             总段数 = 总段数
             )
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+            './favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 
 # 本地测试代码
 if __name__ == '__main__':
