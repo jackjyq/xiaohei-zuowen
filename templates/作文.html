@@ -1,0 +1,55 @@
+<html>
+<head>
+  <title>小嘿作文生成器</title>
+  <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="keywords" content="作文生成器, 在线作文生成器, 免费作文生成器, 中学作文生成器, 考试作文生成器, 高考作文生成器">
+  <meta name="description" content="小嘿作文生成器, 可免费在线自动生成海量作文。">
+  <!-- 载入样式表 -->
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='样式表.css') }}">
+  <!-- 谷歌分析代码 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144741828-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-144741828-3');
+  </script>
+</head>
+<body>
+  <header>
+    <article>
+      <form>
+        <label for="谓语">主题谓语:</label>
+        <input id="谓语" name="谓语" value={{主题谓语}}><br><br>
+        <label for="宾语">宾语:</label>
+        <input id="宾语" name="宾语" value={{主题宾语}}><br><br>
+        <input type="submit" value="生成">
+      </form>
+    </article>
+  </header>
+  <main>
+    <article>
+      {%for 段数 in range(0, 总段数)%} 
+        <p class="card-text" style="text-indent:2em">{{作文[段数]}}</p> 
+      {%endfor%}
+    </article>
+  </main>
+  <footer>
+    网站文字 基于
+    <a href="https://github.com/Jiangyiqun/Chinese_Essay_Generator/blob/master/LICENSE">
+      CC0 1.0 通用协议
+    </a>
+    发布
+  <br />
+    <a href="https://github.com/Jiangyiqun/Chinese_Essay_Generator">
+      项目代码
+    </a>
+    基于
+    <a href="https://github.com/Jiangyiqun/Chinese_Essay_Generator/blob/master/LICENSE">
+      MIT 开源许可协议
+    </a>
+    发布
+  </footer>
+</body>
+</html>

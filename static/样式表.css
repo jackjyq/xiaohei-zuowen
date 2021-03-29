@@ -1,0 +1,84 @@
+/* 颜色设计
+#fbf0d9 -- 苏门答腊黄
+#f5f5f6 -- 火狐灰
+#0ac668 -- 微信绿
+*/
+
+html{
+  background-color: #f5f5f6;
+}
+
+/* 字体设计
+http://ruby-china.org/topics/14005 */
+body {
+  font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei",
+  "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+  font-size: 16px;
+  margin: auto;
+  max-width: 782px;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+a:link {
+  color: #4285F4;
+  text-decoration: none;
+}
+
+/* header */
+header {
+  margin: 16px 0;
+  max-width: 734px;
+}
+
+form {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+form input[type=text]{
+  margin: 0 2px;
+  padding: 2px;
+  max-width: 500px;
+}
+
+form input[type=submit]{
+  margin: 0 2px;
+}
+
+form label{
+  margin: 0 2px;
+}
+/* main */
+main {
+  background-color: fbf0d9;
+  border-radius: 8px;
+	box-shadow: 1px  1px 0 rgba(0,0,0,0.08);
+  margin: 16px 0;
+  max-width: 734px;
+  padding: 24px;
+  border-bottom:2px solid #f3f2ef;
+  }
+
+/* footer */
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: grey;
+  margin-bottom: 20px;
+}
+

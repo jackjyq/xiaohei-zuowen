@@ -47,7 +47,6 @@ python 网站服务器.py
 
 - 增加 URL query功能`zuowen.jackjyq.com/?谓语=勇于&宾语=尝试`
 - 首页的例子改为链接，且例子是随机的
-- 使用 random.sample() 改进随机算法效率及可读性
 - 增加 全文复制 功能
 
 ## 致谢
