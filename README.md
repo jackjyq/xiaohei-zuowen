@@ -45,7 +45,6 @@ python 网站服务器.py
 
 ## 下一步工作
 
-- 增加 URL query功能`zuowen.jackjyq.com/?谓语=勇于&宾语=尝试`
 - 首页的例子改为链接，且例子是随机的
 - 增加 全文复制 功能
 
@@ -53,7 +52,6 @@ python 网站服务器.py
 
 - 使用 [Python](https://www.python.org/) 开发生成器算法
 - 使用 [Flask](https://flask.palletsprojects.com/en/1.1.x/) 开发网站服务器
-- 使用 [Bootstrap](https://getbootstrap.com/) 设计网页
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
 
 ## 授权协议

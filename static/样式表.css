@@ -11,8 +11,8 @@ html{
 /* 字体设计
 http://ruby-china.org/topics/14005 */
 body {
-  font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei",
-  "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+  font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei",
+  "微软雅黑", Heiti, "黑体", sans-serif;
   font-size: 16px;
   margin: auto;
   max-width: 782px;
@@ -50,18 +50,27 @@ form {
   align-items: center;
 }
 
+form input {
+  margin: 4px;
+  border: none;
+  border-radius: 2px;
+}
+
 form input[type=text]{
-  margin: 0 2px;
-  padding: 2px;
-  max-width: 500px;
+  padding: 4px;
+  width: 80px;
 }
 
 form input[type=submit]{
-  margin: 0 2px;
+  border: none;
+  padding: 4px 8px;
+  background-color: #0ac668;
+  color: #ffffff;
+	box-shadow: 1px  1px 0 rgba(0,0,0,0.08);
 }
 
 form label{
-  margin: 0 2px;
+  margin: 4px;
 }
 /* main */
 main {

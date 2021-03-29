@@ -18,22 +18,18 @@
 </head>
 <body>
   <header>
-    <article>
-      <form>
-        <label for="谓语">主题谓语:</label>
-        <input id="谓语" name="谓语" value={{主题谓语}}><br><br>
-        <label for="宾语">宾语:</label>
-        <input id="宾语" name="宾语" value={{主题宾语}}><br><br>
-        <input type="submit" value="生成">
-      </form>
-    </article>
+    <form>
+      <label for="谓语">谓语:</label>
+      <input id="谓语" name="谓语" type="text" value={{主题谓语}}><br><br>
+      <label for="宾语">宾语:</label>
+      <input id="宾语" name="宾语" type="text" value={{主题宾语}}><br><br>
+      <input type="submit" value="生成">
+    </form>
   </header>
   <main>
-    <article>
-      {%for 段数 in range(0, 总段数)%} 
-        <p class="card-text" style="text-indent:2em">{{作文[段数]}}</p> 
-      {%endfor%}
-    </article>
+    {%for 段数 in range(0, 总段数)%} 
+      <p class="card-text" style="text-indent:2em">{{作文[段数]}}</p> 
+    {%endfor%}
   </main>
   <footer>
     网站文字 基于
