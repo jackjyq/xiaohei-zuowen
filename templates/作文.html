@@ -25,6 +25,7 @@
   <meta property="og:image:height" content="512" />
   <!-- 载入样式表 -->
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='样式表.css') }}">
+  <script src="{{ url_for('static',filename='脚本.js') }}" defer></script>
   <!-- 谷歌分析代码 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144741828-3"></script>
   <script>
@@ -45,19 +46,23 @@
     </form>
   </header>
   <main>
-    <article>
-      <h1>{{主题谓语}}{{主题宾语}}</h1>
+    <article id="作文">
+      <h1 id="标题">{{主题谓语}}{{主题宾语}}</h1>
       {%for 段数 in range(0, 总段数)%} 
       <p>{{作文[段数]}}</p>
       {%endfor%}
       <p style="text-align: right;">
-        ——<a href="/">小嘿作文生成器</a></p>
+        —— <a href="/">小嘿作文生成器</a></p>
+    </article>
+    <article>
+      <button onclick="复制作文()">复制作文</button>
+      <button onclick="发送邮件()">发送邮件</button>
     </article>
   </main>
   <footer>
-    <a href="{{ url_for('static',filename='./图标/小嘿.png') }}">小嘿照片</a> | 
     <a href="{{ url_for('static',filename='./赞赏/微信赞赏.jpg') }}">微信打赏</a> | 
-    <a href="{{ url_for('static',filename='./赞赏/支付宝赞赏.jpg') }}">支付宝打赏</a>
+    <a href="{{ url_for('static',filename='./赞赏/支付宝赞赏.jpg') }}">支付宝打赏</a> | 
+    <a href="{{ url_for('static',filename='./图标/小嘿.png') }}">关于小嘿</a>
     <br />
     网站文字基于
     <a href="https://github.com/jackjyq/xiaohei-zuowen/blob/master/LICENSE">
