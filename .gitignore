@@ -6,3 +6,4 @@ wsgi.ini
 wsgi.py
 zuowen.service
 zuowen.sock
+*.sqlite

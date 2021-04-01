@@ -42,9 +42,11 @@
   <header>
     <form>
       <label for="谓语">谓语:</label>
-      <input id="谓语" name="谓语" type="text" value={{主题谓语}}><br><br>
+      <input id="谓语" name="谓语" type="text" value=""
+        maxlength="14" required><br><br>
       <label for="宾语">宾语:</label>
-      <input id="宾语" name="宾语" type="text" value={{主题宾语}}><br><br>
+      <input id="宾语" name="宾语" type="text" value=""
+        maxlength="14" required><br><br>
       <input type="submit" value="生成">
     </form>
   </header>
@@ -52,14 +54,25 @@
     <article>
       <h1>小嘿作文生成器</h1>
       <p>小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。</p>
-      <p>开始使用，输入主题谓语、宾语，然后点击生成按钮。</p>
-      <p>或点击如下示例：</p>
+      <h2>请按如下步骤使用：</h2>
+      <ul>
+        <li>输入主题谓语、宾语</li>
+        <li>点击生成按钮</li>
+      </ul>
+      <!-- <h2>或点击如下示例：</h2>
       <ul>
         <li><a href="./?谓语=勇于&宾语=尝试">勇于尝试</a></li>
         <li><a href="./?谓语=树立&宾语=理想">树立理想</a></li>
         <li><a href="./?谓语=热爱&宾语=生活之美好">热爱生活之美好</a></li>
         <li><a href="./?谓语=融入&宾语=爱国主义洪流">融入爱国主义洪流</a></li>
-      </ul>
+      </ul> -->
+      <h2>或参考生成记录：</h2>
+      <ul>
+        {% for 谓语, 宾语, 生成次数 in 生成记录[:20] %}
+          <li><a href="./?谓语={{ 谓语 }}&宾语={{ 宾语 }}">{{ 谓语 }}{{ 宾语 }}</a> 
+            —— {{ 生成次数 }}篇</li>
+        {% endfor %}
+        </ul>
     </article>
     <article>
       <h1>贡献</h1>
