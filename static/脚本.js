@@ -29,3 +29,7 @@ function 下载作文() {
     临时文本区域.click();
     document.body.removeChild(临时文本区域);
     }
+
+function 再来一篇() {
+    location.reload()
+}
