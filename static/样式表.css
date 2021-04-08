@@ -91,6 +91,15 @@ article p {
   background-color: #f5f5f6;
 }
 
+button {
+  margin: 4px;
+  padding: 4px;
+  border-radius: 2px;
+  background-color: white;
+  border: none;
+  box-shadow: 0.5px 0.5px grey;
+}
+
 /* footer */
 footer {
   text-align: center;
