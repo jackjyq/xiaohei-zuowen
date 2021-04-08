@@ -24,7 +24,27 @@
 
 勇于尝试虽不容易，但并非无法做到。席慕蓉说：“生命是一条奔流不息的河，我们都是那个过河的人。”是的，要顺利地渡过这条河，必须勇于尝试。我们应当不忘初心，砥砺前行，才能在人生精神的天空中熠熠生辉。（共717字）
 
-## 本地部署
+## 文件结构
+
+### 生成器
+
+这些是生成作文必须的文件
+
+- 生成器算法.py: 生成器主文件，启动命令行版生成器。
+- 模板库：作文模板库，生成器会从中随机选择模板
+- 语料库：作文模板库，生成器会从中随机选择语料
+
+### 网站服务器
+
+这些文件是 Flask 网站服务器需要的文件
+
+- 网站服务器.py: 网站服务器主文件，在本机启动 Flask 服务器
+- templates: 存放网站的 HTML 文件
+- static：存放网站的 Javascript、CSS 和图片文件
+
+其余未说明的文件一般为系统自动生成
+
+## 测试部署
 
 [![](https://img.shields.io/badge/managed%20by-ppm-red)](http://ppm.jackjyq.com/)
 
@@ -37,13 +57,23 @@ ppm i && ppm s
 python 网站服务器.py
 ```
 
+如需步骤在服务器上，请参考 [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+
+## 贡献方式
+
+您可以通过如下方式参与贡献：
+
+- 提交 Pull Requests 或 Issues
+- 通过 Github 右上角 Sponsor 支持作者
+- 分享 [https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/) 到社交媒体
+
 ## 致谢
 
-- 使用 [Python](https://www.python.org/) 开发生成器算法
-- 使用 [Flask](https://flask.palletsprojects.com/en/1.1.x/) 开发网站服务器
+- 使用 [Python](https://www.python.org/)/[Flask](https://flask.palletsprojects.com/en/1.1.x/) 开发
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
 
-## 授权协议
+## [授权协议](./LICENSE)
 
+- 网站图片,  &copy; 版权所有 保留所有权利
 - 项目代码，基于MIT 开源许可协议发布
 - 生成作文，基于CC0 1.0 通用协议发布
