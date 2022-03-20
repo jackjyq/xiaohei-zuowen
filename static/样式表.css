@@ -1,0 +1,123 @@
+/* 颜色设计
+#fbf0d9 -- 苏门答腊黄
+#f5f5f6 -- 火狐灰
+#0ac668 -- 微信绿
+*/
+
+html{
+  background-color: #f5f5f6;
+}
+
+/* 字体设计
+http://ruby-china.org/topics/14005 */
+body {
+  font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei",
+  "微软雅黑", Heiti, "黑体", sans-serif;
+  font-size: 16px;
+  margin: auto;
+  max-width: 782px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 16px;
+}
+
+a:link {
+  color: #4285F4;
+  text-decoration: none;
+}
+
+/* header 
+  766px = 734px + 16px*2 (paddings) */
+header {
+  max-width: 766px;
+}
+
+form {
+  display: flex;
+  flex-flow: row wrap;
+  margin-block-end: 0;
+}
+
+form input {
+  margin: 4px;
+  padding: 4px;
+  border: none;
+  border-radius: 2px;
+  height: 32px;
+  font-size: 16px;
+}
+
+form input[type=text]{
+  flex-grow: 1;
+  min-width: 32px;
+  flex-basis: 32px;
+}
+
+form input[type=submit]{
+  text-align: center;
+  border-radius: 2px;
+  background-color: #0ac668;
+  color: #ffffff;
+}
+
+form label{
+  margin: 4px;
+  padding: 4px;
+  height: 32px;
+}
+/* main */
+article {
+  background-color: fbf0d9;
+  border-radius: 8px;
+	box-shadow: 1px  1px 0 rgba(0,0,0,0.08);
+  margin: 0 0 16px 0;
+  max-width: 734px;
+  padding: 16px;
+  border-bottom:2px solid #f3f2ef;
+  }
+
+article p {
+  text-indent:2em;
+}
+
+.livere {
+  background-color: #f5f5f6;
+}
+
+button {
+  margin: 4px;
+  padding: 4px;
+  border-radius: 2px;
+  background-color: white;
+  border: none;
+  box-shadow: 0.5px 0.5px grey;
+}
+
+.用户统计 {
+  border-radius: 8px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  border: 1px solid #f3f2ef;
+}
+
+.用户统计:hover {
+  border: 1px solid #4285F4;
+}
+
+/* footer */
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: grey;
+  margin-bottom: 20px;
+}
+

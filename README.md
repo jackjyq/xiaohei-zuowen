@@ -1,16 +1,10 @@
 # 小嘿作文生成器
 
-小嘿作文生成器, 可免费在线自动生成海量作文。
-
-## 目的
-
-- 研究中学作文结构；
-- 尝试体验中文编程；
-- 顺便生成一些作文。
+小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。
 
 ## 开始使用
 
-[zuowen.jackjyq.com](http://zuowen.jackjyq.com/)
+[https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/)
 
 ## 效果展示
 
@@ -30,31 +24,62 @@
 
 勇于尝试虽不容易，但并非无法做到。席慕蓉说：“生命是一条奔流不息的河，我们都是那个过河的人。”是的，要顺利地渡过这条河，必须勇于尝试。我们应当不忘初心，砥砺前行，才能在人生精神的天空中熠熠生辉。（共717字）
 
-## 本地部署
+## 文件结构
+
+### 生成器
+
+这些是生成作文必须的文件
+
+- 生成器算法.py: 生成器主文件，启动命令行版生成器。
+- 模板库：作文模板库，生成器会从中随机选择模板
+- 语料库：作文模板库，生成器会从中随机选择语料
+
+### 网站服务器
+
+这些文件是 Flask 网站服务器需要的文件
+
+- 网站服务器.py: 网站服务器主文件，在本机启动 Flask 服务器
+- templates: 存放网站的 HTML 文件
+- static：存放网站的 Javascript、CSS 和图片文件
+
+其余未说明的文件一般为系统自动生成
+
+## 测试部署
 
 [![](https://img.shields.io/badge/managed%20by-ppm-red)](http://ppm.jackjyq.com/)
 
-```
-ppm i
-sudo ppm s  # sudo 是因为我绑定了 80 端口
+```bash
+ppm i && ppm s
 ```
 
 或参考[package-lock.txt](./package-lock.txt)自行安装相关 Python 包。
+```bash
+python 网站服务器.py
+```
 
-## 下一步工作
+如需步骤在服务器上，请参考 [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
 
+## 贡献方式
+
+您可以通过如下方式参与贡献：
+
+<<<<<<< HEAD
 - 增加 URL query功能`zuowen.jackjyq.com/?谓语=勇于&宾语=尝试`
 - 首页的例子改为链接，且例子是随机的
 - 增加 全文复制 功能
+=======
+- 提交 Pull Requests 或 Issues
+- 通过 Github 右上角 Sponsor 支持作者
+- 分享 [https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/) 到社交媒体
+>>>>>>> master
 
 ## 致谢
 
-- 使用 [Python](https://www.python.org/) 开发生成器算法
-- 使用 [Flask](https://flask.palletsprojects.com/en/1.1.x/) 开发网站服务器
-- 使用 [Bootstrap](https://getbootstrap.com/) 设计网页
+- 使用 [Python](https://www.python.org/)/[Flask](https://flask.palletsprojects.com/en/1.1.x/) 开发
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
 
-## 授权协议
+## [授权协议](./LICENSE)
 
+- 网站图片,  &copy; 版权所有 保留所有权利
 - 项目代码，基于MIT 开源许可协议发布
 - 生成作文，基于CC0 1.0 通用协议发布
