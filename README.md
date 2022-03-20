@@ -8,7 +8,7 @@
 
 ## 效果展示
 
->> 
+> >
 
 莎士比亚写道：“即使被关在果壳之中，我仍自以为是无限宇宙之王。”人生在世，总会被一些东西束缚，只有勇于尝试，才能冲破障碍，向星辰大海进发。这样就要求我们勇于尝试,以此来丰富充实人生，增加其厚度。
 
@@ -22,7 +22,7 @@
 
 滚滚长江东逝水，浪花流去时光。历史的经验启示我们：成功来自勇于尝试。
 
-勇于尝试虽不容易，但并非无法做到。席慕蓉说：“生命是一条奔流不息的河，我们都是那个过河的人。”是的，要顺利地渡过这条河，必须勇于尝试。我们应当不忘初心，砥砺前行，才能在人生精神的天空中熠熠生辉。（共717字）
+勇于尝试虽不容易，但并非无法做到。席慕蓉说：“生命是一条奔流不息的河，我们都是那个过河的人。”是的，要顺利地渡过这条河，必须勇于尝试。我们应当不忘初心，砥砺前行，才能在人生精神的天空中熠熠生辉。（共 717 字）
 
 ## 文件结构
 
@@ -44,9 +44,79 @@
 
 其余未说明的文件一般为系统自动生成
 
-## 测试部署
+## 部署指南
 
-如需步骤在服务器上，请参考 [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+### 上传代码
+
+在服务器端
+
+```zsh
+cd ~
+git init zuowen.jackjyq.com
+cd zuowen.jackjyq.com
+git config --local receive.denyCurrentBranch updateInstead
+```
+
+在本地
+
+```zsh
+git remote add vultr vultr:~/zuowen.jackjyq.com
+git push
+```
+
+### 配置 gunicorn 服务
+
+编辑 `sudo vim /etc/systemd/system/zuowen.jackjyq.com.service`
+
+```ini
+[Unit]
+Description=zuowen.jackjyq.com
+After=network.target
+
+[Service]
+User=jack
+Group=www-data
+WorkingDirectory=/home/jack/zuowen.jackjyq.com
+Environment="PATH=/home/jack/zuowen.jackjyq.com/venv/bin"
+ExecStart=/home/jack/zuowen.jackjyq.com/venv/bin/gunicorn --workers 3 --bind unix:zuowen.jackjyq.com.sock -m 007 --reload 网站服务器:app
+
+[Install]
+WantedBy=multi-user.target
+```
+
+启动服务
+
+```zsh
+sudo systemctl start zuowen.jackjyq.com
+sudo systemctl enable zuowen.jackjyq.com
+sudo systemctl status zuowen.jackjyq.com
+```
+
+### 配置 nginx 服务
+
+编辑 `sudo vim /etc/nginx/conf.d/jackjyq.com.conf`
+
+```conf
+server {
+        listen 80;
+        server_name zuowen.jackjyq.com;
+        location / {
+                include proxy_params;
+                proxy_pass http://unix:/home/jack/zuowen.jackjyq.com/zuowen.jackjyq.com.sock;
+        }
+}
+```
+
+启动服务
+
+```zsh
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+使用 [Certbot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) 添加 HTTPS 支持
+
+参考 [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
 
 ## 贡献方式
 
@@ -63,6 +133,6 @@
 
 ## [授权协议](./LICENSE)
 
-- 网站图片,  &copy; 版权所有 保留所有权利
-- 项目代码，基于MIT 开源许可协议发布
-- 生成作文，基于CC0 1.0 通用协议发布
+- 网站图片, &copy; 版权所有 保留所有权利
+- 项目代码，基于 MIT 开源许可协议发布
+- 生成作文，基于 CC0 1.0 通用协议发布
