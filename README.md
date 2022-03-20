@@ -46,7 +46,7 @@
 
 ## 部署指南
 
-### 上传代码
+### 1. 上传代码
 
 在服务器端
 
@@ -64,7 +64,7 @@ git remote add vultr vultr:~/zuowen.jackjyq.com
 git push
 ```
 
-### 配置 gunicorn 服务
+### 2. 配置 gunicorn 服务
 
 编辑 `sudo vim /etc/systemd/system/zuowen.jackjyq.com.service`
 
@@ -92,7 +92,7 @@ sudo systemctl enable zuowen.jackjyq.com
 sudo systemctl status zuowen.jackjyq.com
 ```
 
-### 配置 nginx 服务
+### 3. 配置 nginx 服务
 
 编辑 `sudo vim /etc/nginx/conf.d/jackjyq.com.conf`
 
@@ -116,7 +116,10 @@ sudo systemctl restart nginx
 
 使用 [Certbot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) 添加 HTTPS 支持
 
-参考 [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+### 参考
+
+-  [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+- [connect() to unix:/run/gunicorn.sock failed (13: Permission denied)](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04)
 
 ## 贡献方式
 
