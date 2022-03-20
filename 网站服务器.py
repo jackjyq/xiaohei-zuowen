@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import os
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request
 from 生成器算法 import 生成器
 from typing import Union
 
