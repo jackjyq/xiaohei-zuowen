@@ -1,9 +1,6 @@
 .vscode/
 __pycache__/
 .DSStore
-python_modules/
-wsgi.ini
-wsgi.py
-zuowen.service
-zuowen.sock
+venv/
 *.sqlite
+*.log

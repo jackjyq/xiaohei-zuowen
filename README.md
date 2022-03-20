@@ -46,32 +46,15 @@
 
 ## 测试部署
 
-[![](https://img.shields.io/badge/managed%20by-ppm-red)](http://ppm.jackjyq.com/)
-
-```bash
-ppm i && ppm s
-```
-
-或参考[package-lock.txt](./package-lock.txt)自行安装相关 Python 包。
-```bash
-python 网站服务器.py
-```
-
 如需步骤在服务器上，请参考 [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
 
 ## 贡献方式
 
 您可以通过如下方式参与贡献：
 
-<<<<<<< HEAD
-- 增加 URL query功能`zuowen.jackjyq.com/?谓语=勇于&宾语=尝试`
-- 首页的例子改为链接，且例子是随机的
-- 增加 全文复制 功能
-=======
 - 提交 Pull Requests 或 Issues
 - 通过 Github 右上角 Sponsor 支持作者
 - 分享 [https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/) 到社交媒体
->>>>>>> master
 
 ## 致谢
 

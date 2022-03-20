@@ -4,15 +4,15 @@
 #0ac668 -- 微信绿
 */
 
-html{
+html {
   background-color: #f5f5f6;
 }
 
 /* 字体设计
 http://ruby-china.org/topics/14005 */
 body {
-  font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei",
-  "微软雅黑", Heiti, "黑体", sans-serif;
+  font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei", "微软雅黑", Heiti,
+    "黑体", sans-serif;
   font-size: 16px;
   margin: auto;
   max-width: 782px;
@@ -29,7 +29,7 @@ h2 {
 }
 
 a:link {
-  color: #4285F4;
+  color: #4285f4;
   text-decoration: none;
 }
 
@@ -54,20 +54,20 @@ form input {
   font-size: 16px;
 }
 
-form input[type=text]{
+form input[type="text"] {
   flex-grow: 1;
   min-width: 32px;
   flex-basis: 32px;
 }
 
-form input[type=submit]{
+form input[type="submit"] {
   text-align: center;
   border-radius: 2px;
   background-color: #0ac668;
   color: #ffffff;
 }
 
-form label{
+form label {
   margin: 4px;
   padding: 4px;
   height: 32px;
@@ -76,15 +76,15 @@ form label{
 article {
   background-color: fbf0d9;
   border-radius: 8px;
-	box-shadow: 1px  1px 0 rgba(0,0,0,0.08);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.08);
   margin: 0 0 16px 0;
   max-width: 734px;
   padding: 16px;
-  border-bottom:2px solid #f3f2ef;
-  }
+  border-bottom: 2px solid #f3f2ef;
+}
 
 article p {
-  text-indent:2em;
+  text-indent: 2em;
 }
 
 .livere {
@@ -110,7 +110,7 @@ button {
 }
 
 .用户统计:hover {
-  border: 1px solid #4285F4;
+  border: 1px solid #4285f4;
 }
 
 /* footer */
@@ -120,4 +120,3 @@ footer {
   color: grey;
   margin-bottom: 20px;
 }
-

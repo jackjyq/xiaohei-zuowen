@@ -1,182 +1,283 @@
 <html lang="zh-cn">
-<head>
-  <title>小嘿作文生成器</title>
-  <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <meta name="keywords" content="作文生成器, 作文生成, 作文自动生成器, 学习强国生成器, 日记生成器, 高考作文生成器">
-  <meta name="description"
-    content="小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。">
-  <!-- 载入图标 -->
-  <link rel="apple-touch-icon" sizes="180x180"
-    href="{{ url_for('static',filename='./图标/apple-touch-icon.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16"
-    href="{{ url_for('static',filename='./图标/favicon-16x16.png') }}">
-  <link rel="manifest"
-    href="{{ url_for('static',filename='./图标/site.webmanifest') }}">
-  <link rel="icon" type="image/png" sizes="32x32"
-    href="{{ url_for('static',filename='./图标/favicon-32x32.png') }}">
-  <!-- 社交媒体分享 -->
-  <meta property="og:title" content="小嘿作文生成器" />
-  <meta property="og:type" content="website" />
-  <meta property="og:description"
-    content="小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。">
-  <meta property="og:url" content="https://zuowen.jackjyq.com/" />
-  <meta property="og:image" content="{{ url_for('static',filename='./图标/android-chrome-512x512.png') }}" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
-  <!-- 载入样式表 -->
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='样式表.css') }}">
-  <!-- 谷歌分析代码 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144741828-3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-144741828-3');
-  </script>
-  <!-- Sharethis.com代码 -->
-  <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=6062ba69caff460011c58aa5&product=inline-share-buttons' async='async'></script>
-</head>
-<body>
-  <header>
-    <form>
-      <label for="谓语">谓语:</label>
-      <input id="谓语" name="谓语" type="text" value=""
-        maxlength="14" required><br><br>
-      <label for="宾语">宾语:</label>
-      <input id="宾语" name="宾语" type="text" value=""
-        maxlength="14" required><br><br>
-      <input type="submit" value="生成">
-    </form>
-  </header>
-  <main>
-    <article>
-      <h1>小嘿作文生成器</h1>
-      <p>小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。
-        适用于中学议论文的学习与研究，不适合抒情散文、记叙文、检查、日记等文体。</p>
-      <h2>开始使用</h2>
-      <ul>
-        <li>输入主题谓语、宾语，点击生成按钮</li>
-        <li>再次点击生成按钮，可生成不同的作文</li>
-      </ul>
-      <h2>如何选择主题谓语、宾语</h2>
-      <p>选择合适的谓语、宾语，对生成作文的质量至关重要，
-        我认为主题词最好为<strong>赞扬某种优秀品质</strong>。
-        例如<a href="./?谓语=勇于&宾语=尝试">勇于<u>尝试</u></a>，
-        而<a href="./?谓语=轻浅&宾语=岁月有首歌">轻浅<u>岁月有首歌</u></a>则不然。
-        下面我尝试修改生成记录中的一些主题词，希望能够抛砖引玉。</p>
-      <p><a href="./?谓语=庆祝&宾语=建党100周年">庆祝<u>建党100周年</u></a>：
-        主题词<strong>不等同于</strong>作文题目，我们需要自己提取主题词，根据
-        <a href="http://www.xinhuanet.com/politics/2021-03/24/c_1127247261.htm">新华社通知</a>，
-        主题词可改为<a href="./?谓语=牢记&宾语=使命">牢记<u>使命</u></a>、
-        <a href="./?谓语=不忘&宾语=初心">不忘<u>初心</u></a>或
-        <a href="./?谓语=艰苦&宾语=奋斗">艰苦<u>奋斗</u></a>。
-      </p>
-      <p><a href="./?谓语=青年的&宾语=追求">青年的<u>追求</u></a>：
-        我们要自己提取主题词，使之能否反应某种具体的优秀品质（追求）。
-        青年的积极追求有许多，我们或可改成
-        <a href="./?谓语=锐意&宾语=进取">锐意<u>进取</u></a>、
-        <a href="./?谓语=富有&宾语=合作精神">富有<u>合作精神</u></a>或
-        <a href="./?谓语=勇于&宾语=攀登高峰">勇于<u>攀登高峰</u></a>。
-      </p>
-    </article>
-    <article>
-      <h1>生成记录</h1>
-      <p>系统会自动记录用户输入的主题谓语、宾语，以便提供生成记录。
-        因此，请合理使用该生成器，请勿输入个人信息，或冒犯他人的信息。
-      <ul>
-        <li>谓语<u>宾语</u> —— 生成次数 </li>
-        {% for 谓语, 宾语, 生成次数 in 生成记录[:20] %}
-          <li><a href="./?谓语={{ 谓语 }}&宾语={{ 宾语 }}">{{ 谓语 }}<u>{{ 宾语 }}</u></a> 
-            —— {{ 生成次数 }}篇</li>
-        {% endfor %}
+  <head>
+    <title>小嘿作文生成器</title>
+    <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta
+      name="keywords"
+      content="作文生成器, 作文生成, 作文自动生成器, 学习强国生成器, 日记生成器, 高考作文生成器"
+    />
+    <meta
+      name="description"
+      content="小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。"
+    />
+    <!-- 载入图标 -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static',filename='./图标/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ url_for('static',filename='./图标/favicon-16x16.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static',filename='./图标/site.webmanifest') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ url_for('static',filename='./图标/favicon-32x32.png') }}"
+    />
+    <!-- 社交媒体分享 -->
+    <meta property="og:title" content="小嘿作文生成器" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。"
+    />
+    <meta property="og:url" content="https://zuowen.jackjyq.com/" />
+    <meta
+      property="og:image"
+      content="{{ url_for('static',filename='./图标/android-chrome-512x512.png') }}"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <!-- 载入样式表 -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='样式表.css') }}"
+    />
+    <!-- 谷歌分析代码 -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-144741828-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-144741828-3");
+    </script>
+    <!-- Sharethis.com代码 -->
+    <script
+      type="text/javascript"
+      src="https://platform-api.sharethis.com/js/sharethis.js#property=6062ba69caff460011c58aa5&product=inline-share-buttons"
+      async="async"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <form>
+        <label for="谓语">谓语:</label>
+        <input
+          id="谓语"
+          name="谓语"
+          type="text"
+          value=""
+          maxlength="14"
+          required
+        /><br /><br />
+        <label for="宾语">宾语:</label>
+        <input
+          id="宾语"
+          name="宾语"
+          type="text"
+          value=""
+          maxlength="14"
+          required
+        /><br /><br />
+        <input type="submit" value="生成" />
+      </form>
+    </header>
+    <main>
+      <article>
+        <h1>小嘿作文生成器</h1>
+        <p>
+          小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。
+          适用于中学议论文的学习与研究，不适合抒情散文、记叙文、检查、日记等文体。
+        </p>
+        <h2>开始使用</h2>
+        <ul>
+          <li>输入主题谓语、宾语，点击生成按钮</li>
+          <li>再次点击生成按钮，可生成不同的作文</li>
         </ul>
-    </article>
-    <article>
-      <h1>贡献方式</h1>
-      <p>您可以通过如下方式参与贡献：</p>
-      <ul>
-        <li>
-          通过<a href="https://github.com/jackjyq/xiaohei-zuowen"> Github </a>
-          提交<a href="https://github.com/jackjyq/xiaohei-zuowen/pulls"> Pull Requests </a>
-          或<a href="https://github.com/jackjyq/xiaohei-zuowen/issues"> Issues </a>
-        </li>
-        <li>
-          通过<a href="{{ url_for('static',filename='./赞赏/微信赞赏.jpg') }}">微信支付</a>
-          或<a href="{{ url_for('static',filename='./赞赏/支付宝赞赏.jpg') }}">支付宝</a>
-          打赏作者
-        </li>
-        <li>分享<a href="/">小嘿作文生成器</a>到社交媒体</li>
-        <br />
-        <!-- ShareThis BEGIN -->
-        <div class="sharethis-inline-share-buttons"></div>
-        <!-- ShareThis END -->
-      </ul>
-    </article>
-    <article>
-      <h1>用户总数</h1>
-      <ul>截至 2021年4月20日，用户数量统计如下：
-        <li>周活跃用户1213人</li>
-        <li>月活跃用户4908人</li>
-        <li>年用户数3万2千人</li>
-        <li>年生成作文4万篇</li>
-      </ul>
-      <a href="{{ url_for('static',filename='./统计/用户总数.png') }}">
-        <img class="用户统计" src="{{ url_for('static',filename='./统计/用户总数.png') }}">
-      </a>
-    </article>
-    <article>
-      <h1>用户分布</h1>
-      <ul>截至 2021年4月20日，用户分布如下：
-        <li>用户分布在全球五大洲</li>
-        <li>96.89%的用户来自中国</li>
-        <li>杭州拥有最多的用户，大约占五分之一</li>
-        <li>厦门拥有第二多的用户，大约占十分之一</li>
-      </ul>
-      <a href="{{ url_for('static',filename='./统计/世界地图.png') }}">
-        <img class="用户统计" src="{{ url_for('static',filename='./统计/世界地图.png') }}">
-      </a>
+        <h2>如何选择主题谓语、宾语</h2>
+        <p>
+          选择合适的谓语、宾语，对生成作文的质量至关重要，
+          我认为主题词最好为<strong>赞扬某种优秀品质</strong>。 例如<a
+            href="./?谓语=勇于&宾语=尝试"
+            >勇于<u>尝试</u></a
+          >， 而<a href="./?谓语=轻浅&宾语=岁月有首歌">轻浅<u>岁月有首歌</u></a
+          >则不然。 下面我尝试修改生成记录中的一些主题词，希望能够抛砖引玉。
+        </p>
+        <p>
+          <a href="./?谓语=庆祝&宾语=建党100周年">庆祝<u>建党100周年</u></a
+          >：
+          主题词<strong>不等同于</strong>作文题目，我们需要自己提取主题词，根据
+          <a
+            href="http://www.xinhuanet.com/politics/2021-03/24/c_1127247261.htm"
+            >新华社通知</a
+          >， 主题词可改为<a href="./?谓语=牢记&宾语=使命">牢记<u>使命</u></a
+          >、 <a href="./?谓语=不忘&宾语=初心">不忘<u>初心</u></a
+          >或 <a href="./?谓语=艰苦&宾语=奋斗">艰苦<u>奋斗</u></a
+          >。
+        </p>
+        <p>
+          <a href="./?谓语=青年的&宾语=追求">青年的<u>追求</u></a
+          >： 我们要自己提取主题词，使之能否反应某种具体的优秀品质（追求）。
+          青年的积极追求有许多，我们或可改成
+          <a href="./?谓语=锐意&宾语=进取">锐意<u>进取</u></a
+          >、 <a href="./?谓语=富有&宾语=合作精神">富有<u>合作精神</u></a
+          >或 <a href="./?谓语=勇于&宾语=攀登高峰">勇于<u>攀登高峰</u></a
+          >。
+        </p>
+      </article>
+      <article>
+        <h1>生成记录</h1>
+        <p>
+          系统会自动记录用户输入的主题谓语、宾语，以便提供生成记录。
+          因此，请合理使用该生成器，请勿输入个人信息，或冒犯他人的信息。
+        </p>
 
-    </article>
-    <article>
-    <article class="livere">
-      <h1>留言板</h1>
-      <!-- 来必力City版安装代码 -->
-      <div id="lv-container" data-id="city" data-uid="MTAyMC81MzA5NS8yOTU3MQ==">
-        <script type="text/javascript">
-        (function(d, s) {
-            var j, e = d.getElementsByTagName(s)[0];
+        <ul>
+          <li>谓语<u>宾语</u> —— 生成次数</li>
+          {% for 谓语, 宾语, 生成次数 in 生成记录[:20] %}
+          <li>
+            <a href="./?谓语={{ 谓语 }}&宾语={{ 宾语 }}"
+              >{{ 谓语 }}<u>{{ 宾语 }}</u></a
+            >
+            —— {{ 生成次数 }}篇
+          </li>
+          {% endfor %}
+        </ul>
+      </article>
+      <article>
+        <h1>贡献方式</h1>
+        <p>您可以通过如下方式参与贡献：</p>
+        <ul>
+          <li>
+            通过<a href="https://github.com/jackjyq/xiaohei-zuowen"> Github </a>
+            提交<a href="https://github.com/jackjyq/xiaohei-zuowen/pulls">
+              Pull Requests
+            </a>
+            或<a href="https://github.com/jackjyq/xiaohei-zuowen/issues">
+              Issues
+            </a>
+          </li>
+          <li>
+            通过<a href="{{ url_for('static',filename='./赞赏/微信赞赏.jpg') }}"
+              >微信支付</a
+            >
+            或<a href="{{ url_for('static',filename='./赞赏/支付宝赞赏.jpg') }}"
+              >支付宝</a
+            >
+            打赏作者
+          </li>
+          <li>分享<a href="/">小嘿作文生成器</a>到社交媒体</li>
+          <br />
+          <!-- ShareThis BEGIN -->
+          <div class="sharethis-inline-share-buttons"></div>
+          <!-- ShareThis END -->
+        </ul>
+      </article>
+      <article>
+        <h1>用户总数</h1>
+        <ul>
+          截至 2021年4月20日，用户数量统计如下：
+          <li>周活跃用户1213人</li>
+          <li>月活跃用户4908人</li>
+          <li>年用户数3万2千人</li>
+          <li>年生成作文4万篇</li>
+        </ul>
+        <a href="{{ url_for('static',filename='./统计/用户总数.png') }}">
+          <img
+            class="用户统计"
+            src="{{ url_for('static',filename='./统计/用户总数.png') }}"
+          />
+        </a>
+      </article>
+      <article>
+        <h1>用户分布</h1>
+        <ul>
+          截至 2021年4月20日，用户分布如下：
+          <li>用户分布在全球五大洲</li>
+          <li>96.89%的用户来自中国</li>
+          <li>杭州拥有最多的用户，大约占五分之一</li>
+          <li>厦门拥有第二多的用户，大约占十分之一</li>
+        </ul>
+        <a href="{{ url_for('static',filename='./统计/世界地图.png') }}">
+          <img
+            class="用户统计"
+            src="{{ url_for('static',filename='./统计/世界地图.png') }}"
+          />
+        </a>
+      </article>
+      <article class="livere">
+        <h1>留言板</h1>
+        <!-- 来必力City版安装代码 -->
+        <div
+          id="lv-container"
+          data-id="city"
+          data-uid="MTAyMC81MzA5NS8yOTU3MQ=="
+        >
+          <script type="text/javascript">
+            (function (d, s) {
+              var j,
+                e = d.getElementsByTagName(s)[0];
 
-            if (typeof LivereTower === 'function') { return; }
+              if (typeof LivereTower === "function") {
+                return;
+              }
 
-            j = d.createElement(s);
-            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-            j.async = true;
+              j = d.createElement(s);
+              j.src = "https://cdn-city.livere.com/js/embed.dist.js";
+              j.async = true;
 
-            e.parentNode.insertBefore(j, e);
-        })(document, 'script');
-        </script>
-      <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-      </div>
-      <!-- City版安装代码已完成 -->
-    </article>
-  </main>
-  <footer>
-    <a href="{{ url_for('static',filename='./赞赏/微信赞赏.jpg') }}">微信打赏</a> | 
-    <a href="{{ url_for('static',filename='./赞赏/支付宝赞赏.jpg') }}">支付宝打赏</a> | 
-    <a href="{{ url_for('static',filename='./图标/小嘿.png') }}">网站吉祥物</a>
-    <br />
-    网站图片 &copy; 版权所有 
-    <a href="https://github.com/jackjyq/xiaohei-zuowen/blob/master/LICENSE">
-      保留所有权利</a><br />
-    网站文字 基于
-    <a href="https://github.com/jackjyq/xiaohei-zuowen/blob/master/LICENSE">
-      CC0 1.0 通用协议</a>发布<br />
-    <a href="https://github.com/jackjyq/xiaohei-zuowen">
-      项目代码 </a>基于
-    <a href="https://github.com/jackjyq/xiaohei-zuowen/blob/master/LICENSE">
-      MIT 开源许可协议</a>发布
-  </footer>
-</body>
+              e.parentNode.insertBefore(j, e);
+            })(document, "script");
+          </script>
+          <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+      </article>
+    </main>
+    <footer>
+      <a href="{{ url_for('static',filename='./赞赏/微信赞赏.jpg') }}"
+        >微信打赏</a
+      >
+      |
+      <a href="{{ url_for('static',filename='./赞赏/支付宝赞赏.jpg') }}"
+        >支付宝打赏</a
+      >
+      |
+      <a href="{{ url_for('static',filename='./图标/小嘿.png') }}"
+        >网站吉祥物</a
+      >
+      <br />
+      网站图片 &copy; 版权所有
+      <a href="https://github.com/jackjyq/xiaohei-zuowen/blob/master/LICENSE">
+        保留所有权利</a
+      ><br />
+      网站文字 基于
+      <a href="https://github.com/jackjyq/xiaohei-zuowen/blob/master/LICENSE">
+        CC0 1.0 通用协议</a
+      >发布<br />
+      <a href="https://github.com/jackjyq/xiaohei-zuowen"> 项目代码 </a>基于
+      <a href="https://github.com/jackjyq/xiaohei-zuowen/blob/master/LICENSE">
+        MIT 开源许可协议</a
+      >发布
+    </footer>
+  </body>
 </html>
