@@ -64,9 +64,22 @@ git remote add vultr vultr:~/zuowen.jackjyq.com
 git push
 ```
 
+在服务器
+
+```zsh
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# 测试能否运行
+python 网站服务器.py
+```
+
 ### 2. 配置 gunicorn 服务
 
-编辑 `sudo vim /etc/systemd/system/zuowen.jackjyq.com.service`
+```zsh
+sudo vim /etc/systemd/system/zuowen.jackjyq.com.service
+```
 
 ```ini
 [Unit]
@@ -94,7 +107,9 @@ sudo systemctl status zuowen.jackjyq.com
 
 ### 3. 配置 nginx 服务
 
-编辑 `sudo vim /etc/nginx/conf.d/jackjyq.com.conf`
+```zsh
+sudo vim /etc/nginx/conf.d/jackjyq.com.conf
+```
 
 ```conf
 server {
@@ -112,9 +127,8 @@ server {
 ```zsh
 sudo nginx -t
 sudo systemctl restart nginx
+sudo certbot --nginx
 ```
-
-使用 [Certbot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) 添加 HTTPS 支持
 
 ### 参考
 
