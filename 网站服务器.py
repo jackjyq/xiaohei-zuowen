@@ -1,38 +1,75 @@
 # -*- coding: UTF-8 -*-
 import os
 from flask import Flask, render_template, request
-from 生成器算法 import 生成器
+from 生成器.生成器 import 生成器, 作文
 from typing import Union
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="网页", static_folder="资源")
 生成器 = 生成器()
 
 
-def 统计字数(作文: list) -> Union[int, int]:
-    总字数 = 0
-    总段数 = len(作文)
-    for 段落 in 作文:
-        总字数 += len(段落)
-    return 总字数, 总段数
+def 全是汉字(字符串: str) -> bool:
+    """全是汉字
+
+    全是汉字（含空字符串）返回 True
+    否则返回 False
+    https://cloud.tencent.com/developer/article/1499958
+    """
+    for 字符 in 字符串:
+        if not "\u4e00" <= 字符 <= "\u9fa5":
+            return False
+    return True
 
 
 @app.route("/", methods=["GET"])
 def 显示网页():
-    # 获取 URL 参数
-    主题谓语 = request.args.get("谓语", "")
-    主题宾语 = request.args.get("宾语", "")
-    if len(主题宾语) == 0 and len(主题谓语) == 0:
-        # 欢迎页
-        生成记录 = 生成器.生成记录()
-        return render_template("主页.html", 主题谓语="勇于", 主题宾语="尝试", 生成记录=生成记录)
+    # 初始化网页信息
+    主题谓语: str = request.args.get("谓语", "")
+    主题宾语: str = request.args.get("宾语", "")
+    作文信息: 作文 = 作文()
+    主页: bool = False
+    谓语错误: bool = False
+    宾语错误: bool = False
+    错误信息: str = ""
+
+    if len(主题谓语) == 0 and len(主题宾语) == 0:
+        主页 = True
+    elif len(主题谓语) == 0:
+        谓语错误 = True
+        错误信息 = "请填写主题谓语"
+    elif not 全是汉字(主题谓语):
+        谓语错误 = True
+        错误信息 = "主题谓语只能包含汉字"
+    elif len(主题谓语) > 14:
+        谓语错误 = True
+        错误信息 = "主题谓语应少于 14 字"
+    elif len(主题宾语) == 0:
+        宾语错误 = True
+        错误信息 = "请填写主题宾语"
+    elif not 全是汉字(主题宾语):
+        宾语错误 = True
+        错误信息 = "主题宾语只能包含汉字"
+    elif len(主题宾语) > 14:
+        宾语错误 = True
+        错误信息 = "主题宾语应少于 14 字"
     else:
-        # 作文页
-        作文 = 生成器.生成作文(主题谓语=主题谓语, 主题宾语=主题宾语)
-        总字数, 总段数 = 统计字数(作文)
-        作文[-1] += "（共" + str(总字数) + "字）"
-        return render_template("作文.html", 主题谓语=主题谓语, 主题宾语=主题宾语, 作文=作文, 总段数=总段数)
+        作文信息: 作文 = 生成器.生成作文(主题谓语=主题谓语, 主题宾语=主题宾语)
+    return render_template(
+        "主页.html",
+        主题谓语=主题谓语,
+        主题宾语=主题宾语,
+        文章=作文信息.文章,
+        段数=作文信息.段数,
+        字数=作文信息.字数,
+        示例=生成器.主题词示例,
+        示例数量=min(len(生成器.主题词示例), 20),
+        主页=主页,
+        谓语错误=谓语错误,
+        宾语错误=宾语错误,
+        错误信息=错误信息,
+    )
 
 
-# 本地测试代码
+# 本地测试
 if __name__ == "__main__":
     app.run(debug=True)

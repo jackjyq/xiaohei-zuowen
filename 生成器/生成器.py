@@ -1,19 +1,51 @@
 # -*- coding: UTF-8 -*-
 import random, sqlite3
-from os import listdir
+from os import listdir, path
+from dataclasses import dataclass
+
+
+@dataclass
+class 作文:
+    文章: list[int] = ""
+    段数: int = 0
+    字数: int = 0
+    谓语: str = ""
+    宾语: str = ""
 
 
 class 生成器:
+    主题词示例 = [
+        ("勇于", "尝试"),
+        ("追求", "理想"),
+        ("敢于", "攀登高峰"),
+        ("善于", "观察细节"),
+        ("融入", "爱国主义洪流"),
+        ("热爱", "生命之美好"),
+        ("积极承担", "责任"),
+        ("主动做一位", "善读者"),
+        ("坚守", "内心的宁静"),
+        ("培养", "阳刚之气"),
+        ("学习", "雷锋精神"),
+        ("成为", "最真实的自己"),
+        ("传承", "中华文化"),
+        ("牢记", "使命"),
+        ("不忘", "初心"),
+        ("锐意", "进取"),
+        ("富有", "合作精神"),
+        ("艰苦", "奋斗"),
+    ]
+
     def __init__(self, 随机种子: int = None) -> None:
         random.seed(随机种子)
+        self.基础路径 = path.abspath(path.dirname(__file__))
         self.模版库 = {}
-        self.模版列表 = self.获取列表("./模版库")
+        self.模版列表 = self.获取列表(self.基础路径 + "/模版库")
         for 模版名称 in self.模版列表:
-            self.模版库[模版名称] = self.读取文件("./模版库/" + 模版名称 + ".txt")
-        self.语料列表 = self.获取列表("./语料库")
+            self.模版库[模版名称] = self.读取文件(self.基础路径 + "/模版库/" + 模版名称 + ".txt")
+        self.语料列表 = self.获取列表(self.基础路径 + "/语料库")
         self.语料库 = {}
         for 语料名称 in self.语料列表:
-            self.语料库[语料名称] = self.读取文件("./语料库/" + 语料名称 + ".txt")
+            self.语料库[语料名称] = self.读取文件(self.基础路径 + "/语料库/" + 语料名称 + ".txt")
         self.作文总数 = self.计算作文总数()
         self.数据库 = 数据库()
 
@@ -50,7 +82,7 @@ class 生成器:
             语料计数[语料名称] = 0
         return 语料计数
 
-    def 生成作文(self, 主题谓语: str = "", 主题宾语: str = "") -> list:
+    def 生成作文(self, 主题谓语: str = "", 主题宾语: str = "") -> 作文:
         # 随机选择模版
         模版 = random.choice(list(self.模版库.values()))
         # 随机替换语料
@@ -63,13 +95,15 @@ class 生成器:
             初稿.append(段落)
         # 替换主题词
         定稿 = []
+        字数 = 0
         for 段落 in 初稿:
             段落 = 段落.replace("「主题谓语」", 主题谓语)
             段落 = 段落.replace("「主题宾语」", 主题宾语)
+            字数 += len(段落)
             定稿.append(段落)
         # 记录数据库
         self.数据库.写入数据库(谓语=主题谓语, 宾语=主题宾语)
-        return 定稿
+        return 作文(文章=定稿, 段数=len(定稿), 字数=字数, 谓语=主题谓语, 宾语=主题宾语)
 
     def 生成记录(self) -> list:
         return self.数据库.读取数据库()
@@ -103,7 +137,10 @@ class 数据库:
         # 谓语 宾语 生成次数
         # 勇于 尝试 10
         # 积极 进去 2
-        with sqlite3.connect("数据库.sqlite", check_same_thread=False) as self.数据库连接:
+        self.基础路径 = path.abspath(path.dirname(__file__))
+        with sqlite3.connect(
+            self.基础路径 + "/数据库.sqlite", check_same_thread=False
+        ) as self.数据库连接:
             self.数据库句柄 = self.数据库连接.cursor()
             self.数据库句柄.execute(
                 """CREATE TABLE IF NOT EXISTS 生成记录 (
@@ -167,13 +204,18 @@ class 数据库:
         return 定稿
 
 
-# 测试代码
+# 命令行界面
 if __name__ == "__main__":
     生成器 = 生成器()
     print("欢迎使用小嘿作文生成器！按 Ctrl+C 退出。")
+    print("主题词示例：")
+    print(", ".join([示例[0] + "|" + 示例[1] for 示例 in 生成器.主题词示例]))
     while True:
-        谓语 = input("请输入主题谓语:")
-        宾语 = input("请输入主题宾语:")
-        作文 = 生成器.生成作文("积极", "尝试")
-        for 段落 in 作文:
+        print()
+        谓语 = input("请输入主题谓语: ")
+        宾语 = input("请输入主题宾语: ")
+        作文 = 生成器.生成作文(谓语, 宾语)
+        print(作文.谓语 + 作文.宾语)
+        for 段落 in 作文.文章:
             print(段落)
+        print(f"（共 {作文.段数} 段，{作文.字数} 字）")

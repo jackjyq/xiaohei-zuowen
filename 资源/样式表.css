@@ -1,0 +1,231 @@
+@charset "UTF-8";
+@import url("初始样式表.css");
+
+/* 颜色定义*/
+:root {
+  --主色: #e91e63;
+  --副色: #e91e631f;
+  --链接: #0969da;
+  --警告色: #ff9800;
+  --卡片色: #ffffff;
+  --背景色: #f5f5f5;
+  --主要文本: #000000de;
+  --提示文本: #0000008a;
+  --按钮文本: #ffffff;
+}
+
+/* 阴影定义
+https://material-components.github.io/material-components-web-catalog/#/component/elevation
+*/
+
+:root {
+  --高度2: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
+    0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+/* 字体定义
+https://zenozeng.github.io/fonts.css/
+ */
+:root {
+  --黑体: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica,
+    "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN",
+    "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti",
+    SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+  --楷体: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti,
+    "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE",
+    "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW\-Kai", serif;
+}
+
+/* 通用样式
+*/
+body {
+  font-family: var(--黑体);
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--背景色);
+  margin: auto;
+  max-width: 600px;
+}
+
+a:link {
+  color: var(--链接);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--链接);
+}
+
+.卡片 {
+  box-shadow: var(--高度2);
+  background-color: var(--卡片色);
+  border-radius: 4px;
+  padding: 16px;
+  margin: 8px 8px 0px 8px;
+}
+
+/* 输入区域 */
+.输入栏 {
+  display: flex;
+}
+
+header input {
+  padding: 20px;
+  caret-color: var(--主色);
+  color: var(--主色);
+}
+
+header input:focus {
+  outline: none;
+}
+
+header .输入框 {
+  flex-grow: 1;
+  position: relative;
+}
+
+header form input[type="text"] {
+  min-width: 4em;
+  width: 100%;
+}
+
+/* 主题谓语 */
+.输入框:nth-of-type(1) input {
+  border: 2px solid var(--主色);
+  border-radius: 4px 0 0 4px;
+}
+
+.输入框 label {
+  position: absolute;
+  top: -0.5em;
+  left: 1.75em;
+  padding: 0 0.25em;
+  background-color: var(--卡片色);
+}
+
+/* 主题宾语 */
+.输入框:nth-of-type(2) input {
+  border: 2px solid var(--主色);
+  /* 去除左边 border */
+  border-left: 0;
+}
+
+/* 生成按钮 */
+header form input[type="submit"] {
+  text-align: center;
+  border-radius: 0 4px 4px 0;
+  background-color: var(--主色);
+  border: 0;
+  color: #ffffff;
+}
+
+header label {
+  font-size: 0.75em;
+  color: var(--主色);
+}
+
+/*警告*/
+.警告 .输入框 input {
+  caret-color: var(--警告色);
+  color: var(--主要文本);
+  border-color: var(--警告色);
+}
+.警告 input[type="submit"] {
+  background-color: var(--警告色);
+}
+
+.警告 label {
+  color: var(--警告色);
+}
+
+/* 示例区域 */
+header section {
+  margin-top: 16px;
+  font-size: 0.875em;
+}
+
+header section ul {
+  margin: 8px -8px 8px -8px;
+}
+
+header section ul li {
+  display: inline-block;
+  margin: 8px;
+}
+
+header section ul li span {
+  background-color: var(--副色);
+  color: var(--主色);
+}
+
+/* 主题谓语 */
+header section ul li span:nth-of-type(1) {
+  border: 1px solid var(--主色);
+  border-radius: 1em 0 0 1em;
+  padding: 0.5em 0.25em 0.5em 1em;
+}
+
+/* 主题宾语 */
+header section ul li span:nth-of-type(2) {
+  border: 1px solid var(--主色);
+  border-radius: 0 1em 1em 0;
+  /* 去除左边 border */
+  border-left: 0;
+  padding: 0.5em 1em 0.5em 0.25em;
+}
+
+/* 正文区域 */
+main article:nth-of-type(1) {
+  font-family: var(--楷体);
+}
+
+main article:nth-of-type(1) h1 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+  text-align: center;
+  font-weight: bold;
+}
+
+main article:nth-of-type(1) p {
+  text-indent: 2em;
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+}
+
+/* 打赏区域 */
+main article:nth-of-type(2) h1 {
+  color: var(--主色);
+  font-size: 1.25em;
+  margin-bottom: 0.5em;
+  text-align: center;
+  font-weight: bold;
+}
+
+main article:nth-of-type(2) section {
+  display: flex;
+  gap: 8px;
+}
+
+main article:nth-of-type(2) img {
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+main article:nth-of-type(2) figcaption {
+  text-align: center;
+}
+
+main {
+  /* 页面高度 - 版权区域高度*/
+  min-height: calc(100vh - 6.5em);
+}
+
+/* 版权区域 */
+footer {
+  text-align: center;
+  font-size: 0.75em;
+  color: var(--提示文本);
+  margin: 16px;
+}
