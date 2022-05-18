@@ -1,0 +1,236 @@
+<html lang="zh-cn">
+  <head>
+    <title>小嘿作文生成器</title>
+    <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta
+      name="keywords"
+      content="作文生成器, 作文生成, 作文自动生成器, 日记生成器, 高考作文生成器, 考试作文生成器, 中学作文生成器, 语文作文生成器"
+    />
+    <meta
+      name="description"
+      content="小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。"
+    />
+    <!-- 载入图标 -->
+    <!-- https://favicon.io/ -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static',filename='./图片/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ url_for('static',filename='./图片/favicon-16x16.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static',filename='./图片/site.webmanifest') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ url_for('static',filename='./图片/favicon-32x32.png') }}"
+    />
+    <!-- 社交媒体分享 -->
+    <meta property="og:title" content="小嘿作文生成器" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="小嘿作文生成器, 可免费在线自动生成海量作文。"
+    />
+    <meta property="og:url" content="https://zuowen.jackjyq.com/" />
+    <meta
+      property="og:image"
+      content="{{ url_for('static',filename='./图片/android-chrome-512x512.png') }}"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <!-- 载入样式表 -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='样式表.css') }}"
+    />
+    <script src="{{ url_for('static',filename='脚本.js') }}" defer></script>
+    <!-- 谷歌分析代码 -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-144741828-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-144741828-3");
+    </script>
+  </head>
+
+  <body>
+    <main>
+      <!-- 输入卡片 -->
+      <header class="卡片">
+        <form {% if 谓语错误 or 宾语错误 %} class="警告" {% endif %}>
+          <!-- 输入行 -->
+          <div class="输入栏">
+            <div class="输入框">
+              <label for="谓语" style="display: none">谓语</label>
+              <input
+                id="谓语"
+                name="谓语"
+                type="text"
+                value="{{主题谓语}}"
+                placeholder="主题谓语"
+                maxlength="14"
+                onfocus="显示谓语标签()"
+                onblur="隐藏谓语标签()"
+              />
+            </div>
+            <div class="输入框">
+              <label for="宾语" style="display: none">宾语</label>
+              <input
+                id="宾语"
+                name="宾语"
+                type="text"
+                value="{{主题宾语}}"
+                placeholder="主题宾语"
+                maxlength="14"
+                onfocus="显示宾语标签()"
+                onblur="隐藏宾语标签()"
+              />
+            </div>
+            <input type="submit" value="生成" onclick="隐藏示例()" />
+          </div>
+          {% if 谓语错误 %}
+          <label for="谓语" class="警告">{{错误信息}}</label>
+          {% endif %} {% if 宾语错误 %}
+          <label for="宾语" class="警告">{{错误信息}}</label>
+          {% endif %}
+        </form>
+        <section
+          id="示例"
+          {%
+          if
+          主页
+          or
+          谓语错误
+          or
+          宾语错误
+          %}
+          style="display: block"
+          {%
+          else
+          %}
+          style="display: none"
+          {%
+          endif
+          %}
+        >
+          <h1>主题词示例</h1>
+          <ul>
+            {%for 索引 in range(0, 示例数量)%}
+            <li>
+              <a href="./?谓语={{示例[索引][0]}}&宾语={{示例[索引][1]}}"
+                ><span>{{示例[索引][0]}}</span><span>{{示例[索引][1]}}</span></a
+              >
+            </li>
+            {%endfor%}
+          </ul>
+          <p>
+            选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。
+          </p>
+        </section>
+      </header>
+      {% if not 主页 and not 谓语错误 and not 宾语错误 %}
+      <!-- 正文及捐赠卡片 -->
+      <article class="卡片" id="作文">
+        <h1>{{主题谓语}}{{主题宾语}}</h1>
+        {%for 段数 in range(0, 段数)%}
+        <p>{{文章[段数]}}</p>
+        {%endfor%}
+      </article>
+      <!-- 打赏卡片 -->
+      <article class="卡片">
+        <h1>打赏作者</h1>
+        <p>
+          您的打赏将鼓励作者继续维护项目，及用于网站服务器、小嘿猫粮等开销。
+        </p>
+        <section>
+          <a href="{{ url_for('static',filename='./图片/微信.jpeg') }}">
+            <figure>
+              <img
+                src="{{ url_for('static',filename='./图片/微信-272x272.jpg') }}"
+                alt="微信打赏"
+              />
+              <figcaption>微信打赏</figcaption>
+            </figure>
+          </a>
+          <a href="{{ url_for('static',filename='./图片/支付宝.jpeg') }}">
+            <figure>
+              <img
+                src="{{ url_for('static',filename='./图片/支付宝-272x272.jpg') }}"
+                alt=""
+              />
+              <figcaption>支付宝打赏</figcaption>
+            </figure>
+          </a>
+        </section>
+      </article>
+      {% endif %}
+    </main>
+    <!-- 版权信息 -->
+    <footer>
+      <p>
+        <a href="https://gitee.com/jackjyq/xiaohei-zuowen">码云</a> |
+        <a href="https://github.com/jackjyq/xiaohei-zuowen">Github</a>
+      </p>
+      <p>
+        网站图片 <a href="https://gitee.com/songyustudio">松鱼工作室</a>
+        &copy;
+        <a href="{{ url_for('static',filename='./许可协议.txt') }}"
+          >保留所有权利</a
+        >
+      </p>
+      <p>
+        网站文字 基于<a
+          href="{{ url_for('static',filename='./许可协议.txt') }}"
+        >
+          CC0 1.0 通用协议</a
+        >发布
+      </p>
+      <p>
+        项目代码 基于
+        <a href="{{ url_for('static',filename='./许可协议.txt') }}">
+          MIT 开源许可协议</a
+        >发布
+      </p>
+    </footer>
+  </body>
+  {% if 谓语错误 %}
+  <script>
+    window.onload = function () {
+      const 输入框 = document.getElementById("谓语");
+      const 结束 = 输入框.value.length;
+      输入框.setSelectionRange(结束, 结束);
+      输入框.focus();
+    };
+  </script>
+  {% elif 宾语错误 %}
+  <script>
+    window.onload = function () {
+      const 输入框 = document.getElementById("宾语");
+      const 结束 = 输入框.value.length;
+      输入框.setSelectionRange(结束, 结束);
+      输入框.focus();
+    };
+  </script>
+  {% else %} {% endif %}
+</html>

@@ -26,29 +26,39 @@
 
 ## 文件结构
 
-### 生成器
+### [生成器/](./生成器/)
 
-这些是生成作文必须的文件
+生成器程序、模板、素材
 
-- 生成器算法.py: 生成器主文件，启动命令行版生成器。
-- 模板库：作文模板库，生成器会从中随机选择模板
-- 语料库：作文模板库，生成器会从中随机选择语料
+### 网页/
 
-### 网站服务器
+存放网站的 HTML 文件
 
-这些文件是 Flask 网站服务器需要的文件
+### 资源/
 
-- 网站服务器.py: 网站服务器主文件，在本机启动 Flask 服务器
-- templates: 存放网站的 HTML 文件
-- static：存放网站的 Javascript、CSS 和图片文件
+存放网站的图片等文件
+
+### 网站服务器.py
+
+网站服务器主文件
 
 其余未说明的文件一般为系统自动生成
 
-## 部署指南
+## 本地运行
+
+```zsh
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+python 网站服务器.py
+```
+
+## 远程部署
 
 ### 1. 上传代码
 
-在服务器端
+在远程
 
 ```zsh
 cd ~
@@ -57,7 +67,7 @@ cd zuowen.jackjyq.com
 git config --local receive.denyCurrentBranch updateInstead
 ```
 
-在本地
+在本地 （vultr 为服务器名称 / IP）
 
 ```zsh
 git remote add vultr vultr:~/zuowen.jackjyq.com
@@ -105,7 +115,7 @@ sudo systemctl enable zuowen.jackjyq.com
 sudo systemctl status zuowen.jackjyq.com
 ```
 
-### 3. 配置 nginx 服务
+### 3. 配置 Nginx 服务
 
 ```zsh
 sudo vim /etc/nginx/conf.d/jackjyq.com.conf
@@ -132,7 +142,7 @@ sudo certbot --nginx
 
 ### 参考
 
--  [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+- [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
 - [connect() to unix:/run/gunicorn.sock failed (13: Permission denied)](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04)
 
 ## 贡献方式
@@ -145,11 +155,10 @@ sudo certbot --nginx
 
 ## 致谢
 
-- 使用 [Python](https://www.python.org/)/[Flask](https://flask.palletsprojects.com/en/1.1.x/) 开发
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
 
-## [授权协议](./LICENSE)
+## [授权协议](./资源/许可协议.txt)
 
-- 网站图片, &copy; 版权所有 保留所有权利
+- 图片图标, 版权所有 保留所有权利
 - 项目代码，基于 MIT 开源许可协议发布
 - 生成作文，基于 CC0 1.0 通用协议发布
