@@ -1,53 +1,41 @@
 # -*- coding: UTF-8 -*-
-import random, sqlite3
+import random
+import re
+import sqlite3
+from dataclasses import dataclass, field
 from os import listdir, path
-from dataclasses import dataclass
 
 
 @dataclass
-class 作文:
-    文章: list[int] = ""
+class 作文类:
+    文章: list[str] = field(default_factory=list)
     段数: int = 0
     字数: int = 0
     谓语: str = ""
     宾语: str = ""
 
 
-class 生成器:
-    主题词示例 = [
-        ("勇于", "尝试"),
-        ("追求", "理想"),
-        ("敢于", "攀登高峰"),
-        ("善于", "观察细节"),
-        ("融入", "爱国主义洪流"),
-        ("热爱", "生命之美好"),
-        ("积极承担", "责任"),
-        ("主动做一位", "善读者"),
-        ("坚守", "内心的宁静"),
-        ("培养", "阳刚之气"),
-        ("学习", "雷锋精神"),
-        ("成为", "最真实的自己"),
-        ("传承", "中华文化"),
-        ("牢记", "使命"),
-        ("不忘", "初心"),
-        ("锐意", "进取"),
-        ("富有", "合作精神"),
-        ("艰苦", "奋斗"),
-    ]
-
+class 生成器类:
     def __init__(self, 随机种子: int = None) -> None:
         random.seed(随机种子)
         self.基础路径 = path.abspath(path.dirname(__file__))
+        # 读取模板库
         self.模版库 = {}
         self.模版列表 = self.获取列表(self.基础路径 + "/模版库")
         for 模版名称 in self.模版列表:
             self.模版库[模版名称] = self.读取文件(self.基础路径 + "/模版库/" + 模版名称 + ".txt")
         self.语料列表 = self.获取列表(self.基础路径 + "/语料库")
+        # 读取语料库
         self.语料库 = {}
         for 语料名称 in self.语料列表:
             self.语料库[语料名称] = self.读取文件(self.基础路径 + "/语料库/" + 语料名称 + ".txt")
+        # 读取示例库
+        self.主题词示例: list[tuple] = []
+        for 行 in self.读取文件(self.基础路径 + "/示例库/" + "主题词示例.txt"):
+            if 匹配 := re.match(r"「(\w+)」「(\w+)」", 行):
+                self.主题词示例.append(匹配.groups())
         self.作文总数 = self.计算作文总数()
-        self.数据库 = 数据库()
+        self.数据库 = 数据库类()
 
     def 读取文件(self, 文件路径: str) -> list:
         数据 = []
@@ -82,7 +70,7 @@ class 生成器:
             语料计数[语料名称] = 0
         return 语料计数
 
-    def 生成作文(self, 主题谓语: str = "", 主题宾语: str = "") -> 作文:
+    def 生成作文(self, 主题谓语: str = "", 主题宾语: str = "") -> 作文类:
         # 随机选择模版
         模版 = random.choice(list(self.模版库.values()))
         # 随机替换语料
@@ -103,7 +91,7 @@ class 生成器:
             定稿.append(段落)
         # 记录数据库
         self.数据库.写入数据库(谓语=主题谓语, 宾语=主题宾语)
-        return 作文(文章=定稿, 段数=len(定稿), 字数=字数, 谓语=主题谓语, 宾语=主题宾语)
+        return 作文类(文章=定稿, 段数=len(定稿), 字数=字数, 谓语=主题谓语, 宾语=主题宾语)
 
     def 生成记录(self) -> list:
         return self.数据库.读取数据库()
@@ -131,7 +119,7 @@ class 生成器:
         return 模版作文总数
 
 
-class 数据库:
+class 数据库类:
     def __init__(self) -> None:
         # 初始化数据库
         # 谓语 宾语 生成次数
@@ -183,30 +171,10 @@ class 数据库:
         生成记录 = self.数据库句柄.fetchall()
         return 生成记录
 
-    def 生成作文(self, 主题谓语: str = "", 主题宾语: str = "", 模版名称: str = "经典议论文") -> list:
-        # 随机选择模版
-        模版 = self.模版库[模版名称]
-        # 模版 = random.choice(list(self.模版库.values()))
-        # 随机替换语料
-        初稿 = []
-        self.语料库洗牌()
-        语料计数 = self.初始化语料计数()
-        for 段落 in 模版:
-            for 语料名称 in self.语料列表:
-                段落 = self.应用语料(段落, 语料计数, 语料名称)
-            初稿.append(段落)
-        # 替换主题词
-        定稿 = []
-        for 段落 in 初稿:
-            段落 = 段落.replace("「主题谓语」", 主题谓语)
-            段落 = 段落.replace("「主题宾语」", 主题宾语)
-            定稿.append(段落)
-        return 定稿
-
 
 # 命令行界面
 if __name__ == "__main__":
-    生成器 = 生成器()
+    生成器: 生成器类 = 生成器类()
     print("欢迎使用小嘿作文生成器！按 Ctrl+C 退出。")
     print("主题词示例：")
     print(", ".join([示例[0] + "|" + 示例[1] for 示例 in 生成器.主题词示例]))
@@ -214,8 +182,8 @@ if __name__ == "__main__":
         print()
         谓语 = input("请输入主题谓语: ")
         宾语 = input("请输入主题宾语: ")
-        作文 = 生成器.生成作文(谓语, 宾语)
-        print(作文.谓语 + 作文.宾语)
+        作文: 作文类 = 生成器.生成作文(谓语, 宾语)
+        print(作文类.谓语 + 作文.宾语)
         for 段落 in 作文.文章:
             print(段落)
         print(f"（共 {作文.段数} 段，{作文.字数} 字）")
