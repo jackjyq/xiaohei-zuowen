@@ -173,8 +173,13 @@ header label {
 
 /* 示例区域 */
 header section {
-  margin-top: 16px;
   font-size: 0.875em;
+  transition: max-height 200ms ease-out;
+  overflow-y: hidden;
+}
+
+header section h1 {
+  margin-top: 16px;
 }
 
 header section ul {

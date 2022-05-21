@@ -39,9 +39,10 @@ window.addEventListener("click", function (事件) {
   const 输入框及示例区域 = document.getElementsByTagName("header")[0];
   const 点击区域 = 事件.target;
   if (谓语输入框.contains(点击区域) || 宾语输入框.contains(点击区域)) {
-    示例区域.style.display = "block";
+    // 1000px 是一个随意指定的很大的数字
+    示例区域.style.maxHeight = "1000px";
   } else if (!输入框及示例区域.contains(点击区域)) {
-    示例区域.style.display = "none";
+    示例区域.style.maxHeight = "0";
   } else {
   }
 });
