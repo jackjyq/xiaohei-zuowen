@@ -16,7 +16,7 @@ def 全是汉字(字符串: str) -> bool:
     全是汉字返回 True
     存在非汉字返回 False
     空字符串 也返回 True
-    参考：https://cloud.tencent.com/developer/article/1499958
+    参考: https://cloud.tencent.com/developer/article/1499958
     """
     for 字符 in 字符串:
         if not "\u4e00" <= 字符 <= "\u9fa5":
