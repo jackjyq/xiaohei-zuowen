@@ -173,6 +173,8 @@ header label {
 
 /* 示例区域 */
 header section {
+  /* 兼容 Safari */
+  display: block;
   font-size: 0.875em;
   transition: max-height 200ms ease-out;
   overflow-y: hidden;
