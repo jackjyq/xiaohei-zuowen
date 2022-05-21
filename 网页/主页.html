@@ -74,7 +74,10 @@
     </script>
   </head>
 
-  <body>
+  <!-- 修复 IOS Safari 点击事件无法触发的问题
+    onclick="void(0);"
+    https://stackoverflow.com/a/39712411 -->
+  <body onclick="void(0);">
     <main>
       <!-- 输入卡片 -->
       <header class="卡片">
