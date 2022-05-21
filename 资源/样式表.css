@@ -25,6 +25,17 @@ https://material-components.github.io/material-components-web-catalog/#/componen
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
+/* 透明度定义
+https://material.io/design/interaction/states.html#hover
+https://material.io/design/interaction/states.html#pressed
+*/
+:root {
+  --按钮悬停: 0.92;
+  --图片悬停: 0.88;
+  --按钮点击: 0.68;
+  --图片点击: 0.52;
+}
+
 /* 字体定义
 https://zenozeng.github.io/fonts.css/
  */
@@ -124,6 +135,7 @@ header form input[type="submit"] {
   border-radius: 0 4px 4px 0;
   background-color: var(--主色);
   color: #ffffff;
+  cursor: pointer;
   /* 兼容 Safari */
   margin: 0;
   /* https://stackoverflow.com/questions/5438567/css-submit-button-weird-rendering-on-ipad-iphone */
@@ -131,12 +143,12 @@ header form input[type="submit"] {
 }
 
 header form input[type="submit"]:hover {
-  opacity: 0.92;
+  opacity: var(--按钮悬停);
 }
 
 header form input[type="submit"]:active {
   box-shadow: var(--高度8);
-  opacity: 0.68;
+  opacity: var(--按钮点击);
 }
 
 header label {
@@ -177,6 +189,14 @@ header section ul li {
 header section ul li span {
   background-color: var(--副色);
   color: var(--主色);
+}
+
+header section ul li:hover {
+  opacity: var(--按钮悬停);
+}
+
+header section ul li:active {
+  opacity: var(--按钮点击);
 }
 
 /* 主题谓语 */
@@ -230,6 +250,14 @@ main article:nth-of-type(2) img {
   width: 100%;
   margin-top: 16px;
   margin-bottom: 8px;
+}
+
+main article:nth-of-type(2) img:hover {
+  opacity: var(--图片悬停);
+}
+
+main article:nth-of-type(2) img:active {
+  opacity: var(--图片点击);
 }
 
 main article:nth-of-type(2) figcaption {
