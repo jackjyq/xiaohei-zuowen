@@ -21,6 +21,8 @@ https://material-components.github.io/material-components-web-catalog/#/componen
 :root {
   --高度2: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
     0 1px 5px 0 rgb(0 0 0 / 12%);
+  --高度8: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 /* 字体定义
@@ -109,9 +111,10 @@ header form input[type="text"] {
 
 /* 主题宾语 */
 .输入框:nth-of-type(2) input {
-  border: 2px solid var(--主色);
-  /* 去除左边 border */
+  border-top: 2px solid var(--主色);
+  border-bottom: 2px solid var(--主色);
   border-left: 0px solid;
+  border-right: 0px solid;
 }
 
 /* 生成按钮 */
@@ -125,6 +128,15 @@ header form input[type="submit"] {
   margin: 0;
   /* https://stackoverflow.com/questions/5438567/css-submit-button-weird-rendering-on-ipad-iphone */
   -webkit-appearance: none;
+}
+
+header form input[type="submit"]:hover {
+  opacity: 0.92;
+}
+
+header form input[type="submit"]:active {
+  box-shadow: var(--高度8);
+  opacity: 0.68;
 }
 
 header label {
