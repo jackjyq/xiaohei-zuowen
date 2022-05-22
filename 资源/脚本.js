@@ -13,22 +13,22 @@ function 复制作文() {
 
 function 显示谓语标签() {
   const 谓语标签 = document.querySelectorAll(".输入框 label")[0];
-  谓语标签.style.display = "block";
+  谓语标签.style.opacity = "100";
 }
 
 function 隐藏谓语标签() {
   const 谓语标签 = document.querySelectorAll(".输入框 label")[0];
-  谓语标签.style.display = "none";
+  谓语标签.style.opacity = "0";
 }
 
 function 显示宾语标签() {
   const 宾语标签 = document.querySelectorAll(".输入框 label")[1];
-  宾语标签.style.display = "block";
+  宾语标签.style.opacity = "100";
 }
 
 function 隐藏宾语标签() {
   const 宾语标签 = document.querySelectorAll(".输入框 label")[1];
-  宾语标签.style.display = "none";
+  宾语标签.style.opacity = "0";
 }
 
 window.addEventListener("click", function (事件) {

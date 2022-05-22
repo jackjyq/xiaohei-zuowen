@@ -99,7 +99,8 @@ header input:focus {
 /* 选中输入框时自动隐藏占位符
 https://stackoverflow.com/a/12250084 */
 header input:focus::placeholder {
-  color: transparent;
+  opacity: 0;
+  transition: opacity 100ms linear;
 }
 
 header .输入框 {
@@ -160,6 +161,7 @@ header form input[type="submit"]:active {
 header label {
   font-size: 0.75em;
   color: var(--主色);
+  transition: opacity 100ms linear;
 }
 
 /*警告*/
@@ -182,7 +184,7 @@ header section {
   /* 兼容 Safari */
   display: block;
   font-size: 0.875em;
-  transition: max-height 200ms ease-out;
+  transition: max-height 250ms ease-out;
   overflow: hidden;
 }
 
