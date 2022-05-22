@@ -187,21 +187,14 @@ header section {
 }
 
 header section h1 {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 header section ul {
-  margin: 8px -8px 8px -8px;
-}
-
-header section ul li {
-  display: inline-block;
-  margin: 8px;
-}
-
-header section ul li span {
-  background-color: var(--副色);
-  color: var(--主色);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0.5rem 0;
 }
 
 header section ul li:hover {
@@ -212,20 +205,32 @@ header section ul li:active {
   opacity: var(--按钮点击);
 }
 
+header section ul li span {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 2rem;
+  background-color: var(--副色);
+  color: var(--主色);
+}
+
 /* 主题谓语 */
 header section ul li span:nth-of-type(1) {
   border: 1px solid var(--主色);
-  border-radius: 1em 0 0 1em;
-  padding: 0.5em 0.25em 0.5em 1em;
+  border-radius: 1rem 0 0 1rem;
+  /* 高度是 2rem, 居中 */
+  padding: calc((2rem - 1em * 1.5 - 2px) / 2) 0.25rem
+    calc((2rem - 1em * 1.5 - 2px) / 2) 1rem;
 }
 
 /* 主题宾语 */
 header section ul li span:nth-of-type(2) {
   border: 1px solid var(--主色);
-  border-radius: 0 1em 1em 0;
+  border-radius: 0 1rem 1rem 0;
   /* 去除左边 border */
   border-left: 0;
-  padding: 0.5em 1em 0.5em 0.25em;
+  /* 高度是 2rem, 居中 */
+  padding: calc((2rem - 1em * 1.5 - 2px) / 2) 1rem
+    calc((2rem - 1em * 1.5 - 2px) / 2) 0.25rem;
 }
 
 /* 正文区域 */
