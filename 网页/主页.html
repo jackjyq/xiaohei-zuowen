@@ -1,6 +1,9 @@
 <html lang="zh-cn">
   <head>
-    <title>小嘿作文生成器</title>
+    <title>
+      {% if 主页 %} 小嘿作文生成器 {% else %} {{主题谓语}}{{主题宾语}} -
+      小嘿作文生成器 {% endif %}
+    </title>
     <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
     <meta
       name="viewport"
