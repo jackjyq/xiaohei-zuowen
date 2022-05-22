@@ -96,6 +96,12 @@ header input:focus {
   outline: none;
 }
 
+/* 选中输入框时自动隐藏占位符
+https://stackoverflow.com/a/12250084 */
+header input:focus::placeholder {
+  color: transparent;
+}
+
 header .输入框 {
   flex-grow: 1;
   position: relative;
@@ -177,7 +183,7 @@ header section {
   display: block;
   font-size: 0.875em;
   transition: max-height 200ms ease-out;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 header section h1 {
