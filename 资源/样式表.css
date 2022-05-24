@@ -37,22 +37,24 @@ https://material.io/design/interaction/states.html#pressed
 }
 
 /* 字体定义
-https://zenozeng.github.io/fonts.css/
- */
-:root {
-  --黑体: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
-    Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
-    sans-serif;
-  --楷体: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti,
-    "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE",
-    "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW\-Kai", serif;
+字体：https://zenozeng.github.io/fonts.css/
+设计：
+  标题: 1.25rem
+  正文：1rem
+  小：0.875rem
+  标签: 0.75rem
+*/
+
+html {
+  font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica,
+    "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN",
+    "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti",
+    SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
 }
 
-/* 通用样式
-*/
 body {
-  font-family: var(--黑体);
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
   background-color: var(--背景色);
   margin: auto;
@@ -159,7 +161,7 @@ header form input[type="submit"]:active {
 }
 
 header label {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   color: var(--主色);
   transition: opacity 100ms linear;
   /* 兼容 Safari, 否则会自动添加 display: none */
@@ -243,7 +245,7 @@ main article:nth-of-type(1) {
 }
 
 main article:nth-of-type(1) h1 {
-  font-size: 1.5em;
+  font-size: 1.25rem;
   margin-bottom: 0.5em;
   text-align: center;
   font-weight: bold;
@@ -256,7 +258,6 @@ main article:nth-of-type(1) p {
 
 /* 打赏区域 */
 main article:nth-of-type(2) h1 {
-  color: var(--主色);
   font-size: 1.25em;
   margin-bottom: 0.5em;
   text-align: center;
