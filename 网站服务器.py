@@ -75,5 +75,5 @@ def 显示网页():
 
 # 本地测试
 if __name__ == "__main__":
-    # app.run(debug=True)
-    app.run(host="192.168.1.6", debug=True)
+    app.run(debug=True)
+    # app.run(host="192.168.1.6", debug=True)

@@ -6,10 +6,7 @@
       小嘿作文生成器 {% endif %}
     </title>
     <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="keywords"
       content="作文生成器, 作文生成, 作文自动生成器, 日记生成器, 高考作文生成器, 考试作文生成器, 中学作文生成器, 语文作文生成器"
@@ -18,8 +15,25 @@
       name="description"
       content="小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。"
     />
-    <!-- 载入图标 -->
-    <!-- https://favicon.io/ -->
+    <!-- 社交媒体分享 -->
+    <meta property="og:title" content="小嘿作文生成器" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="小嘿作文生成器, 可免费在线自动生成海量作文。"
+    />
+    <meta property="og:url" content="https://zuowen.jackjyq.com/" />
+    <meta
+      property="og:image"
+      content="{{ url_for('static',filename='./图片/android-chrome-512x512.png') }}"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <!-- 百度搜索平台 -->
+    <meta name="baidu-site-verification" content="code-rOogYXsrZr" />
+    <!-- 载入图标
+    https://favicon.io/ -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -41,21 +55,6 @@
       sizes="32x32"
       href="{{ url_for('static',filename='./图片/favicon-32x32.png') }}"
     />
-    <!-- 社交媒体分享 -->
-    <meta property="og:title" content="小嘿作文生成器" />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:description"
-      content="小嘿作文生成器, 可免费在线自动生成海量作文。"
-    />
-    <meta property="og:url" content="https://zuowen.jackjyq.com/" />
-    <meta
-      property="og:image"
-      content="{{ url_for('static',filename='./图片/android-chrome-512x512.png') }}"
-    />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
     <!-- 载入样式表 -->
     <link
       rel="stylesheet"
@@ -74,8 +73,6 @@
     />
     <!-- 载入脚本 -->
     <script src="{{ url_for('static',filename='脚本.js') }}" defer></script>
-    <!-- 百度搜索平台 -->
-    <meta name="baidu-site-verification" content="code-rOogYXsrZr" />
     <!-- 谷歌分析代码 -->
     <script
       async
@@ -90,7 +87,6 @@
       gtag("config", "UA-144741828-3");
     </script>
   </head>
-
   <!-- 修复 IOS Safari 点击事件无法触发的问题
     onclick="void(0);"
     https://stackoverflow.com/a/39712411 -->
