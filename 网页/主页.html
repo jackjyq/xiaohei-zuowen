@@ -60,8 +60,19 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{{ url_for('static',filename='样式表.css') }}"
+      href="{{ url_for('static',filename='./样式表/初始化.css') }}"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='./样式表/通用.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='./样式表/主页.css') }}"
+    />
+    <!-- 载入脚本 -->
     <script src="{{ url_for('static',filename='脚本.js') }}" defer></script>
     <!-- 百度搜索平台 -->
     <meta name="baidu-site-verification" content="code-rOogYXsrZr" />
@@ -85,15 +96,27 @@
     https://stackoverflow.com/a/39712411 -->
   <body onclick="void(0);">
     <main>
-      <!-- 输入卡片 -->
-      <header class="卡片">
-        <form {% if 谓语错误 or 宾语错误 %} class="警告" {% endif %}>
-          <!-- 输入行 -->
-          <div class="输入栏">
-            <div class="输入框">
+      <div class="主栏">
+        <!-- 输入区域 -->
+        <form
+          {%
+          if
+          谓语错误
+          or
+          宾语错误
+          %}
+          class="输入区域 警告 卡片"
+          {%
+          else
+          %}class="输入区域 卡片"
+          {%
+          endif
+          %}
+        >
+          <div>
+            <div>
               <label for="谓语" style="opacity: 0">谓语</label>
               <input
-                id="谓语"
                 name="谓语"
                 type="text"
                 value="{{主题谓语}}"
@@ -103,10 +126,9 @@
                 onblur="隐藏谓语标签()"
               />
             </div>
-            <div class="输入框">
+            <div>
               <label for="宾语" style="opacity: 0">宾语</label>
               <input
-                id="宾语"
                 name="宾语"
                 type="text"
                 value="{{主题宾语}}"
@@ -123,27 +145,58 @@
           {% endif %} {% if 宾语错误 %}
           <label for="宾语" class="警告">{{错误信息}}</label>
           {% endif %}
+          <article
+            class="示例区域"
+            {%
+            if
+            主页
+            or
+            谓语错误
+            or
+            宾语错误
+            %}
+            style="max-height: 1000px"
+            {%
+            else
+            %}
+            style="max-height: 0"
+            {%
+            endif
+            %}
+          >
+            <h1>主题词示例</h1>
+            <ul>
+              {%for 索引 in range(0, 示例数量)%}
+              <li>
+                <a href="./?谓语={{示例[索引][0]}}&宾语={{示例[索引][1]}}"
+                  ><span>{{示例[索引][0]}}</span
+                  ><span>{{示例[索引][1]}}</span></a
+                >
+              </li>
+              {%endfor%}
+            </ul>
+            <p>
+              选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。
+            </p>
+          </article>
         </form>
-        <section
-          id="示例"
-          {%
-          if
-          主页
-          or
-          谓语错误
-          or
-          宾语错误
-          %}
-          style="max-height: 1000px"
-          {%
-          else
-          %}
-          style="max-height: 0"
-          {%
-          endif
-          %}
-        >
+        {% if not 主页 and not 谓语错误 and not 宾语错误 %}
+        <!-- 文章区域-->
+        <article class="文章区域 卡片">
+          <h1>{{主题谓语}}{{主题宾语}}</h1>
+          {%for 段数 in range(0, 段数)%}
+          <p>{{文章[段数]}}</p>
+          {%endfor%}
+        </article>
+        {% endif %}
+      </div>
+      <div class="侧栏">
+        <!-- 示例区域 -->
+        <article class="示例区域 卡片">
           <h1>主题词示例</h1>
+          <p>
+            选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。
+          </p>
           <ul>
             {%for 索引 in range(0, 示例数量)%}
             <li>
@@ -153,46 +206,36 @@
             </li>
             {%endfor%}
           </ul>
+        </article>
+        <!-- 打赏区域 -->
+        {% if not 主页 and not 谓语错误 and not 宾语错误 %}
+        <article class="打赏区域 卡片">
+          <h1>打赏作者</h1>
           <p>
-            选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。
+            您的打赏将鼓励作者继续维护项目，及用于网站服务器、小嘿猫粮等开销。
           </p>
-        </section>
-      </header>
-      {% if not 主页 and not 谓语错误 and not 宾语错误 %}
-      <!-- 正文及捐赠卡片 -->
-      <article class="卡片" id="作文">
-        <h1>{{主题谓语}}{{主题宾语}}</h1>
-        {%for 段数 in range(0, 段数)%}
-        <p>{{文章[段数]}}</p>
-        {%endfor%}
-      </article>
-      <!-- 打赏卡片 -->
-      <article class="卡片">
-        <h1>打赏作者</h1>
-        <p>
-          您的打赏将鼓励作者继续维护项目，及用于网站服务器、小嘿猫粮等开销。
-        </p>
-        <section>
-          <a href="{{ url_for('static',filename='./图片/微信.jpeg') }}">
-            <figure>
-              <img
-                src="{{ url_for('static',filename='./图片/微信-272x272.jpg') }}"
-                alt="微信打赏"
-              />
-              <figcaption>微信打赏</figcaption>
-            </figure>
-          </a>
-          <a href="{{ url_for('static',filename='./图片/支付宝.jpeg') }}">
-            <figure>
-              <img
-                src="{{ url_for('static',filename='./图片/支付宝-272x272.jpg') }}"
-                alt=""
-              />
-              <figcaption>支付宝打赏</figcaption>
-            </figure>
-          </a>
-        </section>
-      </article>
+          <div>
+            <a href="{{ url_for('static',filename='./图片/微信.jpeg') }}">
+              <figure>
+                <img
+                  src="{{ url_for('static',filename='./图片/微信-272x272.jpg') }}"
+                  alt="微信打赏"
+                />
+                <figcaption>微信打赏</figcaption>
+              </figure>
+            </a>
+            <a href="{{ url_for('static',filename='./图片/支付宝.jpeg') }}">
+              <figure>
+                <img
+                  src="{{ url_for('static',filename='./图片/支付宝-272x272.jpg') }}"
+                  alt=""
+                />
+                <figcaption>支付宝打赏</figcaption>
+              </figure>
+            </a>
+          </div>
+        </article>
+      </div>
       {% endif %}
     </main>
     <!-- 版权信息 -->

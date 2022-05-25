@@ -1,0 +1,271 @@
+@charset "UTF-8";
+
+/* 输入区域
+*******************************************************************************/
+.输入区域 > div {
+  display: flex;
+}
+
+.输入区域 > div > div {
+  flex-grow: 1;
+  position: relative;
+}
+
+/* 输入框和按钮 */
+.输入区域 input {
+  box-sizing: border-box;
+  font-size: var(--正文字号大);
+  height: 54px;
+  padding: 8px;
+  caret-color: var(--主色);
+  /* 兼容 Safari */
+  border-radius: 0;
+}
+
+.输入区域 input:focus {
+  outline: none;
+}
+
+/* 输入框
+选中输入框时自动隐藏占位符
+  https://stackoverflow.com/a/12250084 */
+.输入区域 input:focus::placeholder {
+  opacity: 0;
+  transition: opacity 100ms linear;
+}
+
+.输入区域 input[type="text"] {
+  min-width: 4em;
+  width: 100%;
+}
+
+.输入区域 input[name="谓语"] {
+  border: 2px solid var(--主色);
+  border-radius: 4px 0 0 4px;
+}
+
+.输入区域 input[name="宾语"] {
+  border-top: 2px solid var(--主色);
+  border-bottom: 2px solid var(--主色);
+  border-left: 0px solid;
+  border-right: 0px solid;
+}
+
+.输入区域 input[type="submit"] {
+  text-align: center;
+  border: 2px solid var(--主色);
+  border-radius: 0 4px 4px 0;
+  background-color: var(--主色);
+  color: #ffffff;
+  cursor: pointer;
+  /* 兼容 Safari */
+  margin: 0;
+  /* https://stackoverflow.com/questions/5438567/css-submit-button-weird-rendering-on-ipad-iphone */
+  -webkit-appearance: none;
+}
+
+.输入区域 input[type="submit"]:hover {
+  opacity: var(--按钮悬停);
+}
+
+.输入区域 input[type="submit"]:active {
+  box-shadow: var(--高度8);
+  opacity: var(--按钮点击);
+}
+
+/* 标签 */
+.输入区域 label {
+  font-size: var(--说明字号);
+  color: var(--主色);
+  transition: opacity 100ms linear;
+  /* 兼容 Safari, 否则会自动添加 display: none */
+  display: block;
+}
+
+.输入区域 > div > div label[for="谓语"],
+.输入区域 > div > div label[for="宾语"] {
+  position: absolute;
+  top: -0.5em;
+  left: 1.75em;
+  padding: 0 0.25em;
+  background-color: var(--卡片色);
+}
+
+/*警告*/
+.输入区域.警告 input {
+  caret-color: var(--警告色);
+  color: var(--主要文本);
+  border-color: var(--警告色);
+}
+.输入区域.警告 input[type="submit"] {
+  background-color: var(--警告色);
+  border-color: var(--警告色);
+}
+
+.输入区域.警告 label {
+  color: var(--警告色);
+}
+
+/* 下拉提示 */
+.输入区域 > .示例区域 h1 {
+  font-size: var(--正文字号小);
+  margin-bottom: 0;
+  text-align: left;
+  color: var(--主要文本);
+}
+.输入区域 > .示例区域 p {
+  font-size: var(--正文字号小);
+  text-indent: 0;
+  margin-bottom: 0;
+}
+
+.输入区域 > .示例区域 ul {
+  margin: 8px 0;
+}
+
+/* 示例区域
+*******************************************************************************/
+.示例区域 {
+  transition: max-height 250ms ease-out, margin-top 250ms ease-out;
+  overflow: hidden;
+  /* 兼容 Safari, 否则会自动添加 display: none */
+  display: block;
+}
+
+.示例区域 ul {
+  list-style-type: none;
+  font-size: var(--正文字号小);
+  padding: 0;
+  margin: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.示例区域 li:hover {
+  opacity: var(--按钮悬停);
+}
+
+.示例区域 li:active {
+  opacity: var(--按钮点击);
+}
+
+.示例区域 span {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 2rem;
+  background-color: var(--副色);
+  color: var(--主色);
+}
+
+.示例区域 span:nth-of-type(1) {
+  border: 1px solid var(--主色);
+  border-radius: 1rem 0 0 1rem;
+  /* 高度是 2rem, 居中 */
+  padding: calc((2rem - 1em * 1.5 - 2px) / 2) 0.25rem
+    calc((2rem - 1em * 1.5 - 2px) / 2) 1rem;
+}
+
+.示例区域 span:nth-of-type(2) {
+  border: 1px solid var(--主色);
+  border-radius: 0 1rem 1rem 0;
+  /* 去除左边 border */
+  border-left: 0;
+  /* 高度是 2rem, 居中 */
+  padding: calc((2rem - 1em * 1.5 - 2px) / 2) 1rem
+    calc((2rem - 1em * 1.5 - 2px) / 2) 0.25rem;
+}
+
+/* 文章区域
+*******************************************************************************/
+
+/* 打赏区域
+*******************************************************************************/
+.打赏区域 div {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+}
+
+.打赏区域 img {
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.打赏区域 img:hover {
+  opacity: var(--图片悬停);
+}
+
+.打赏区域 img:active {
+  opacity: var(--图片点击);
+}
+
+.打赏区域 figcaption {
+  text-align: center;
+}
+
+/* 响应式布局
+https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+*******************************************************************************/
+/* 默认多栏布局 1440+ */
+body {
+  padding: 0 8px;
+  margin: auto;
+  max-width: 1040px;
+}
+
+main {
+  display: flex;
+  column-gap: 8px;
+}
+
+.主栏 {
+  flex-grow: 1;
+}
+.侧栏 {
+  flex-shrink: 0;
+  flex-basis: 350px;
+}
+
+.输入区域 > .示例区域 {
+  display: none;
+}
+
+@media only screen and (min-width: 1240px) and (max-width: 1439px) {
+  body {
+    margin: 0 200px;
+  }
+}
+
+@media only screen and (min-width: 905px) and (max-width: 1239px) {
+  body {
+    margin: auto;
+    max-width: 840px;
+  }
+}
+
+/* 单栏布局 */
+@media only screen and (max-width: 904px) {
+  main {
+    display: block;
+  }
+  .示例区域.卡片 {
+    display: none;
+  }
+  .输入区域 > .示例区域 {
+    display: block;
+  }
+  footer {
+    margin: 16px;
+  }
+  body {
+    margin: 0 32px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  body {
+    margin: 0;
+  }
+}

@@ -12,37 +12,51 @@ function 复制作文() {
 }
 
 function 显示谓语标签() {
-  const 谓语标签 = document.querySelectorAll(".输入框 label")[0];
+  const 谓语标签 = document.querySelectorAll(
+    ".输入区域 > div > div label[for='谓语']"
+  )[0];
   谓语标签.style.opacity = "1";
 }
 
 function 隐藏谓语标签() {
-  const 谓语标签 = document.querySelectorAll(".输入框 label")[0];
+  const 谓语标签 = document.querySelectorAll(
+    ".输入区域 > div > div label[for='谓语']"
+  )[0];
   谓语标签.style.opacity = "0";
 }
 
 function 显示宾语标签() {
-  const 宾语标签 = document.querySelectorAll(".输入框 label")[1];
+  const 宾语标签 = document.querySelectorAll(
+    ".输入区域  > div > div label[for='宾语']"
+  )[0];
   宾语标签.style.opacity = "1";
 }
 
 function 隐藏宾语标签() {
-  const 宾语标签 = document.querySelectorAll(".输入框 label")[1];
+  const 宾语标签 = document.querySelectorAll(
+    ".输入区域 > div > div label[for='宾语']"
+  )[0];
   宾语标签.style.opacity = "0";
 }
 
 window.addEventListener("click", function (事件) {
   // 控制示例区域显示
-  const 示例区域 = document.getElementById("示例");
-  const 谓语输入框 = document.getElementById("谓语");
-  const 宾语输入框 = document.getElementById("宾语");
-  const 输入框及示例区域 = document.getElementsByTagName("header")[0];
+  const 示例区域 = document.getElementsByClassName("示例区域")[0];
+  const 输入区域 = document.getElementsByClassName("输入区域")[0];
+  const 谓语输入框 = document.getElementsByName("谓语")[0];
+  const 宾语输入框 = document.getElementsByName("宾语")[0];
   const 点击区域 = 事件.target;
-  if (谓语输入框.contains(点击区域) || 宾语输入框.contains(点击区域)) {
+  if (!window.matchMedia("only screen and (max-width: 904px)").matches) {
+    // 多栏布局不执行以下代码
+    return;
+  } else if (谓语输入框.contains(点击区域) || 宾语输入框.contains(点击区域)) {
     // 1000px 是一个随意指定的很大的数字
     示例区域.style.maxHeight = "1000px";
-  } else if (!输入框及示例区域.contains(点击区域)) {
+    示例区域.style.marginTop = "8px";
+  } else if (!输入区域.contains(点击区域) && !示例区域.contains(点击区域)) {
     示例区域.style.maxHeight = "0";
+    示例区域.style.marginTop = "0";
   } else {
+    return;
   }
 });

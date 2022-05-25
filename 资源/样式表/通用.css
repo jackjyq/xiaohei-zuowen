@@ -1,0 +1,109 @@
+@charset "UTF-8";
+
+/* 颜色定义*/
+:root {
+  --主色: #e91e63;
+  --副色: #e91e631f;
+  --链接: #0969da;
+  --警告色: #ff9800;
+  --卡片色: #ffffff;
+  --背景色: #f5f5f5;
+  --主要文本: #000000de;
+  --提示文本: #0000008a;
+  --按钮文本: #ffffff;
+}
+
+/* 阴影定义
+https://material-components.github.io/material-components-web-catalog/#/component/elevation
+*/
+:root {
+  --高度2: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
+    0 1px 5px 0 rgb(0 0 0 / 12%);
+  --高度8: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* 透明度定义
+https://material.io/design/interaction/states.html#hover
+https://material.io/design/interaction/states.html#pressed
+*/
+:root {
+  --按钮悬停: 0.92;
+  --图片悬停: 0.88;
+  --按钮点击: 0.68;
+  --图片点击: 0.52;
+}
+
+/* 字号定义
+https://material.io/design/typography/the-type-system.html#type-scale
+*/
+:root {
+  --标题字号: 1.25rem;
+  --正文字号大: 1rem;
+  --正文字号小: 0.875rem;
+  --说明字号: 0.75rem;
+}
+
+/* 字体定义
+字体：https://zenozeng.github.io/fonts.css/
+*/
+html {
+  font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica,
+    "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN",
+    "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti",
+    SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+
+body {
+  background-color: var(--背景色);
+  font-size: var(--正文字号大);
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: var(--标题字号);
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--主色);
+}
+
+p {
+  text-indent: 2em;
+  margin-bottom: 1em;
+}
+
+/* 其它通用样式 */
+a:link {
+  color: var(--链接);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--链接);
+}
+
+.卡片 {
+  box-shadow: var(--高度2);
+  background-color: var(--卡片色);
+  border-radius: 4px;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+/* 版权样式 */
+main {
+  /* 页面高度 - 版权区域高度*/
+  min-height: calc(100vh - 6.5em);
+}
+
+footer {
+  text-align: center;
+  color: var(--提示文本);
+  margin: 32px;
+}
+
+footer p {
+  font-size: var(--说明字号);
+  margin-bottom: 0;
+}
