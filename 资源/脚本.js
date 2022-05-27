@@ -1,14 +1,12 @@
-function 复制作文() {
-  const 作文 = document.getElementById("作文").textContent;
-  const 临时文本区域 = document.createElement("textarea");
-  临时文本区域.style.width = "0";
-  临时文本区域.style.height = "0";
-  临时文本区域.value = 作文;
-  document.body.appendChild(临时文本区域);
-  临时文本区域.select();
-  临时文本区域.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  document.body.removeChild(临时文本区域);
+function 拷贝文章() {
+  const 文章 = document.getElementById("文章").textContent;
+  navigator.clipboard.writeText(文章).then(function (数据) {
+    const 拷贝提示 = document.querySelectorAll(".文章区域 div > div")[0];
+    拷贝提示.style.opacity = "100";
+    setTimeout(function () {
+      拷贝提示.style.opacity = "0";
+    }, 1500);
+  });
 }
 
 function 显示谓语标签() {

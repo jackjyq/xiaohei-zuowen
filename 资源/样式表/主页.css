@@ -178,6 +178,60 @@
 
 /* 文章区域
 *******************************************************************************/
+.文章区域 section:nth-of-type(2) {
+  text-align: center;
+}
+
+.文章区域 button {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: #00000000;
+}
+
+.文章区域 button:hover {
+  background-color: var(--图标悬停);
+}
+
+.文章区域 button:hover path {
+  fill: var(--主要文本);
+}
+
+.文章区域 button:active {
+  background-color: var(--图标点击);
+}
+
+.文章区域 svg {
+  transform: scale(0.5);
+}
+
+.文章区域 path {
+  fill: var(--提示文本);
+}
+
+.文章区域 div {
+  position: relative;
+  display: inline-block;
+}
+
+.文章区域 div > div {
+  position: absolute;
+  top: 52px;
+  left: -36px;
+  font-size: var(--说明字号);
+  background-color: #232f34;
+  color: #ffffff;
+  padding: calc((24px - 1em) / 2) 8px;
+  /* 修复竖行排列中文的问题 */
+  white-space: nowrap;
+  line-height: 1;
+  border-radius: 12px;
+  transition: opacity 100ms ease-in-out;
+  opacity: 0;
+}
 
 /* 打赏区域
 *******************************************************************************/
