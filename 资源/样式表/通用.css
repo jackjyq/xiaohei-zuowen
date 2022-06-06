@@ -93,20 +93,3 @@ a:visited {
   padding: 16px;
   margin-top: 8px;
 }
-
-/* 版权样式 */
-main {
-  /* 页面高度 - 版权区域高度*/
-  min-height: calc(100vh - 6.5em);
-}
-
-footer {
-  text-align: center;
-  color: var(--提示文本);
-  margin: 32px;
-}
-
-footer p {
-  font-size: var(--说明字号);
-  margin-bottom: 0;
-}
