@@ -14,6 +14,7 @@
   --按钮文本: #ffffff;
   --图标悬停: #e91e6314;
   --图标点击: #e91e6351;
+  --对话框遮挡: #00000052;
 }
 
 /* 阴影定义
@@ -24,6 +25,8 @@ https://material-components.github.io/material-components-web-catalog/#/componen
     0 1px 5px 0 rgb(0 0 0 / 12%);
   --高度8: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  --高度24: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* 透明度定义

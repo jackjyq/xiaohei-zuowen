@@ -72,6 +72,11 @@
       href="{{ url_for('static',filename='./样式表/主页.css') }}"
     />
     <!-- 载入脚本 -->
+    <script>
+      const 微信图片路径 = "{{ url_for('static',filename='./图片/微信.jpg') }}";
+      const 支付宝图片路径 =
+        "{{ url_for('static',filename='./图片/支付宝.jpg') }}";
+    </script>
     <script src="{{ url_for('static',filename='脚本.js') }}" defer></script>
     <!-- 谷歌分析代码 -->
     <script
@@ -94,20 +99,13 @@
     <main>
       <div class="主栏">
         <!-- 输入区域 -->
+        <!-- prettier-ignore -->
         <form
-          {%
-          if
-          谓语错误
-          or
-          宾语错误
-          %}
-          class="输入区域 警告 卡片"
-          {%
-          else
-          %}class="输入区域 卡片"
-          {%
-          endif
-          %}
+          {% if 谓语错误 or 宾语错误 %}
+            class="输入区域 警告 卡片"
+          {% else %}
+            class="输入区域 卡片"
+          {% endif %}
         >
           <div>
             <div>
@@ -141,24 +139,14 @@
           {% endif %} {% if 宾语错误 %}
           <label for="宾语" class="警告">{{错误信息}}</label>
           {% endif %}
+        <!-- prettier-ignore -->
           <article
             class="示例区域"
-            {%
-            if
-            主页
-            or
-            谓语错误
-            or
-            宾语错误
-            %}
-            style="max-height: 1000px"
-            {%
-            else
-            %}
-            style="max-height: 0"
-            {%
-            endif
-            %}
+            {% if 主页 or 谓语错误 or 宾语错误 %}
+              style="max-height: 1000px"
+            {% else %}
+              style="max-height: 0"
+            {% endif %}
           >
             <h1>主题词示例</h1>
             <ul>
@@ -226,24 +214,20 @@
             您的打赏将鼓励作者继续维护项目，及用于网站服务器、小嘿猫粮等开销。
           </p>
           <div>
-            <a href="{{ url_for('static',filename='./图片/微信.jpeg') }}">
-              <figure>
-                <img
-                  src="{{ url_for('static',filename='./图片/微信-272x272.jpg') }}"
-                  alt="微信打赏"
-                />
-                <figcaption>微信打赏</figcaption>
-              </figure>
-            </a>
-            <a href="{{ url_for('static',filename='./图片/支付宝.jpeg') }}">
-              <figure>
-                <img
-                  src="{{ url_for('static',filename='./图片/支付宝-272x272.jpg') }}"
-                  alt=""
-                />
-                <figcaption>支付宝打赏</figcaption>
-              </figure>
-            </a>
+            <figure onclick="显示打赏(微信图片路径)">
+              <img
+                src="{{ url_for('static',filename='./图片/微信-272x272.jpg') }}"
+                alt="微信打赏"
+              />
+              <figcaption>微信打赏</figcaption>
+            </figure>
+            <figure onclick="显示打赏(支付宝图片路径)">
+              <img
+                src="{{ url_for('static',filename='./图片/支付宝-272x272.jpg') }}"
+                alt="支付宝打赏"
+              />
+              <figcaption>支付宝打赏</figcaption>
+            </figure>
           </div>
         </article>
       </div>
@@ -279,6 +263,9 @@
         >发布
       </p>
     </footer>
+    <div class="对话框" style="display: none" onclick="隐藏打赏()">
+      <img style="opacity: 0" />
+    </div>
   </body>
   {% if 谓语错误 %}
   <script>

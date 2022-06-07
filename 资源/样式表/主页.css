@@ -277,6 +277,28 @@ footer p {
   margin-bottom: 0;
 }
 
+/* 对话框
+*******************************************************************************/
+.对话框 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--对话框遮挡);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.对话框 img {
+  border-radius: 16px;
+  box-shadow: var(--高度24);
+  width: min(560px, calc(100vw - 76px), calc(100vh - 76px));
+  height: min(560px, calc(100vw - 76px), calc(100vh - 76px));
+  transition: opacity 300ms ease-in-out;
+}
+
 /* 响应式布局
 https://material.io/design/layout/responsive-layout-grid.html#breakpoints
 *******************************************************************************/

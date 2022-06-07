@@ -2,7 +2,7 @@ function 拷贝文章() {
   const 文章 = document.getElementById("文章").textContent;
   navigator.clipboard.writeText(文章).then(function (数据) {
     const 拷贝提示 = document.querySelectorAll(".文章区域 div > div")[0];
-    拷贝提示.style.opacity = "100";
+    拷贝提示.style.opacity = "1";
     setTimeout(function () {
       拷贝提示.style.opacity = "0";
     }, 1500);
@@ -35,6 +35,25 @@ function 隐藏宾语标签() {
     ".输入区域 > div > div label[for='宾语']"
   )[0];
   宾语标签.style.opacity = "0";
+}
+
+function 显示打赏(图片路径) {
+  const 对话框 = document.querySelectorAll(".对话框")[0];
+  const 图片 = document.querySelectorAll(".对话框 > img")[0];
+  图片.setAttribute("src", 图片路径);
+  对话框.style.display = "flex";
+  // 保证执行过渡效果
+  setTimeout(function () {
+    图片.style.opacity = "1";
+  }, 0);
+}
+
+function 隐藏打赏() {
+  const 对话框 = document.querySelectorAll(".对话框")[0];
+  const 图片 = document.querySelectorAll(".对话框 > img")[0];
+  图片.removeAttribute("src");
+  图片.style.opacity = "0";
+  对话框.style.display = "none";
 }
 
 window.addEventListener("click", function (事件) {
