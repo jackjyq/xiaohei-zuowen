@@ -6,6 +6,8 @@
 
 [https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/)
 
+<img src="./资源/图片/二维码.png" width="350">
+
 ## 效果展示
 
 > >
@@ -157,7 +159,7 @@ sudo certbot --nginx
 
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
 
-## [授权协议](./资源/许可协议.txt)
+## [授权协议](./LICENSE)
 
 - 图片图标, 版权所有 保留所有权利
 - 项目代码，基于 MIT 开源许可协议发布
