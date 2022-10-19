@@ -67,7 +67,8 @@ body {
   line-height: 1.5;
 }
 
-h1 {
+h1,
+h2 {
   font-size: var(--标题字号);
   text-align: center;
   margin-bottom: 16px;

@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
+    <!-- prettier-ignore -->
     <title>
-      {% if 主页 %} 小嘿作文生成器 {% else %} {{主题谓语}}{{主题宾语}} -
-      小嘿作文生成器 {% endif %}
+      {% if 主页 %}
+        小嘿作文生成器 - 主页
+      {% else %}
+        {{主题谓语}}{{主题宾语}} - 小嘿作文生成器
+      {% endif %}
     </title>
     <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- prettier-ignore -->
+    <meta
+      name="description"
+      {% if 文章|length %}
+        content="《{{主题谓语}}{{主题宾语}}》── {{文章[0]}} {{文章[1]}}"
+      {% else %}
+        content="小嘿作文生成器，免费在线作文生成工具。可根据主题谓语、主题宾语，自动生成中学考试议论文类型的文章。其中，选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。该工具可用于考试作文的教学工作，包括模板验证、素材积累等。"
+      {% endif %}
+    />
     <meta
       name="keywords"
       content="作文生成器, 作文生成, 作文自动生成器, 日记生成器, 高考作文生成器, 考试作文生成器, 中学作文生成器, 语文作文生成器"
-    />
-    <meta
-      name="description"
-      content="小嘿作文生成器，可根据输入的主题谓语、主题宾语，自动随机生成海量作文。适用于中学考试议论文的学习与研究。"
     />
     <!-- 社交媒体分享 -->
     <meta property="og:title" content="小嘿作文生成器" />
@@ -32,6 +41,16 @@
     <meta property="og:image:height" content="512" />
     <!-- 百度搜索平台 -->
     <meta name="baidu-site-verification" content="code-rOogYXsrZr" />
+    <!-- Canonical URL -->
+    <!-- prettier-ignore -->
+    <link
+      rel="canonical"
+      {% if 主页 %}
+        href="./"
+      {% else %}
+        href="./?谓语={{主题谓语}}&宾语={{主题宾语}}"
+      {% endif %}
+    />
     <!-- 载入图标
     https://favicon.io/ -->
     <link
@@ -150,7 +169,7 @@
               style="max-height: 0"
             {% endif %}
           >
-            <h1>主题词示例</h1>
+            <h2>主题词示例</h2>
             <ul>
               {%for 索引 in range(0, 示例数量)%}
               <li>
@@ -191,10 +210,10 @@
         </article>
         {% endif %}
       </div>
-      <div class="侧栏">
+      <di class="侧栏">
         <!-- 示例区域 -->
         <article class="示例区域 卡片">
-          <h1>主题词示例</h1>
+          <h2>主题词示例</h2>
           <p>
             选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。
           </p>
@@ -211,7 +230,7 @@
         <!-- 打赏区域 -->
         {% if not 主页 and not 谓语错误 and not 宾语错误 %}
         <article class="打赏区域 卡片">
-          <h1>打赏作者</h1>
+          <h2>打赏作者</h2>
           <p>
             您的打赏将鼓励作者继续维护项目，及用于网站服务器、小嘿猫粮等开销。
           </p>
@@ -238,7 +257,7 @@
     <!-- 版权信息 -->
     <footer>
       <p>
-        <a href="https://gitee.com/jackjyq/xiaohei-zuowen">码云</a> |
+        <a href="https://gitee.com/songyustudio/xiaohei-zuowen">码云</a> |
         <a href="https://github.com/jackjyq/xiaohei-zuowen">Github</a>
       </p>
       <p>

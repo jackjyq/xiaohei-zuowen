@@ -107,7 +107,7 @@
 }
 
 /* 下拉提示 */
-.输入区域 > .示例区域 h1 {
+.输入区域 > .示例区域 h2 {
   font-size: var(--正文字号小);
   margin-bottom: 0;
   text-align: left;
