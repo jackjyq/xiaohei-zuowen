@@ -1,5 +1,39 @@
 @charset "UTF-8";
 
+/* 顶部导航栏
+*******************************************************************************/
+nav {
+  box-shadow: var(--高度4);
+  background-color: var(--卡片色);
+}
+
+nav li {
+  display: inline-block;
+  font-size: var(--正文字号小);
+  font-weight: bold;
+  line-height: 1;
+}
+
+.导航已选择 {
+  color: var(--主色);
+  border-bottom: 2px solid var(--主色);
+  padding: calc((48px - var(--正文字号小)) / 2) 16px;
+}
+
+/* 导航项目 */
+nav li a {
+  padding: calc((48px - var(--正文字号小)) / 2) 16px;
+}
+
+nav li a:hover {
+  background-color: var(--图标悬停);
+}
+
+nav li a:link,
+nav li a:visited {
+  color: var(--主要文本);
+}
+
 /* 输入区域
 *******************************************************************************/
 .输入区域 > div {
@@ -309,6 +343,11 @@ body {
   max-width: 1040px;
 }
 
+/* 保持导航栏靠边，但内容仍然对齐卡片*/
+nav {
+  margin: 0 calc(-1 * (100vw - 1040px) / 2);
+}
+
 main {
   display: flex;
   column-gap: 8px;
@@ -330,12 +369,22 @@ main {
   body {
     margin: 0 200px;
   }
+
+  /* 保持导航栏靠边，但内容仍然对齐卡片 */
+  nav {
+    margin: 0 calc(-200px - 8px);
+  }
 }
 
 @media only screen and (min-width: 905px) and (max-width: 1239px) {
   body {
     margin: auto;
     max-width: 840px;
+  }
+
+  /* 保持导航栏靠边，但内容仍然对齐卡片*/
+  nav {
+    margin: 0 calc(-1 * (100vw - 840px) / 2);
   }
 }
 
@@ -358,10 +407,21 @@ main {
   body {
     margin: 0 32px;
   }
+
+  /* 保持导航栏靠边，但内容仍然对齐卡片 */
+  nav {
+    margin: 0 calc(-32px - 8px);
+    padding: 0 calc(32px + 8px);
+  }
 }
 
 @media only screen and (max-width: 599px) {
   body {
     margin: 0;
+  }
+  /* 保持导航栏靠边，但内容仍然对齐卡片 */
+  nav {
+    margin: 0 -8px;
+    padding: 0 8px;
   }
 }
