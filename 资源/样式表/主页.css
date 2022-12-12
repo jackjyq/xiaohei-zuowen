@@ -4,7 +4,9 @@
 *******************************************************************************/
 nav {
   box-shadow: var(--高度4);
-  background-color: var(--卡片色);
+  background-color: var(--主色);
+  display: flex;
+  flex-direction: row;
 }
 
 nav li {
@@ -15,8 +17,8 @@ nav li {
 }
 
 .导航已选择 {
-  color: var(--主色);
-  border-bottom: 2px solid var(--主色);
+  color: var(--主要文本亮);
+  border-bottom: 2px solid var(--主要文本亮);
   padding: calc((48px - var(--正文字号小)) / 2) 16px;
 }
 
@@ -25,13 +27,13 @@ nav li a {
   padding: calc((48px - var(--正文字号小)) / 2) 16px;
 }
 
-nav li a:hover {
-  background-color: var(--图标悬停);
-}
-
 nav li a:link,
 nav li a:visited {
-  color: var(--主要文本);
+  color: var(--提示文本亮);
+}
+
+nav li a:hover {
+  color: var(--按钮文本);
 }
 
 /* 输入区域
@@ -90,7 +92,7 @@ nav li a:visited {
   border: 2px solid var(--主色);
   border-radius: 0 4px 4px 0;
   background-color: var(--主色);
-  color: #ffffff;
+  color: var(--主要文本亮);
   cursor: pointer;
   /* 兼容 Safari */
   margin: 0;
@@ -100,11 +102,13 @@ nav li a:visited {
 
 .输入区域 input[type="submit"]:hover {
   opacity: var(--按钮悬停);
+  color: var(--按钮文本);
 }
 
 .输入区域 input[type="submit"]:active {
   box-shadow: var(--高度8);
   opacity: var(--按钮点击);
+  color: var(--按钮文本);
 }
 
 /* 标签 */
