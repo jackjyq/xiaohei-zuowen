@@ -225,10 +225,10 @@
               (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
             <!-- 后半篇 -->
-            {%for 段 in range(4, 段数-1)%}
+            {%for 段 in range(3, 段数-1)%}
             <p>{{文章[段]}}</p>
-            <!-- 最后一段 -->
             {%endfor%}
+            <!-- 最后一段 -->
             <p>{{文章[段数-1]}}（共 {{字数}} 字）</p>
           </section>
           <section>
