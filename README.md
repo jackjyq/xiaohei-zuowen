@@ -4,9 +4,7 @@
 
 ## 开始使用
 
-[https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/)
-
-<img src="./资源/图片/二维码.png" width="350">
+[<img src="./资源/图片/二维码.png" width="350">](https://zuowen.jackjyq.com/)
 
 ## 效果展示
 
@@ -58,9 +56,11 @@ python 网站服务器.py
 
 ## 远程部署
 
+假设服务器名 vultr, 可通过 `ssh vultr` 连接
+
 ### 1. 上传代码
 
-在远程
+在服务器创建仓库
 
 ```zsh
 cd ~
@@ -69,29 +69,33 @@ cd zuowen.jackjyq.com
 git config --local receive.denyCurrentBranch updateInstead
 ```
 
-在本地 （vultr 为服务器名称 / IP）
+在本地电脑，上传代码
 
 ```zsh
 git remote add vultr vultr:~/zuowen.jackjyq.com
 git push
 ```
 
-在服务器
+在服务器安装依赖
 
 ```zsh
 python3.10 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# 测试能否运行
+# 测试能否运行，测试完按 Ctrl+C 退出
 python 网站服务器.py
 ```
 
 ### 2. 配置 gunicorn 服务
 
+在服务器配置 gunicorn
+
 ```zsh
 sudo vim /etc/systemd/system/zuowen.jackjyq.com.service
 ```
+
+粘贴如下内容
 
 ```ini
 [Unit]
@@ -109,7 +113,7 @@ ExecStart=/home/jack/zuowen.jackjyq.com/venv/bin/gunicorn --workers 3 --bind uni
 WantedBy=multi-user.target
 ```
 
-启动服务
+在服务器启动服务
 
 ```zsh
 sudo systemctl start zuowen.jackjyq.com
@@ -119,9 +123,13 @@ sudo systemctl status zuowen.jackjyq.com
 
 ### 3. 配置 Nginx 服务
 
+在服务器配置 Nginx
+
 ```zsh
 sudo vim /etc/nginx/conf.d/jackjyq.com.conf
 ```
+
+粘贴如下内容
 
 ```conf
 server {
@@ -134,12 +142,27 @@ server {
 }
 ```
 
-启动服务
+在服务器启动服务
 
 ```zsh
 sudo nginx -t
 sudo systemctl restart nginx
+```
+
+### 4. 配置 HTTPS
+
+在服务器运行
+
+```zsh
 sudo certbot --nginx
+```
+
+### 5. 升级部署
+
+如代码修改，在本地运行
+
+```zsh
+git push vultr & ssh -t vultr 'sudo systemctl restart zuowen.jackjyq.com'
 ```
 
 ### 参考
@@ -155,9 +178,10 @@ sudo certbot --nginx
 - 通过 Github 右上角 Sponsor 支持作者
 - 分享 [https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/) 到社交媒体
 
-## 致谢
+## 关联项目
 
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
+- [小嘿总结生成器](https://zongjie.jackjyq.com/) 为姊妹项目
 
 ## [授权协议](./LICENSE)
 
