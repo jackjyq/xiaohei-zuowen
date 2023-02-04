@@ -98,6 +98,18 @@
     </script>
     <script src="{{ url_for('static',filename='脚本.js') }}" defer></script>
     <!-- 谷歌分析代码 -->
+    <!-- 修复：多栏布局时广告位宽度错乱
+      https://support.google.com/adsense/answer/9183363 -->
+    <style>
+      /* 多栏布局 */
+      @media only screen and (min-width: 905px) {
+        .adsbygoogle {
+          /* 宽度为 905 时， 段落宽度为 450 px */
+          width: 450px;
+          margin: auto;
+        }
+      }
+    </style>
     <!-- Google tag (gtag.js) -->
     <script
       async
