@@ -47,7 +47,7 @@
 ## 本地运行
 
 ```zsh
-python -m venv venv
+python3.8 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
@@ -178,10 +178,9 @@ git push vultr & ssh -t vultr 'sudo systemctl restart zuowen.jackjyq.com'
 - 通过 Github 右上角 Sponsor 支持作者
 - 分享 [https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/) 到社交媒体
 
-## 关联项目
+## 参考
 
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
-- [小嘿总结生成器](https://zongjie.jackjyq.com/) 为姊妹项目
 
 ## [授权协议](./LICENSE)
 

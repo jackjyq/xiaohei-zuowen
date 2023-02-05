@@ -1,14 +1,18 @@
 # -*- coding: UTF-8 -*-
+import copy
 import random
 import re
 import sqlite3
 from dataclasses import dataclass, field
 from os import listdir, path
+from typing import List, Dict, Tuple
+
+from sentence_transformers import SentenceTransformer, util
 
 
 @dataclass
 class 作文类:
-    文章: list[str] = field(default_factory=list)
+    文章: List[str] = field(default_factory=list)
     段数: int = 0
     字数: int = 0
     谓语: str = ""
@@ -29,6 +33,7 @@ class 生成器类:
         self.语料库 = {}
         for 语料名称 in self.语料列表:
             self.语料库[语料名称] = self.读取文件(self.基础路径 + "/语料库/" + 语料名称 + ".txt")
+        self.语料库拷贝 = copy.deepcopy(self.语料库)
         # 读取示例库
         self.主题词示例: list[tuple] = []
         for 行 in self.读取文件(self.基础路径 + "/示例库/" + "主题词示例.txt"):
@@ -36,6 +41,18 @@ class 生成器类:
                 self.主题词示例.append(匹配.groups())
         self.作文总数 = self.计算作文总数()
         self.数据库 = 数据库类()
+        # 计算文本相似度
+        # https://huggingface.co/uer/sbert-base-chinese-nli
+        # https://www.sbert.net/docs/quickstart.html
+        print("正在加载模型，可能需要数十秒...")
+        self.model = SentenceTransformer("uer/sbert-base-chinese-nli")
+        self.事例特征向量 = self.生成事例特征向量()
+
+    def 生成事例特征向量(self) -> Dict:
+        事例特征向量 = {}
+        for 事例 in self.语料库["事例"]:
+            事例特征向量[事例] = self.model.encode(事例)
+        return 事例特征向量
 
     def 读取文件(self, 文件路径: str) -> list:
         数据 = []
@@ -52,15 +69,24 @@ class 生成器类:
             语料名称.append(文件名[:-4])
         return 语料名称
 
-    def 语料库洗牌(self) -> None:
+    def 语料库洗牌(self, 主题词: str) -> None:
         for 语料名称 in self.语料列表:
-            random.shuffle(self.语料库[语料名称])
+            if 语料名称 == "事例":
+                # 移除与主题词相似度低的事例
+                主题词特征向量 = self.model.encode(主题词)
+                事例相似度: List[Tuple] = []
+                for 事例, 事例特征向量 in self.事例特征向量.items():
+                    相似度 = util.cos_sim(主题词特征向量, 事例特征向量)
+                    事例相似度.append((事例, 相似度))
+                事例相似度 = sorted(事例相似度, key=lambda x: x[1], reverse=True)
+                self.语料库拷贝["事例"] = [x[0] for x in 事例相似度[: len(事例相似度) // 2]]
+            random.shuffle(self.语料库拷贝[语料名称])
 
     def 应用语料(self, 段落: str, 语料计数: dict, 语料名称: str) -> str:
         待替换词 = "「" + 语料名称 + "」"
         while 段落.find(待替换词) >= 0:
             # 若存在待替换词
-            段落 = 段落.replace(待替换词, self.语料库[语料名称][语料计数[语料名称]], 1)
+            段落 = 段落.replace(待替换词, self.语料库拷贝[语料名称][语料计数[语料名称]], 1)
             语料计数[语料名称] += 1
         return 段落
 
@@ -75,7 +101,9 @@ class 生成器类:
         模版 = random.choice(list(self.模版库.values()))
         # 随机替换语料
         初稿 = []
-        self.语料库洗牌()
+        # 初始化语料库拷贝
+        self.语料库拷贝 = copy.deepcopy(self.语料库)
+        self.语料库洗牌(主题谓语 + 主题宾语)
         语料计数 = self.初始化语料计数()
         for 段落 in 模版:
             for 语料名称 in self.语料列表:
