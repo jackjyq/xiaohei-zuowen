@@ -1,5 +1,5 @@
 function 拷贝文章() {
-  const 文章 = document.getElementById("文章").textContent;
+  const 文章 = document.getElementById("文章").innerText;
   navigator.clipboard.writeText(文章).then(function (数据) {
     const 拷贝提示 = document.querySelectorAll(".文章区域 div > div")[0];
     拷贝提示.style.opacity = "1";
