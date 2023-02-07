@@ -6,3 +6,5 @@ venv/
 *.sqlite
 *.log
 .DS_Store
+.ipynb_checkpoints
+/生成器/模型

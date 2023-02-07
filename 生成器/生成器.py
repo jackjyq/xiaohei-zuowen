@@ -7,6 +7,8 @@ from dataclasses import dataclass, field
 from os import listdir, path
 from typing import List, Dict, Tuple
 
+# https://www.sbert.net/docs/quickstart.html
+print("正在导入 SentenceTransformer...")
 from sentence_transformers import SentenceTransformer, util
 
 
@@ -41,18 +43,33 @@ class 生成器类:
                 self.主题词示例.append(匹配.groups())
         self.作文总数 = self.计算作文总数()
         self.数据库 = 数据库类()
-        # 计算文本相似度
-        # https://huggingface.co/uer/sbert-base-chinese-nli
-        # https://www.sbert.net/docs/quickstart.html
-        print("正在加载模型，可能需要数十秒...")
-        self.model = SentenceTransformer("uer/sbert-base-chinese-nli")
-        self.事例特征向量 = self.生成事例特征向量()
+        self.模型: SentenceTransformer = self.加载模型(self.基础路径 + "/模型")
+        self.特征向量库们: Dict[Dict] = self.计算特征向量()
 
-    def 生成事例特征向量(self) -> Dict:
-        事例特征向量 = {}
-        for 事例 in self.语料库["事例"]:
-            事例特征向量[事例] = self.model.encode(事例)
-        return 事例特征向量
+    def 加载模型(self, 模型路径) -> SentenceTransformer:
+        if path.exists(模型路径):
+            print(f"正在加载 {模型路径} ...")
+            return SentenceTransformer(模型路径)
+        else:
+            print(f"正在下载 uer/sbert-base-chinese-nli...")
+            # https://huggingface.co/uer/sbert-base-chinese-nli
+            模型 = SentenceTransformer("uer/sbert-base-chinese-nli")
+            print(f"正在保存 {模型路径}...")
+            模型.save(模型路径)
+            return 模型
+
+    def 计算特征向量(self) -> Dict:
+        print("正在计算 素材的特征向量...")
+
+        def 清洗语料(语料: str):
+            语料 = 语料.replace("「主题谓语」", "")
+            语料 = 语料.replace("「主题宾语」", "")
+            return 语料
+
+        return {
+            "事例": {事例: self.模型.encode(清洗语料(事例)) for 事例 in self.语料库["事例"]},
+            "名言": {名言: self.模型.encode(清洗语料(名言)) for 名言 in self.语料库["名言"]},
+        }
 
     def 读取文件(self, 文件路径: str) -> list:
         数据 = []
@@ -71,16 +88,20 @@ class 生成器类:
 
     def 语料库洗牌(self, 主题词: str) -> None:
         for 语料名称 in self.语料列表:
+            # 仅取最相似的前 N 个语料，N 的数量可以调整
             if 语料名称 == "事例":
-                # 移除与主题词相似度低的事例
-                主题词特征向量 = self.model.encode(主题词)
-                事例相似度: List[Tuple] = []
-                for 事例, 事例特征向量 in self.事例特征向量.items():
-                    相似度 = util.cos_sim(主题词特征向量, 事例特征向量)
-                    事例相似度.append((事例, 相似度))
-                事例相似度 = sorted(事例相似度, key=lambda x: x[1], reverse=True)
-                self.语料库拷贝["事例"] = [x[0] for x in 事例相似度[: len(事例相似度) // 2]]
+                self.语料库拷贝["事例"] = self.根据相似度排序(主题词, self.特征向量库们["事例"])[:15]
+            if 语料名称 == "名言":
+                self.语料库拷贝["名言"] = self.根据相似度排序(主题词, self.特征向量库们["名言"])[:10]
             random.shuffle(self.语料库拷贝[语料名称])
+
+    def 根据相似度排序(self, 主题词: str, 特征向量库: Dict) -> List[str]:
+        主题词特征向量 = self.模型.encode(主题词)
+        语料相似度: List[Tuple] = []
+        for 语料, 语料特征向量 in 特征向量库.items():
+            相似度 = util.cos_sim(主题词特征向量, 语料特征向量)
+            语料相似度.append((语料, 相似度))
+        return [x[0] for x in sorted(语料相似度, key=lambda x: x[1], reverse=True)]
 
     def 应用语料(self, 段落: str, 语料计数: dict, 语料名称: str) -> str:
         待替换词 = "「" + 语料名称 + "」"
@@ -211,7 +232,7 @@ if __name__ == "__main__":
         谓语 = input("请输入主题谓语: ")
         宾语 = input("请输入主题宾语: ")
         作文: 作文类 = 生成器.生成作文(谓语, 宾语)
-        print(作文类.谓语 + 作文.宾语)
+        print(作文.谓语 + 作文.宾语)
         for 段落 in 作文.文章:
             print(段落)
         print(f"（共 {作文.段数} 段，{作文.字数} 字）")
