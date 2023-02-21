@@ -4,11 +4,13 @@ import random
 import re
 import sqlite3
 from dataclasses import dataclass, field
-from os import listdir, path
+from os import listdir, path, environ
 from typing import List, Dict, Tuple
 
 # https://www.sbert.net/docs/quickstart.html
 print("正在导入 SentenceTransformer...")
+# https://stackoverflow.com/questions/62691279/how-to-disable-tokenizers-parallelism-true-false-warning
+environ["TOKENIZERS_PARALLELISM"] = "false"
 from sentence_transformers import SentenceTransformer, util
 
 
@@ -83,7 +85,8 @@ class 生成器类:
     def 获取列表(self, 目录路径: str) -> list:
         语料名称 = []
         for 文件名 in listdir(目录路径):
-            语料名称.append(文件名[:-4])
+            if 文件名.endswith(".txt"):
+                语料名称.append(文件名[:-4])
         return 语料名称
 
     def 语料库洗牌(self, 主题词: str) -> None:
