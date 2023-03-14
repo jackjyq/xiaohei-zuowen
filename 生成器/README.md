@@ -1,7 +1,4 @@
 # 生成器
-
-生成器既可单独运行，又可被网站服务器调用
-
 ## 文件结构
 
 ### 模板库/
@@ -38,8 +35,6 @@
 ### 语料库/事例.txt
 
 使用 [sbert-base-chinese-nli](https://huggingface.co/uer/sbert-base-chinese-nli) 计算事例与主题词的相关性，并随机选取相关性较高的事例。这样极大增加了内存占用（100多MB -> 500 MB）。
-
-TODO: 添加更多的事例，以供选择
 
 ### 生成器.py
 
