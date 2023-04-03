@@ -6,7 +6,7 @@
 
 ## 开始使用
 
-[<img src="./资源/图片/二维码.png" width="300">](https://zuowen.jackjyq.com/)
+[<img src="./网站资源/图片/二维码.png" width="300">](https://zuowen.jackjyq.com/)
 
 ## 效果展示
 
