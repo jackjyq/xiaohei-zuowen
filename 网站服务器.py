@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 
 from 生成器.生成器 import 作文类, 生成器类
 
-app = Flask(__name__, template_folder="网页", static_folder="资源", static_url_path="")
+app = Flask(__name__, template_folder="网站模版", static_folder="网站资源", static_url_path="")
 生成器: 生成器类 = 生成器类()
 
 

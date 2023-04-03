@@ -1,12 +1,12 @@
-# 小嘿作文生成器
+# 后端重构中，可能无法运行，请使用`旧版后端设计`分支
 
-**后端重构中，部署请使用`旧版后端设计`分支**
+# 小嘿作文生成器
 
 根据输入的主题谓语、主题宾语，生成中学考试风格的作文。
 
 ## 开始使用
 
-[<img src="./资源/图片/二维码.png" width="175">](https://zuowen.jackjyq.com/)
+[<img src="./资源/图片/二维码.png" width="300">](https://zuowen.jackjyq.com/)
 
 ## 效果展示
 
@@ -27,7 +27,7 @@
 ## 本地运行
 
 ```zsh
-python3.8 -m venv venv
+python3.10 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
@@ -36,25 +36,21 @@ python 网站服务器.py
 
 ## 文件结构
 
+
 ```
  项目根目录
-    ├── 网站服务器.py: 网站服务器主文件
+    ├── 网站服务器.py: 网站服务器程序
     ├── 网站模版：网站服务器 HTML 文件
     ├── 网站资源：网站服务器 CSS, JavaScript, 图片等文件
     └── 生成器
-        ├── 生成器.py：生成器主文件，可单独运行
-        └── 数据
+        ├── 生成器.py：生成器程序，可单独运行
+        └── 数据：生成器所需的数据
+            └── 模型.py：包含所有数据交互的逻辑
 ```
 
-## 贡献方式
+详情请点击子目录，查看对应的 `README.md`
 
-您可以通过如下方式参与贡献：
-
-- 提交 Pull Requests 或 Issues
-- 通过 Github 右上角 Sponsor 支持作者
-- 分享 [https://zuowen.jackjyq.com/](https://zuowen.jackjyq.com/) 到社交媒体
-
-## 参考
+## 鸣谢
 
 - 受到 [文章生成器](https://github.com/suulnnka/BullshitGenerator) 启发
 
