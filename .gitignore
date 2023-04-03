@@ -1,6 +1,3 @@
-*.sqlite
-/生成器/模型/
-
 # https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
 
 .vscode/*
