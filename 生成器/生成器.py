@@ -1,22 +1,20 @@
 # -*- coding: UTF-8 -*-
-import copy
+import pathlib
 import random
-import re
-import sqlite3
+import sys
 from dataclasses import dataclass, field
-from os import listdir, path, environ
-from typing import List, Dict, Tuple
+from typing import Any
 
-# https://www.sbert.net/docs/quickstart.html
-print("正在导入 SentenceTransformer...")
-# https://stackoverflow.com/questions/62691279/how-to-disable-tokenizers-parallelism-true-false-warning
-environ["TOKENIZERS_PARALLELISM"] = "false"
-from sentence_transformers import SentenceTransformer, util
+# 把生成器目录加入系统路径，以便该文件可被其它文件调用
+sys.path.append(str(pathlib.Path(__file__).parent))
+
+from 相似度模型.相似度模型 import random_similarity
+from 素材库.素材库 import 素材库类
 
 
 @dataclass
 class 作文类:
-    文章: List[str] = field(default_factory=list)
+    文章: list[str] = field(default_factory=list)
     段数: int = 0
     字数: int = 0
     谓语: str = ""
@@ -24,204 +22,121 @@ class 作文类:
 
 
 class 生成器类:
-    def __init__(self, 随机种子: int = None) -> None:
-        random.seed(随机种子)
-        self.基础路径 = path.abspath(path.dirname(__file__))
-        # 读取模板库
-        self.模版库 = {}
-        self.模版列表 = self.获取列表(self.基础路径 + "/模版库")
-        for 模版名称 in self.模版列表:
-            self.模版库[模版名称] = self.读取文件(self.基础路径 + "/模版库/" + 模版名称 + ".txt")
-        self.语料列表 = self.获取列表(self.基础路径 + "/语料库")
-        # 读取语料库
-        self.语料库 = {}
-        for 语料名称 in self.语料列表:
-            self.语料库[语料名称] = self.读取文件(self.基础路径 + "/语料库/" + 语料名称 + ".txt")
-        self.语料库拷贝 = copy.deepcopy(self.语料库)
-        # 读取示例库
-        self.主题词示例: list[tuple] = []
-        for 行 in self.读取文件(self.基础路径 + "/示例库/" + "主题词示例.txt"):
-            if 匹配 := re.match(r"「(\w+)」「(\w+)」", 行):
-                self.主题词示例.append(匹配.groups())
-        self.作文总数 = self.计算作文总数()
-        self.数据库 = 数据库类()
-        self.模型: SentenceTransformer = self.加载模型(self.基础路径 + "/模型")
-        self.特征向量库们: Dict[Dict] = self.计算特征向量()
+    def __init__(self) -> None:
+        self.相似度模型 = random_similarity()
+        素材库实例 = 素材库类()
+        素材库: dict[str, dict[str, list[Any]]] = 素材库实例.获取素材库()
+        self.示例库: list[str] = 素材库["示例库"]["主题词示例"]
+        self.模版库: dict[str, list[str]] = 素材库["模版库"]
+        self.语料库: dict[str, dict[str, Any]] = self._计算语料库特征向量(素材库["语料库"])
 
-    def 加载模型(self, 模型路径) -> SentenceTransformer:
-        if path.exists(模型路径):
-            print(f"正在加载 {模型路径} ...")
-            return SentenceTransformer(模型路径)
-        else:
-            print(f"正在下载 uer/sbert-base-chinese-nli...")
-            # https://huggingface.co/uer/sbert-base-chinese-nli
-            模型 = SentenceTransformer("uer/sbert-base-chinese-nli")
-            print(f"正在保存 {模型路径}...")
-            模型.save(模型路径)
-            return 模型
+    def _计算语料库特征向量(self, 语料库: dict[str, list[str]]) -> dict[str, dict[str, Any]]:
+        """在语料库上添加特征向量
+        输入格式:
+            语料库 = {
+                语料类别: [
+                    语料
+                ]
+            }
+        输出格式:
+            语料库 = {
+                语料类别: {
+                    语料: 特征向量
+                }
+            }
+        """
 
-    def 计算特征向量(self) -> Dict:
-        print("正在计算 素材的特征向量...")
-
-        def 清洗语料(语料: str):
-            语料 = 语料.replace("「主题谓语」", "")
+        def 移除主题词占位符(语料: str) -> str:
+            语料 = 语料.replace("「主题宾语」", "")
             语料 = 语料.replace("「主题宾语」", "")
             return 语料
 
-        return {
-            "事例": {事例: self.模型.encode(清洗语料(事例)) for 事例 in self.语料库["事例"]},
-            "名言": {名言: self.模型.encode(清洗语料(名言)) for 名言 in self.语料库["名言"]},
+        print("正在计算语料库的特征向量...")
+        语料与向量库: dict[str, dict[str, Any]] = {}
+        # TODO: 增加进度条
+        for 语料类别 in 语料库.keys():
+            语料与向量列表: dict[str, Any] = {}
+            for 语料 in 语料库[语料类别]:
+                语料与向量列表[语料] = self.相似度模型.计算特征向量(移除主题词占位符(语料))
+            语料与向量库[语料类别] = 语料与向量列表
+        return 语料与向量库
+
+    def _生成专用语料库(
+        self,
+        主题谓语: str,
+        主题宾语: str,
+        语料库: dict[str, dict[str, Any]],
+    ) -> dict[str, list[tuple[str, Any]]]:
+        """生成针对该主题词的专用语料库，语料库输出格式：
+        专用语料库 = {
+            语料类别: [(语料, 相似度)]
         }
+        """
 
-    def 读取文件(self, 文件路径: str) -> list:
-        数据 = []
-        with open(文件路径, "r") as 文件:
-            原始数据 = 文件.readlines()
-            # 去掉多余的换行符
-            for 行 in 原始数据:
-                数据.append(行.strip())
-        return 数据
+        def 计算语料及相似度(
+            主题词: str, 语料及特征向量: dict[str, Any], 计算相似度并排序: bool
+        ) -> list[tuple[str, Any]]:
+            """
+            计算相似度并排序 = True:
+                由 {语料: 特征向量 } 转换为 [(语料, 相似度)]，并根据相似度排序
+            计算相似度并排序 = False:
+                由 {语料: 特征向量 } 转换为 [(语料, 0)]，不排序
+            """
+            语料及相似度: dict[str, Any] = {}
+            if 计算相似度并排序:
+                主题词特征向量 = self.相似度模型.计算特征向量(主题词)
+                for 语料, 特征向量 in 语料及特征向量.items():
+                    相似度 = self.相似度模型.计算相似度(主题词特征向量, 特征向量)
+                    语料及相似度[语料] = 相似度
+                return sorted(语料及相似度.items(), key=lambda item: item[1], reverse=True)
+            else:
+                return [(语料, 0) for 语料 in 语料及特征向量.keys()]
 
-    def 获取列表(self, 目录路径: str) -> list:
-        语料名称 = []
-        for 文件名 in listdir(目录路径):
-            if 文件名.endswith(".txt"):
-                语料名称.append(文件名[:-4])
-        return 语料名称
+        专用语料库: dict[str, list[tuple[str, Any]]] = {}
+        for 语料类别 in 语料库.keys():
+            # 计算相似度、排序、并裁剪语料
+            if 语料类别 == "事例":
+                专用语料库[语料类别] = 计算语料及相似度(f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=True)[:30]
+            elif 语料类别 == "名言":
+                专用语料库[语料类别] = 计算语料及相似度(f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=True)[:10]
+            else:
+                # 对其他类别，仅更改格式
+                专用语料库[语料类别] = 计算语料及相似度(f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=False)
+            # 全部语料随机排列
+            random.shuffle(专用语料库[语料类别])
+        return 专用语料库
 
-    def 语料库洗牌(self, 主题词: str) -> None:
-        for 语料名称 in self.语料列表:
-            # 仅取最相似的前 N 个语料，N 的数量可以调整
-            if 语料名称 == "事例":
-                self.语料库拷贝["事例"] = self.根据相似度排序(主题词, self.特征向量库们["事例"])[:30]
-            if 语料名称 == "名言":
-                self.语料库拷贝["名言"] = self.根据相似度排序(主题词, self.特征向量库们["名言"])[:10]
-            random.shuffle(self.语料库拷贝[语料名称])
+    def _替换语料(
+        self, 文章: list[str], 专用语料库: dict[str, list[tuple[str, Any]]]
+    ) -> list[str]:
+        for 语料类别 in 专用语料库.keys():
+            待替换词 = f"「{语料类别}」"
+            语料索引 = 0
+            for 段数 in range(len(文章)):
+                while 文章[段数].find(待替换词) >= 0:
+                    # 若存在待替换词
+                    文章[段数] = 文章[段数].replace(待替换词, 专用语料库[语料类别][语料索引][0], 1)
+                    语料索引 += 1
+        return 文章
 
-    def 根据相似度排序(self, 主题词: str, 特征向量库: Dict) -> List[str]:
-        主题词特征向量 = self.模型.encode(主题词)
-        语料相似度: List[Tuple] = []
-        for 语料, 语料特征向量 in 特征向量库.items():
-            相似度 = util.cos_sim(主题词特征向量, 语料特征向量)
-            语料相似度.append((语料, 相似度))
-        return [x[0] for x in sorted(语料相似度, key=lambda x: x[1], reverse=True)]
-
-    def 应用语料(self, 段落: str, 语料计数: dict, 语料名称: str) -> str:
-        待替换词 = "「" + 语料名称 + "」"
-        while 段落.find(待替换词) >= 0:
-            # 若存在待替换词
-            段落 = 段落.replace(待替换词, self.语料库拷贝[语料名称][语料计数[语料名称]], 1)
-            语料计数[语料名称] += 1
-        return 段落
-
-    def 初始化语料计数(self) -> dict:
-        语料计数 = {}
-        for 语料名称 in self.语料列表:
-            语料计数[语料名称] = 0
-        return 语料计数
+    def _替换主题词(self, 文章: list[str], 主题谓语: str, 主题宾语: str) -> list[str]:
+        for 段数 in range(len(文章)):
+            文章[段数] = 文章[段数].replace("「主题谓语」", 主题谓语)
+            文章[段数] = 文章[段数].replace("「主题宾语」", 主题宾语)
+        return 文章
 
     def 生成作文(self, 主题谓语: str = "", 主题宾语: str = "") -> 作文类:
-        # 随机选择模版
-        模版 = random.choice(list(self.模版库.values()))
-        # 随机替换语料
-        初稿 = []
-        # 初始化语料库拷贝
-        self.语料库拷贝 = copy.deepcopy(self.语料库)
-        self.语料库洗牌(主题谓语 + 主题宾语)
-        语料计数 = self.初始化语料计数()
-        for 段落 in 模版:
-            for 语料名称 in self.语料列表:
-                段落 = self.应用语料(段落, 语料计数, 语料名称)
-            初稿.append(段落)
-        # 替换主题词
-        定稿 = []
-        字数 = 0
-        for 段落 in 初稿:
-            段落 = 段落.replace("「主题谓语」", 主题谓语)
-            段落 = 段落.replace("「主题宾语」", 主题宾语)
-            字数 += len(段落)
-            定稿.append(段落)
-        # 记录数据库
-        self.数据库.写入数据库(谓语=主题谓语, 宾语=主题宾语)
-        return 作文类(文章=定稿, 段数=len(定稿), 字数=字数, 谓语=主题谓语, 宾语=主题宾语)
-
-    def 生成记录(self) -> list:
-        return self.数据库.读取数据库()
-
-    def 计算作文总数(self) -> int:
-        """计算能够生成的作文总数"""
-        作文总数 = 0
-        for 模版名称 in self.模版列表:
-            作文总数 += self.计算模版作文总数(模版名称)
-        return 作文总数
-
-    def 计算模版作文总数(self, 模版名称: str) -> int:
-        """计算针对某个模版能够生成的作文总数"""
-        模版作文总数 = 1
-        for 语料名称 in self.语料列表:
-            # 计算语料在模版中的选择次数
-            语料选择次数 = 0
-            for 模版段落 in self.模版库[模版名称]:
-                语料选择次数 += 模版段落.count("「" + 语料名称 + "」")
-            # 计算语料数量
-            语料数量 = len(self.语料库[语料名称])
-            # 计算某语料所贡献的作文数量
-            for i in range(语料选择次数):
-                模版作文总数 *= 语料数量 - i
-        return 模版作文总数
-
-
-class 数据库类:
-    def __init__(self) -> None:
-        # 初始化数据库
-        # 谓语 宾语 生成次数
-        # 勇于 尝试 10
-        # 积极 进去 2
-        self.基础路径 = path.abspath(path.dirname(__file__))
-        with sqlite3.connect(
-            self.基础路径 + "/数据库.sqlite", check_same_thread=False
-        ) as self.数据库连接:
-            self.数据库句柄 = self.数据库连接.cursor()
-            self.数据库句柄.execute(
-                """CREATE TABLE IF NOT EXISTS 生成记录 (
-                    谓语 TEXT,
-                    宾语 TEXT,
-                    生成次数 INTEGER DEFAULT 1
-                    );"""
-            )
-
-    def 写入数据库(self, 谓语: str = "", 宾语: str = "") -> None:
-        # 生成次数 ++
-        self.数据库句柄.execute(
-            """SELECT 生成次数 FROM 生成记录
-                WHERE 谓语=? AND 宾语=?""",
-            (谓语, 宾语),
-        )
-        生成次数 = self.数据库句柄.fetchall()
-        if len(生成次数):
-            更新生成次数 = 生成次数[0][0] + 1
-            self.数据库句柄.execute(
-                """UPDATE 生成记录
-                    SET 生成次数 =?
-                    WHERE 谓语=? AND 宾语=?""",
-                (更新生成次数, 谓语, 宾语),
-            )
-        else:
-            self.数据库句柄.execute(
-                """INSERT INTO 生成记录(谓语, 宾语, 生成次数)
-                    VALUES(?,?,?)""",
-                (谓语, 宾语, 1),
-            )
-        self.数据库连接.commit()
-
-    def 读取数据库(self) -> list:
-        # 生成记录按照生成次数排序
-        self.数据库句柄.execute(
-            """SELECT * FROM 生成记录
-                ORDER BY 生成次数 DESC"""
-        )
-        生成记录 = self.数据库句柄.fetchall()
-        return 生成记录
+        # 第一步：选择模版
+        文章: list[str] = random.choice(list(self.模版库.values())).copy()
+        # 第一步：替换语料
+        专用语料库: dict[str, list[tuple[str, Any]]] = self._生成专用语料库(主题谓语, 主题宾语, self.语料库)
+        文章 = self._替换语料(文章, 专用语料库)
+        # 第三步：替换主题词
+        文章 = self._替换主题词(文章, 主题谓语, 主题宾语)
+        # 第四步: 生成统计信息
+        段数 = len(文章)
+        字数 = sum(len(段落) for 段落 in 文章)
+        return 作文类(文章=文章, 段数=段数, 字数=字数, 谓语=主题谓语, 宾语=主题宾语)
 
 
 # 命令行界面
@@ -229,7 +144,7 @@ if __name__ == "__main__":
     生成器: 生成器类 = 生成器类()
     print("欢迎使用小嘿作文生成器！按 Ctrl+C 退出。")
     print("主题词示例：")
-    print(", ".join([示例[0] + "|" + 示例[1] for 示例 in 生成器.主题词示例]))
+    print(", ".join([示例[0] + "|" + 示例[1] for 示例 in 生成器.示例库]))
     while True:
         print()
         谓语 = input("请输入主题谓语: ")

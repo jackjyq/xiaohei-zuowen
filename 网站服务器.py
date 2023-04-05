@@ -1,7 +1,4 @@
 # -*- coding: UTF-8 -*-
-import os
-from typing import Union
-
 from flask import Flask, render_template, request
 
 from 生成器.生成器 import 作文类, 生成器类
@@ -64,8 +61,8 @@ def 显示网页():
         文章=作文.文章,
         段数=作文.段数,
         字数=作文.字数,
-        示例=生成器.主题词示例,
-        示例数量=min(len(生成器.主题词示例), 20),
+        示例=生成器.示例库,
+        示例数量=min(len(生成器.示例库), 20),
         主页=主页,
         谓语错误=谓语错误,
         宾语错误=宾语错误,
