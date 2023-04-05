@@ -4,6 +4,7 @@ import random
 import sys
 from dataclasses import dataclass, field
 from typing import Any
+from tqdm import tqdm
 
 # 把生成器目录加入系统路径，以便该文件可被其它文件调用
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
@@ -53,13 +54,15 @@ class 生成器类:
             return 语料
 
         print("正在计算语料库的特征向量...")
+        语料总数: int = sum(len(语料列表) for 语料列表 in 语料库.values())
         语料与向量库: dict[str, dict[str, Any]] = {}
-        # TODO: 增加进度条
-        for 语料类别 in 语料库.keys():
-            语料与向量列表: dict[str, Any] = {}
-            for 语料 in 语料库[语料类别]:
-                语料与向量列表[语料] = self.相似度模型.计算特征向量(移除主题词占位符(语料))
-            语料与向量库[语料类别] = 语料与向量列表
+        with tqdm(total=语料总数) as 进度条:
+            for 语料类别 in 语料库.keys():
+                语料与向量列表: dict[str, Any] = {}
+                for 语料 in 语料库[语料类别]:
+                    语料与向量列表[语料] = self.相似度模型.计算特征向量(移除主题词占位符(语料))
+                    进度条.update(1)
+                语料与向量库[语料类别] = 语料与向量列表
         return 语料与向量库
 
     def _生成专用语料库(
