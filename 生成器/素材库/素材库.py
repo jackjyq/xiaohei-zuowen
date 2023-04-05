@@ -6,7 +6,7 @@ from typing import Any
 
 class 素材库类:
     def __init__(self, 路径: Path = Path(__file__).parent) -> None:
-        self.基础路径 = 路径
+        self.脚本所在路径 = 路径
 
     def _获取子类列表(self, 大类路径: Path) -> list[str]:
         return [
@@ -20,8 +20,8 @@ class 素材库类:
 
     def _获取大类字典(self, 大类: str) -> dict[str, list[str]]:
         大类字典: dict[str, list[str]] = {}
-        for 子类 in self._获取子类列表(self.基础路径 / 大类):
-            大类字典[子类] = self._获取素材列表((self.基础路径 / 大类 / 子类).with_suffix(".txt"))
+        for 子类 in self._获取子类列表(self.脚本所在路径 / 大类):
+            大类字典[子类] = self._获取素材列表((self.脚本所在路径 / 大类 / 子类).with_suffix(".txt"))
         return 大类字典
 
     def 获取素材库(self) -> dict[str, dict[str, list[Any]]]:

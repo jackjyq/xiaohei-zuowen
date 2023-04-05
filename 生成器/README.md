@@ -18,9 +18,9 @@ python 生成器.py
 
 计算素材与用户输入的相似度，以提高生成作文的质量。
 
-### 相似度模型
+### random_similarity
 
-定义了相似度模型的接口，以及 random_similarity 模型，即随机指定相似度，速度最快，是最初的实现。
+即随机指定相似度，速度最快，是最初的实现。
 
 ### sbert_base_chinese_nli.py
 

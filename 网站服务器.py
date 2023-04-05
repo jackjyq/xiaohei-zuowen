@@ -72,5 +72,4 @@ def 显示网页():
 
 # 本地测试
 if __name__ == "__main__":
-    # app.run(host="192.168.1.14", debug=True)
     app.run(use_reloader=False, debug=True)

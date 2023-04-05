@@ -14,22 +14,26 @@ class 相似度模型类(ABC):
         pass
 
     @abstractmethod
-    def 计算相似度(self, 文本1: str, 文本2: str):
+    def 计算相似度(self, 向量1, 向量2):
         pass
 
 
 class random_similarity(相似度模型类):
     def __init__(self) -> None:
-        print("random_similarity 相似度模型载入成功!")
+        print("random_similarity 模型载入成功!")
 
     def 计算特征向量(self, 文本: str):
         return 0
 
-    def 计算相似度(self, 文本1: str, 文本2: str) -> float:
+    def 计算相似度(self, 向量1, 向量2) -> float:
         return random.random()
 
 
 if __name__ == "__main__":
     相似度模型 = random_similarity()
-    print(相似度模型.计算特征向量("你好"))
-    print(相似度模型.计算相似度("你好", "小嘿作文生成器"))
+    向量1 = 相似度模型.计算特征向量("你好")
+    向量2 = 相似度模型.计算特征向量("小嘿")
+    相似度 = 相似度模型.计算相似度(向量1, 向量2)
+    print(向量1)
+    print(向量2)
+    print(相似度)

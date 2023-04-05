@@ -6,9 +6,10 @@ from dataclasses import dataclass, field
 from typing import Any
 
 # 把生成器目录加入系统路径，以便该文件可被其它文件调用
-sys.path.append(str(pathlib.Path(__file__).parent))
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
 
 from 相似度模型.相似度模型 import random_similarity
+from 相似度模型.sbert_base_chinese_nli import sbert_base_chinese_nli
 from 素材库.素材库 import 素材库类
 
 
@@ -23,7 +24,7 @@ class 作文类:
 
 class 生成器类:
     def __init__(self) -> None:
-        self.相似度模型 = random_similarity()
+        self.相似度模型 = sbert_base_chinese_nli()
         素材库实例 = 素材库类()
         素材库: dict[str, dict[str, list[Any]]] = 素材库实例.获取素材库()
         self.示例库: list[str] = 素材库["示例库"]["主题词示例"]
