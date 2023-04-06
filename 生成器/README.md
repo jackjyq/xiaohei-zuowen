@@ -1,21 +1,34 @@
 # 生成器
 
-小嘿作文生成器命令行版，根据设计，既可被`网站服务器.py`调用，又可单独运行。
+小嘿作文生成器命令行版
 
-```python
-python 生成器.py
+## 配置
+
+可通过 `.env` 选择相似度模型。
+
+```.env
+# 在
+cp .env.default .env
 ```
 
-## 相似度模型
+然后编辑 `.env` 文件。
 
-计算素材与用户输入的相似度，以提高生成作文的质量。
+## 运行
 
-### random_similarity
+```zsh
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
-即随机指定相似度，速度最快，是最初的实现。
+python 生成器/生成器.py
+```
 
-### sbert_base_chinese_nli.py
+## 接口
 
-使用 [sbert-base-chinese-nli](https://huggingface.co/uer/sbert-base-chinese-nli) 模型，内存占用大约 500 MB。
+除了 `rerequirements.txt`，运行 `生成器.py` 所需文件都在 `生成器/` 文件夹内。此外，`生成器` 仅提供如下接口，以供 `网站服务器.py` 调用。
 
-### TODO：后续考虑接入 OpenAI 的 API
+```python
+from 生成器.生成器 import 作文类, 生成器类
+
+作文: 作文类 = 生成器.生成作文(主题谓语=主题谓语, 主题宾语=主题宾语)
+```

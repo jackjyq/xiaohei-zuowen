@@ -18,7 +18,29 @@ Base = declarative_base()
 
 
 class Sbert_base_chinese_nli_embeddings(Base):
+    """
+    最长 512 Token
+    https://www.sbert.net/examples/applications/computing-embeddings/README.html?highlight=encode#input-sequence-length
+    """
+
     __tablename__ = "Sbert_base_chinese_nli_embeddings"
+    sentense = Column(String(length=500), primary_key=True)
+    embeddings = Column(JSON, nullable=False)
+    timestamp = Column(
+        DateTime(timezone=False),
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+        nullable=False,
+    )
+
+
+class Text_embedding_ada_002_embeddings(Base):
+    """
+    最长大约 8191 token, 设成500以避免消耗太多 API
+    https://platform.openai.com/docs/guides/embeddings/what-are-embeddings
+    """
+
+    __tablename__ = "Text_embedding_ada_002_embeddings"
     sentense = Column(String(length=500), primary_key=True)
     embeddings = Column(JSON, nullable=False)
     timestamp = Column(
@@ -36,22 +58,34 @@ class 数据库类:
         self.Session = sessionmaker(self.engine)
         Base.metadata.create_all(self.engine)
 
-    def 读取特征向量(self, 文本) -> Optional[list[float]]:
+    def 读取特征向量_sbert_base_chinese_nli(self, 文本) -> Optional[list[float]]:
         # return None means not present in database
         with self.Session() as session:
             if result := session.get(Sbert_base_chinese_nli_embeddings, 文本):
                 return result.embeddings
         return None
 
-    def 插入特征向量(self, 文本: str, 向量: list[float]):
+    def 插入特征向量_sbert_base_chinese_nli(self, 文本: str, 向量: list[float]):
         with self.Session() as session:
             session.add(Sbert_base_chinese_nli_embeddings(sentense=文本, embeddings=向量))
+            session.commit()
+
+    def 读取特征向量_text_embedding_ada_002(self, 文本) -> Optional[list[float]]:
+        # return None means not present in database
+        with self.Session() as session:
+            if result := session.get(Text_embedding_ada_002_embeddings, 文本):
+                return result.embeddings
+        return None
+
+    def 插入特征向量_text_embedding_ada_002(self, 文本: str, 向量: list[float]):
+        with self.Session() as session:
+            session.add(Text_embedding_ada_002_embeddings(sentense=文本, embeddings=向量))
             session.commit()
 
 
 if __name__ == "__main__":
     数据库: 数据库类 = 数据库类()
-    特征向量 = 数据库.读取特征向量("小嘿")
+    特征向量 = 数据库.读取特征向量_text_embedding_ada_002("小嘿")
     print(type(特征向量), 特征向量)
 
 # class 数据库类:

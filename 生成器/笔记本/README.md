@@ -1,6 +1,10 @@
 # 笔记本
 
-一些独立的笔记和脚本，与 `网站服务器.py` 运行无关
+一些独立的笔记与脚本
+
+```
+python -m jupyter lab
+```
 
 ### sbert_base_chinese_nli.py
 

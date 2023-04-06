@@ -6,14 +6,39 @@ import sys
 生成器目录 = str(pathlib.Path(__file__).parent)
 if 生成器目录 not in sys.path:
     sys.path.insert(0, 生成器目录)
+import os
 import random
 from dataclasses import dataclass, field
-from typing import Any
+from pathlib import Path
+from typing import Any, Optional
 
+from dotenv import load_dotenv
 from tqdm import tqdm
-from 相似度模型.sbert_base_chinese_nli import sbert_base_chinese_nli
-from 相似度模型.相似度模型 import random_similarity
 from 素材库.素材库 import 素材库类
+
+
+# 根据 .env 配置，选取相似度模型
+class InvalidSimilarityModel(Exception):
+    pass
+
+
+配置文件路径: Path = pathlib.Path(__file__).parent / ".env"
+load_dotenv(配置文件路径)
+相似度模型配置: Optional[str] = os.getenv("SIMILARITY_MODEL")
+if 相似度模型配置 == "random_similarity":
+    print(f"选取相似度模型: random_similarity!")
+    from 相似度模型.random_similarity import random_similarity as 相似度模型类
+elif 相似度模型配置 == "sbert_base_chinese_nli":
+    print(f"选取相似度模型: sbert_base_chinese_nli!")
+    from 相似度模型.sbert_base_chinese_nli import sbert_base_chinese_nli as 相似度模型类
+elif 相似度模型配置 == "text_embedding_ada_002":
+    print(f"选取相似度模型: text_embedding_ada_002!")
+    from 相似度模型.text_embedding_ada_002 import text_embedding_ada_002 as 相似度模型类
+elif not 相似度模型配置:
+    print(f"未提供配置，选取默认相似度模型: random_similarity!")
+    from 相似度模型.random_similarity import random_similarity as 相似度模型类
+else:
+    raise InvalidSimilarityModel(f"无效 SIMILARITY_MODEL 配置，请检查{配置文件路径}!")
 
 
 @dataclass
@@ -26,8 +51,13 @@ class 作文类:
 
 
 class 生成器类:
+    """生成器使用示例:
+
+    作文: 作文类 = 生成器.生成作文(主题谓语=主题谓语, 主题宾语=主题宾语)
+    """
+
     def __init__(self) -> None:
-        self.相似度模型 = sbert_base_chinese_nli()
+        self.相似度模型 = 相似度模型类()
         素材库实例 = 素材库类()
         素材库: dict[str, dict[str, list[Any]]] = 素材库实例.获取素材库()
         self.示例库: list[str] = 素材库["示例库"]["主题词示例"]
