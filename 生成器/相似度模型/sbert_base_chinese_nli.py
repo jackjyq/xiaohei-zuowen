@@ -1,21 +1,24 @@
 # -*- coding: UTF-8 -*-
 import pathlib
 import sys
+
+# 把生成器目录加入系统路径，以便该文件可被其它文件调用
+生成器目录 = str(pathlib.Path(__file__).parent.parent)
+if 生成器目录 not in sys.path:
+    sys.path.insert(0, 生成器目录)
+
 import os
 from pathlib import Path
+from typing import Optional
 
 print("sbert_base_chinese_nli 模型加载中(1/2)...")
 # https://stackoverflow.com/questions/62691279/how-to-disable-tokenizers-parallelism-true-false-warning
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from sentence_transformers import SentenceTransformer, util
-from torch import Tensor
-from numpy import ndarray
 
 print("sbert_base_chinese_nli 模型载入成功(1/2)!")
-
-# 把生成器目录加入系统路径，以便该文件可被其它文件调用
-sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 from 相似度模型.相似度模型 import 相似度模型类
+from 数据库.数据库 import 数据库类
 
 
 class sbert_base_chinese_nli(相似度模型类):
@@ -25,6 +28,7 @@ class sbert_base_chinese_nli(相似度模型类):
         self.模型: SentenceTransformer = self._加载模型(
             self.脚本所在路径 / "sbert_base_chinese_nli_model"
         )
+        self.数据库 = 数据库类()
 
     def _加载模型(self, 模型路径: Path) -> SentenceTransformer:
         if os.path.exists(模型路径):
@@ -38,10 +42,14 @@ class sbert_base_chinese_nli(相似度模型类):
         print("sbert_base_chinese_nli 模型载入成功(2/2)!")
         return 模型
 
-    def 计算特征向量(self, 文本: str) -> ndarray:
-        return self.模型.encode(文本)
+    def 计算特征向量(self, 文本: str) -> list[float]:
+        if 缓存特征向量 := self.数据库.读取特征向量(文本):
+            return 缓存特征向量
+        特征向量: list[float] = self.模型.encode(文本).tolist()
+        self.数据库.插入特征向量(文本, 特征向量)
+        return 特征向量
 
-    def 计算相似度(self, 向量1: ndarray, 向量2: ndarray) -> float:
+    def 计算相似度(self, 向量1: list[float], 向量2: list[float]) -> float:
         return util.cos_sim(向量1, 向量2).item()
 
 

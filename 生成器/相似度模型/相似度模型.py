@@ -10,11 +10,11 @@ class 相似度模型类(ABC):
         pass
 
     @abstractmethod
-    def 计算特征向量(self, 文本: str):
+    def 计算特征向量(self, 文本: str) -> list[float]:
         pass
 
     @abstractmethod
-    def 计算相似度(self, 向量1, 向量2):
+    def 计算相似度(self, 向量1: list[float], 向量2: list[float]) -> float:
         pass
 
 
@@ -22,10 +22,10 @@ class random_similarity(相似度模型类):
     def __init__(self) -> None:
         print("random_similarity 模型载入成功!")
 
-    def 计算特征向量(self, 文本: str):
+    def 计算特征向量(self, 文本: str) -> list[float]:
         return 0
 
-    def 计算相似度(self, 向量1, 向量2) -> float:
+    def 计算相似度(self, 向量1: list[float], 向量2: list[float]) -> float:
         return random.random()
 
 

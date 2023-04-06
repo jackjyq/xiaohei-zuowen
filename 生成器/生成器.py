@@ -1,16 +1,18 @@
 # -*- coding: UTF-8 -*-
 import pathlib
-import random
 import sys
-from dataclasses import dataclass, field
-from typing import Any
-from tqdm import tqdm
 
 # 把生成器目录加入系统路径，以便该文件可被其它文件调用
-sys.path.insert(0, str(pathlib.Path(__file__).parent))
+生成器目录 = str(pathlib.Path(__file__).parent)
+if 生成器目录 not in sys.path:
+    sys.path.insert(0, 生成器目录)
+import random
+from dataclasses import dataclass, field
+from typing import Any
 
-from 相似度模型.相似度模型 import random_similarity
+from tqdm import tqdm
 from 相似度模型.sbert_base_chinese_nli import sbert_base_chinese_nli
+from 相似度模型.相似度模型 import random_similarity
 from 素材库.素材库 import 素材库类
 
 
