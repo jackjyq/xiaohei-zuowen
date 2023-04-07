@@ -11,34 +11,14 @@ import random
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
-
+from datetime import datetime
 from dotenv import load_dotenv
 from tqdm import tqdm
 from 素材库.素材库 import 素材库类
 
 
-# 根据 .env 配置，选取相似度模型
 class InvalidSimilarityModel(Exception):
     pass
-
-
-配置文件路径: Path = pathlib.Path(__file__).parent / ".env"
-load_dotenv(配置文件路径)
-相似度模型配置: Optional[str] = os.getenv("SIMILARITY_MODEL")
-if 相似度模型配置 == "random_similarity":
-    print(f"选取相似度模型: random_similarity!")
-    from 相似度模型.random_similarity import random_similarity as 相似度模型类
-elif 相似度模型配置 == "sbert_base_chinese_nli":
-    print(f"选取相似度模型: sbert_base_chinese_nli!")
-    from 相似度模型.sbert_base_chinese_nli import sbert_base_chinese_nli as 相似度模型类
-elif 相似度模型配置 == "text_embedding_ada_002":
-    print(f"选取相似度模型: text_embedding_ada_002!")
-    from 相似度模型.text_embedding_ada_002 import text_embedding_ada_002 as 相似度模型类
-elif not 相似度模型配置:
-    print(f"未提供配置，选取默认相似度模型: random_similarity!")
-    from 相似度模型.random_similarity import random_similarity as 相似度模型类
-else:
-    raise InvalidSimilarityModel(f"无效 SIMILARITY_MODEL 配置，请检查{配置文件路径}!")
 
 
 @dataclass
@@ -57,12 +37,29 @@ class 生成器类:
     """
 
     def __init__(self) -> None:
-        self.相似度模型 = 相似度模型类()
+        # 载入 .env 文件
+        load_dotenv(pathlib.Path(__file__).parent / ".env")
+        self.相似度模型配置: Optional[str] = os.getenv(
+            "SIMILARITY_MODEL", default="random_similarity"
+        )
+        self.相似度模型 = self._载入相似度模型(self.相似度模型配置)
         素材库实例 = 素材库类()
         素材库: dict[str, dict[str, list[Any]]] = 素材库实例.获取素材库()
-        self.示例库: list[str] = 素材库["示例库"]["主题词示例"]
+        self.示例库: list[tuple[str, str]] = 素材库["示例库"]["主题词示例"]
         self.模版库: dict[str, list[str]] = 素材库["模版库"]
         self.语料库: dict[str, dict[str, Any]] = self._计算语料库特征向量(素材库["语料库"])
+
+    def _载入相似度模型(self, 相似度模型配置: str):
+        print(f"选取 {相似度模型配置} 相似度模型!")
+        if 相似度模型配置 == "random_similarity":
+            from 相似度模型.random_similarity import random_similarity as 相似度模型类
+        elif 相似度模型配置 == "sbert_base_chinese_nli":
+            from 相似度模型.sbert_base_chinese_nli import sbert_base_chinese_nli as 相似度模型类  # type: ignore
+        elif 相似度模型配置 == "text_embedding_ada_002":
+            from 相似度模型.text_embedding_ada_002 import text_embedding_ada_002 as 相似度模型类  # type: ignore
+        else:
+            raise InvalidSimilarityModel(f"不支持 {相似度模型配置} 相似度模型!")
+        return 相似度模型类()
 
     def _计算语料库特征向量(self, 语料库: dict[str, list[str]]) -> dict[str, dict[str, Any]]:
         """在语料库上添加特征向量
@@ -97,7 +94,26 @@ class 生成器类:
                 语料与向量库[语料类别] = 语料与向量列表
         return 语料与向量库
 
-    def _生成专用语料库(
+    def _生成类别相似度语料库(
+        self, 主题词: str, 语料及特征向量: dict[str, float], 计算相似度并排序: bool
+    ) -> list[tuple[str, float]]:
+        """
+        计算相似度并排序 = True:
+            由 {语料: 特征向量 } 转换为 [(语料, 相似度)]，并根据相似度排序
+        计算相似度并排序 = False:
+            由 {语料: 特征向量 } 转换为 [(语料, 0)]，不排序
+        """
+        语料及相似度: dict[str, float] = {}
+        if 计算相似度并排序:
+            主题词特征向量 = self.相似度模型.计算特征向量(主题词)
+            for 语料, 特征向量 in 语料及特征向量.items():
+                相似度 = self.相似度模型.计算相似度(主题词特征向量, 特征向量)
+                语料及相似度[语料] = 相似度
+            return sorted(语料及相似度.items(), key=lambda item: item[1], reverse=True)
+        else:
+            return [(语料, 0) for 语料 in 语料及特征向量.keys()]
+
+    def _生成相似度语料库(
         self,
         主题谓语: str,
         主题宾语: str,
@@ -108,39 +124,25 @@ class 生成器类:
             语料类别: [(语料, 相似度)]
         }
         """
-
-        def 计算语料及相似度(
-            主题词: str, 语料及特征向量: dict[str, Any], 计算相似度并排序: bool
-        ) -> list[tuple[str, Any]]:
-            """
-            计算相似度并排序 = True:
-                由 {语料: 特征向量 } 转换为 [(语料, 相似度)]，并根据相似度排序
-            计算相似度并排序 = False:
-                由 {语料: 特征向量 } 转换为 [(语料, 0)]，不排序
-            """
-            语料及相似度: dict[str, Any] = {}
-            if 计算相似度并排序:
-                主题词特征向量 = self.相似度模型.计算特征向量(主题词)
-                for 语料, 特征向量 in 语料及特征向量.items():
-                    相似度 = self.相似度模型.计算相似度(主题词特征向量, 特征向量)
-                    语料及相似度[语料] = 相似度
-                return sorted(语料及相似度.items(), key=lambda item: item[1], reverse=True)
-            else:
-                return [(语料, 0) for 语料 in 语料及特征向量.keys()]
-
-        专用语料库: dict[str, list[tuple[str, Any]]] = {}
+        相似度语料库: dict[str, list[tuple[str, Any]]] = {}
         for 语料类别 in 语料库.keys():
             # 计算相似度、排序、并裁剪语料
             if 语料类别 == "事例":
-                专用语料库[语料类别] = 计算语料及相似度(f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=True)[:30]
+                相似度语料库[语料类别] = self._生成类别相似度语料库(
+                    f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=True
+                )[:30]
             elif 语料类别 == "名言":
-                专用语料库[语料类别] = 计算语料及相似度(f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=True)[:10]
+                相似度语料库[语料类别] = self._生成类别相似度语料库(
+                    f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=True
+                )[:10]
             else:
                 # 对其他类别，仅更改格式
-                专用语料库[语料类别] = 计算语料及相似度(f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=False)
+                相似度语料库[语料类别] = self._生成类别相似度语料库(
+                    f"{主题谓语}{主题宾语}", 语料库[语料类别], 计算相似度并排序=False
+                )
             # 全部语料随机排列
-            random.shuffle(专用语料库[语料类别])
-        return 专用语料库
+            random.shuffle(相似度语料库[语料类别])
+        return 相似度语料库
 
     def _替换语料(
         self, 文章: list[str], 专用语料库: dict[str, list[tuple[str, Any]]]
@@ -165,8 +167,8 @@ class 生成器类:
         # 第一步：选择模版
         文章: list[str] = random.choice(list(self.模版库.values())).copy()
         # 第一步：替换语料
-        专用语料库: dict[str, list[tuple[str, Any]]] = self._生成专用语料库(主题谓语, 主题宾语, self.语料库)
-        文章 = self._替换语料(文章, 专用语料库)
+        相似度语料库: dict[str, list[tuple[str, Any]]] = self._生成相似度语料库(主题谓语, 主题宾语, self.语料库)
+        文章 = self._替换语料(文章, 相似度语料库)
         # 第三步：替换主题词
         文章 = self._替换主题词(文章, 主题谓语, 主题宾语)
         # 第四步: 生成统计信息
@@ -174,10 +176,28 @@ class 生成器类:
         字数 = sum(len(段落) for 段落 in 文章)
         return 作文类(文章=文章, 段数=段数, 字数=字数, 谓语=主题谓语, 宾语=主题宾语)
 
+    def 生成匹配素材列表(self):
+        """打印成 markdown 格式"""
+        print(f"# {self.相似度模型配置} 相似度模型报告:", end="\n\n")
+        print(f"生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", end="\n\n")
+        for 语料类别 in self.语料库.keys():
+            print(f"## 语料类别 {语料类别}:", end="\n")
+            for 主题谓语, 主题宾语 in self.示例库:
+                print(f"### 主题词: {主题谓语}{主题宾语}", end="\n\n")
+                匹配素材列表: list[tuple[str, float]] = self._生成类别相似度语料库(
+                    f"{主题谓语}{主题宾语}", self.语料库[语料类别], 计算相似度并排序=True
+                )[:30]
+                print("相似度 | 素材")
+                print("-|-")
+                for 素材, 相似度 in 匹配素材列表:
+                    print(f"{相似度} | {素材}")
+                print()
+
 
 # 命令行界面
 if __name__ == "__main__":
     生成器: 生成器类 = 生成器类()
+    # 生成器.生成匹配素材列表()
     print("欢迎使用小嘿作文生成器！按 Ctrl+C 退出。")
     print("主题词示例：")
     print(", ".join([示例[0] + "|" + 示例[1] for 示例 in 生成器.示例库]))
