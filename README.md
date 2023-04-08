@@ -162,12 +162,14 @@ git push vultr & ssh -t vultr 'sudo systemctl restart zuowen.jackjyq.com'
 ```
  项目根目录
     ├── 网站服务器.py: 网站服务器程序
-    ├── 网站模版：网站服务器 HTML 文件
-    ├── 网站资源：网站服务器 CSS, JavaScript, 图片等文件
-    ├── 生成器
+    ├── 网站模版/：网站服务器 HTML 文件
+    ├── 网站资源/：网站服务器 CSS, JavaScript, 图片等文件
+    ├── 生成器/
     │   ├── 生成器.py：生成器程序，可单独运行
     │   └── ...
-    ├── 笔记本：一些独立的笔记和脚本
+    ├── 笔记本/：一些独立的笔记和脚本
+    ├── 精简依赖包.txt：部署使用，可能不包含未使用的模型
+    ├── 完整依赖包.txt：开发使用，包含所有模型，以及 Linter，Formatter，Jupyter Lab...
     └── ...
 ```
 
