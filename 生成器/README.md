@@ -20,14 +20,14 @@ cp .env.default .env
 ```zsh
 python3.10 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r 完整依赖包.txt
 
 python 生成器/生成器.py
 ```
 
 ## 接口
 
-除了 `rerequirements.txt`，运行 `生成器.py` 所需文件都在 `生成器/` 文件夹内。此外，`生成器` 仅提供如下接口，以供 `网站服务器.py` 调用。
+除了 `依赖包` 文件，运行 `生成器.py` 所需文件都在 `生成器/` 文件夹内。此外，`生成器` 仅提供如下接口，以供 `网站服务器.py` 调用。
 
 ```python
 from 生成器.生成器 import 作文类, 生成器类

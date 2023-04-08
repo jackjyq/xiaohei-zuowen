@@ -31,7 +31,7 @@
 ```zsh
 python3.10 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r 完整依赖包.txt
 
 python 网站服务器.py
 ```
@@ -66,7 +66,7 @@ git push
 ```zsh
 python3.10 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install --no-cache-dir -r 精简依赖包.txt
 
 # 测试能否运行，测试完按 Ctrl+C 退出
 python 网站服务器.py

@@ -39,6 +39,7 @@ class text_embedding_ada_002(相似度模型类模版):
         if 缓存特征向量 := self.数据库.读取特征向量_text_embedding_ada_002(文本):
             return 缓存特征向量
         # TODO https://platform.openai.com/docs/guides/rate-limits/retrying-with-exponential-backoff
+        # TODO https://help.openai.com/en/articles/6897213-openai-library-error-types-guidance
         特征向量: list[float] = get_embedding(文本, engine="text-embedding-ada-002")
         self.数据库.插入特征向量_text_embedding_ada_002(文本, 特征向量)
         return 特征向量
