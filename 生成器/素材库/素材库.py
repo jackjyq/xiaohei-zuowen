@@ -2,6 +2,7 @@ import re
 from pathlib import Path
 from pprint import pprint
 from typing import Any
+import editdistance
 
 
 class 素材库类:
@@ -52,11 +53,40 @@ class 素材库类:
         }
         return 素材库
 
-    def 检查素材库(self) -> bool:
-        # TODO: 检查素材库质量，是否重复等
-        return True
+    @staticmethod
+    def 检查语料库(语料库: dict[str, list[str]]):
+        """检查语料库，并打印结果
+        检查语料列表(素材库实例.获取素材库()['语料库'])
+        """
+        for 语料类别 in 语料库.keys():
+            print(f"\n{语料类别} 检查报告:\n")
+            for i in range(len(语料库[语料类别])):
+                语料: str = 语料库[语料类别][i]
+                # 检查非法标点
+                for 字符 in 语料:
+                    if 字符 in ",.\"':?!":
+                        print(f"第 {i+1} 行存在英文标点 {字符}：{语料}")
+                    if 字符 in "[]【】()（）{}*":
+                        print(f"第 {i+1} 行存在非法标点 {字符}：{语料}")
+                # 检查句末标点
+                if 语料[-1] not in "。！？":
+                    print(f"第 {i+1} 行未以。？！结尾：{语料}")
+                # 检查方引号配对
+                待查语料 = 语料.replace("「主题谓语」", "").replace("「主题宾语」", "")
+                if "「" in 待查语料 or "」" in 待查语料:
+                    print(f"第 {i+1} 行有未配对方引号：{语料}")
+                # 检查相似语料
+                for j in range(i):
+                    if (
+                        (语料 in 语料库[语料类别][j])
+                        or (语料库[语料类别][j] in 语料)
+                        or (editdistance.eval(语料, 语料库[语料类别][j]) < 4)
+                    ):
+                        print(f"第 {i+1} 行与第 {j+1} 行相似：{语料}")
 
 
 if __name__ == "__main__":
     素材库实例 = 素材库类()
-    pprint(素材库实例.获取素材库(), indent=2)
+    素材库 = 素材库实例.获取素材库()
+    # pprint(素材库, indent=2)
+    素材库类.检查语料库(素材库["语料库"])
