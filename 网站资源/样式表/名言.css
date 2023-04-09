@@ -1,0 +1,14 @@
+@charset "UTF-8";
+/* 覆盖 模版.css 中的设置 */
+/* 主色: Green 600
+参考: https://m2.material.io/design/color/the-color-system.html
+*/
+
+:root {
+  --主色: #43a047;
+  --副色: #43a0471f;
+}
+
+.文章区域 p {
+  text-indent: 0;
+}

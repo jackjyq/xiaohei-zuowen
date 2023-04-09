@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
+    {% block head %}
     <!-- prettier-ignore -->
     <title>
       {% if 主页 %}
-        小嘿素材生成器 - 主页
+        小嘿作文生成器 - 主页
       {% else %}
-        {{主题谓语}}{{主题宾语}} - 小嘿素材生成器
+        {{主题谓语}}{{主题宾语}} - 小嘿作文生成器
       {% endif %}
     </title>
     <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
@@ -17,21 +18,21 @@
       {% if 文章|length %}
         content="《{{主题谓语}}{{主题宾语}}》── {{文章[0]}} {{文章[1]}}"
       {% else %}
-        content="小嘿素材生成器，免费在线作文素材生成工具。可根据主题谓语、主题宾语，自动生成中学考试议论文素材。其中，选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。该工具可用于考试作文的教学工作，包括模板验证、素材积累等。"
+        content="小嘿作文生成器，免费在线作文生成工具。可根据主题谓语、主题宾语，自动生成中学考试议论文类型的文章。其中，选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。该工具可用于考试作文的教学工作，包括模板验证、素材积累等。"
       {% endif %}
     />
     <meta
       name="keywords"
-      content="作文素材生成器, 作文素材生成, 文章素材自动生成器, 日记生成器, 高考作文素材生成器, 考试作文素材生成器, 中学作文素材生成器, 语文作文素材生成器"
+      content="作文生成器, 作文生成, 作文自动生成器, 日记生成器, 高考作文生成器, 考试作文生成器, 中学作文生成器, 语文作文生成器"
     />
     <!-- 社交媒体分享 -->
-    <meta property="og:title" content="小嘿素材生成器" />
+    <meta property="og:title" content="小嘿作文生成器" />
     <meta property="og:type" content="website" />
     <meta
       property="og:description"
-      content="小嘿素材生成器, 可免费在线自动生成海量作文素材。"
+      content="小嘿作文生成器, 可免费在线自动生成海量作文。"
     />
-    <meta property="og:url" content="https://zuowen.jackjyq.com/素材/" />
+    <meta property="og:url" content="https://zuowen.jackjyq.com/" />
     <meta
       property="og:image"
       content="{{ url_for('static',filename='./图片/android-chrome-512x512.png') }}"
@@ -46,9 +47,9 @@
     <link
       rel="canonical"
       {% if 主页 %}
-        href="https://zuowen.jackjyq.com/素材/"
+        href="https://zuowen.jackjyq.com/"
       {% else %}
-        href="https://zuowen.jackjyq.com/素材/?类别={{类别}}?谓语={{主题谓语}}&宾语={{主题宾语}}"
+        href="https://zuowen.jackjyq.com/?谓语={{主题谓语}}&宾语={{主题宾语}}"
       {% endif %}
     />
     <!-- 载入图标
@@ -83,12 +84,7 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{{ url_for('static',filename='./样式表/通用.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static',filename='./样式表/素材.css') }}"
+      href="{{ url_for('static',filename='./样式表/模版.css') }}"
     />
     <!-- 载入脚本 -->
     <script>
@@ -130,19 +126,14 @@
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4089826532740408"
       crossorigin="anonymous"
     ></script>
+    {% endblock %}
   </head>
   <!-- 修复 IOS Safari 点击事件无法触发的问题
     onclick="void(0);"
     https://stackoverflow.com/a/39712411 -->
   <body onclick="void(0);">
     <!-- 顶部导航栏 -->
-    <nav>
-      <ul>
-        <li><a href="..?谓语={{主题谓语}}&宾语={{主题宾语}}">作文</a></li>
-        <li class="导航已选择">素材</li>
-        <li><a href="https://zongjie.jackjyq.com">总结</a></li>
-      </ul>
-    </nav>
+    <nav>{% block nav %} {% endblock %}</nav>
     <main>
       <div class="主栏">
         <!-- 输入区域 -->
@@ -207,7 +198,7 @@
               {%endfor%}
             </ul>
             <p>
-              选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。多次点击生成按钮，可生成不同文章素材。
+              选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。
             </p>
           </article>
         </form>
@@ -215,10 +206,11 @@
         <!-- 文章区域-->
         <article class="文章区域 卡片">
           <section id="文章">
-            <h1>《{{主题谓语}}{{主题宾语}}》{{语料类别}}</h1>
+            {% block article %}
+            <h1>{{主题谓语}}{{主题宾语}}</h1>
             <!-- 前半篇 -->
-            {%for 段 in range(0, 5)%}
-            <p>{{段+1}}、{{文章[段]}}</p>
+            {%for 段 in range(0, 3)%}
+            <p>{{文章[段]}}</p>
             {%endfor%}
             <!-- Google 广告 -->
             <ins
@@ -229,13 +221,16 @@
               data-ad-client="ca-pub-4089826532740408"
               data-ad-slot="3215047669"
             ></ins>
-            <!-- 后半篇 -->
-            {%for 段 in range(5, 段数)%}
-            <p>{{段+1}}、{{文章[段]}}</p>
-            {%endfor%}
             <script>
               (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
+            <!-- 后半篇 -->
+            {%for 段 in range(3, 段数-1)%}
+            <p>{{文章[段]}}</p>
+            {%endfor%}
+            <!-- 最后一段 -->
+            <p>{{文章[段数-1]}}（共 {{字数}} 字）</p>
+            {% endblock %}
           </section>
           <section>
             <div class="拷贝">
@@ -257,7 +252,7 @@
         <article class="示例区域 卡片">
           <h2>主题词示例</h2>
           <p>
-            选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。多次点击生成按钮，可生成不同文章素材。
+            选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。
           </p>
           <ul>
             {%for 索引 in range(0, 示例数量)%}

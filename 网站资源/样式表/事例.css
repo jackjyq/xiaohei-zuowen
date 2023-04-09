@@ -1,0 +1,14 @@
+@charset "UTF-8";
+/* 覆盖 模版.css 中的设置 */
+/* 主色: Purple 600
+参考: https://m2.material.io/design/color/the-color-system.html
+*/
+
+:root {
+  --主色: #8e24aa;
+  --副色: #8e24aa1f;
+}
+
+.文章区域 p {
+  text-indent: 0;
+}

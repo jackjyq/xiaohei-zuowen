@@ -21,17 +21,16 @@ def 全是汉字(字符串: str) -> bool:
     return True
 
 
-@app.route("/", methods=["GET"])
-def 作文生成器主页():
-    # 初始化网页信息
-    主题谓语: str = request.args.get("谓语", "")
-    主题宾语: str = request.args.get("宾语", "")
-    作文: 作文类 = 作文类()
+def 检查输入(主题谓语: str, 主题宾语: str) -> tuple[bool, bool, bool, str]:
+    """检查输入
+    主页, 谓语错误, 宾语错误, 错误信息 = 检查输入(主题谓语, 主题宾语)
+    if not any((主页, 谓语错误, 宾语错误)):
+        作文: 作文类 = 生成器.生成作文(主题谓语=主题谓语, 主题宾语=主题宾语)
+    """
     主页: bool = False
     谓语错误: bool = False
     宾语错误: bool = False
     错误信息: str = ""
-
     if len(主题谓语) == 0 and len(主题宾语) == 0:
         主页 = True
     elif len(主题谓语) == 0:
@@ -52,7 +51,17 @@ def 作文生成器主页():
     elif len(主题宾语) > 14:
         宾语错误 = True
         错误信息 = "主题宾语应少于 14 字"
-    else:
+    return 主页, 谓语错误, 宾语错误, 错误信息
+
+
+@app.route("/", methods=["GET"])
+def 作文生成器主页():
+    # 初始化网页信息
+    主题谓语: str = request.args.get("谓语", "")
+    主题宾语: str = request.args.get("宾语", "")
+    作文: 作文类 = 作文类()
+    主页, 谓语错误, 宾语错误, 错误信息 = 检查输入(主题谓语, 主题宾语)
+    if not any((主页, 谓语错误, 宾语错误)):
         作文: 作文类 = 生成器.生成作文(主题谓语=主题谓语, 主题宾语=主题宾语)
     return render_template(
         "主页.html",
@@ -70,43 +79,19 @@ def 作文生成器主页():
     )
 
 
-@app.route("/素材/", methods=["GET"])
+@app.route("/事例/", methods=["GET"])
+@app.route("/名言/", methods=["GET"])
 def 素材生成器主页():
     # 初始化网页信息
     主题谓语: str = request.args.get("谓语", "")
     主题宾语: str = request.args.get("宾语", "")
-    语料类别: str = request.args.get("类别", "事例")
+    语料类别: str = request.path.strip("/")
     作文: 作文类 = 作文类()
-    主页: bool = False
-    谓语错误: bool = False
-    宾语错误: bool = False
-    错误信息: str = ""
-
-    if len(主题谓语) == 0 and len(主题宾语) == 0:
-        主页 = True
-    elif len(主题谓语) == 0:
-        谓语错误 = True
-        错误信息 = "请填写主题谓语"
-    elif not 全是汉字(主题谓语):
-        谓语错误 = True
-        错误信息 = "主题谓语只能包含汉字"
-    elif len(主题谓语) > 14:
-        谓语错误 = True
-        错误信息 = "主题谓语应少于 14 字"
-    elif len(主题宾语) == 0:
-        宾语错误 = True
-        错误信息 = "请填写主题宾语"
-    elif not 全是汉字(主题宾语):
-        宾语错误 = True
-        错误信息 = "主题宾语只能包含汉字"
-    elif len(主题宾语) > 14:
-        宾语错误 = True
-        错误信息 = "主题宾语应少于 14 字"
-    else:
-        print(语料类别)
-        作文: 作文类 = 生成器.生成素材(主题谓语=主题谓语, 主题宾语=主题宾语, 语料类别=语料类别)
+    主页, 谓语错误, 宾语错误, 错误信息 = 检查输入(主题谓语, 主题宾语)
+    if not any((主页, 谓语错误, 宾语错误)):
+        作文: 作文类 = 生成器.生成语料(主题谓语=主题谓语, 主题宾语=主题宾语, 语料类别=语料类别)
     return render_template(
-        "素材.html",
+        f"{语料类别}.html",
         主题谓语=主题谓语,
         主题宾语=主题宾语,
         语料类别=语料类别,
@@ -115,7 +100,6 @@ def 素材生成器主页():
         字数=作文.字数,
         示例=生成器.示例库,
         示例数量=min(len(生成器.示例库), 20),
-        语料类别列表=生成器.语料库.keys(),
         主页=主页,
         谓语错误=谓语错误,
         宾语错误=宾语错误,

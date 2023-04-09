@@ -1,358 +1,40 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-  <head>
-    <!-- prettier-ignore -->
-    <title>
-      {% if 主页 %}
-        小嘿作文生成器 - 主页
-      {% else %}
-        {{主题谓语}}{{主题宾语}} - 小嘿作文生成器
-      {% endif %}
-    </title>
-    <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- prettier-ignore -->
-    <meta
-      name="description"
-      {% if 文章|length %}
-        content="《{{主题谓语}}{{主题宾语}}》── {{文章[0]}} {{文章[1]}}"
-      {% else %}
-        content="小嘿作文生成器，免费在线作文生成工具。可根据主题谓语、主题宾语，自动生成中学考试议论文类型的文章。其中，选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。该工具可用于考试作文的教学工作，包括模板验证、素材积累等。"
-      {% endif %}
-    />
-    <meta
-      name="keywords"
-      content="作文生成器, 作文生成, 作文自动生成器, 日记生成器, 高考作文生成器, 考试作文生成器, 中学作文生成器, 语文作文生成器"
-    />
-    <!-- 社交媒体分享 -->
-    <meta property="og:title" content="小嘿作文生成器" />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:description"
-      content="小嘿作文生成器, 可免费在线自动生成海量作文。"
-    />
-    <meta property="og:url" content="https://zuowen.jackjyq.com/" />
-    <meta
-      property="og:image"
-      content="{{ url_for('static',filename='./图片/android-chrome-512x512.png') }}"
-    />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <!-- 百度搜索平台 -->
-    <meta name="baidu-site-verification" content="code-rOogYXsrZr" />
-    <!-- Canonical URL -->
-    <!-- prettier-ignore -->
-    <link
-      rel="canonical"
-      {% if 主页 %}
-        href="https://zuowen.jackjyq.com/"
-      {% else %}
-        href="https://zuowen.jackjyq.com/?谓语={{主题谓语}}&宾语={{主题宾语}}"
-      {% endif %}
-    />
-    <!-- 载入图标
-    https://favicon.io/ -->
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="{{ url_for('static',filename='./图片/apple-touch-icon.png') }}"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static',filename='./图片/favicon-16x16.png') }}"
-    />
-    <link
-      rel="manifest"
-      href="{{ url_for('static',filename='./图片/site.webmanifest') }}"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static',filename='./图片/favicon-32x32.png') }}"
-    />
-    <!-- 载入样式表 -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static',filename='./样式表/初始化.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static',filename='./样式表/通用.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static',filename='./样式表/主页.css') }}"
-    />
-    <!-- 载入脚本 -->
-    <script>
-      const 微信图片路径 = "{{ url_for('static',filename='./图片/微信.jpg') }}";
-      const 支付宝图片路径 =
-        "{{ url_for('static',filename='./图片/支付宝.jpg') }}";
-    </script>
-    <script src="{{ url_for('static',filename='脚本.js') }}" defer></script>
-    <!-- 谷歌分析代码 -->
-    <!-- 修复：多栏布局时广告位宽度错乱
-      https://support.google.com/adsense/answer/9183363 -->
-    <style>
-      /* 多栏布局 */
-      @media only screen and (min-width: 905px) {
-        .adsbygoogle {
-          /* 宽度为 905 时， 段落宽度为 450 px */
-          width: 450px;
-          margin: auto;
-        }
-      }
-    </style>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-D6CG538BRR"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-D6CG538BRR");
-    </script>
-    <!-- 谷歌广告代码 -->
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4089826532740408"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <!-- 修复 IOS Safari 点击事件无法触发的问题
-    onclick="void(0);"
-    https://stackoverflow.com/a/39712411 -->
-  <body onclick="void(0);">
-    <!-- 顶部导航栏 -->
-    <nav>
-      <ul>
-        <li class="导航已选择">作文</li>
-        <li><a href="./素材/?谓语={{主题谓语}}&宾语={{主题宾语}}">素材</a></li>
-        <li><a href="https://zongjie.jackjyq.com">总结</a></li>
-      </ul>
-    </nav>
-    <main>
-      <div class="主栏">
-        <!-- 输入区域 -->
-        <!-- prettier-ignore -->
-        <form
-          {% if 谓语错误 or 宾语错误 %}
-            class="输入区域 警告 卡片"
-          {% else %}
-            class="输入区域 卡片"
-          {% endif %}
-        >
-          <div>
-            <div>
-              <label for="谓语" style="opacity: 0">谓语</label>
-              <input
-                name="谓语"
-                type="text"
-                value="{{主题谓语}}"
-                placeholder="主题谓语"
-                maxlength="14"
-                onfocus="显示谓语标签()"
-                onblur="隐藏谓语标签()"
-              />
-            </div>
-            <div>
-              <label for="宾语" style="opacity: 0">宾语</label>
-              <input
-                name="宾语"
-                type="text"
-                value="{{主题宾语}}"
-                placeholder="主题宾语"
-                maxlength="14"
-                onfocus="显示宾语标签()"
-                onblur="隐藏宾语标签()"
-              />
-            </div>
-            <input type="submit" value="生成" onclick="隐藏示例()" />
-          </div>
-          {% if 谓语错误 %}
-          <label for="谓语" class="警告">{{错误信息}}</label>
-          {% endif %} {% if 宾语错误 %}
-          <label for="宾语" class="警告">{{错误信息}}</label>
-          {% endif %}
-        <!-- prettier-ignore -->
-          <article
-            class="示例区域"
-            {% if 主页 or 谓语错误 or 宾语错误 %}
-              style="max-height: 1000px"
-            {% else %}
-              style="max-height: 0"
-            {% endif %}
-          >
-            <h2>主题词示例</h2>
-            <ul>
-              {%for 索引 in range(0, 示例数量)%}
-              <li>
-                <a href="./?谓语={{示例[索引][0]}}&宾语={{示例[索引][1]}}"
-                  ><span>{{示例[索引][0]}}</span
-                  ><span>{{示例[索引][1]}}</span></a
-                >
-              </li>
-              {%endfor%}
-            </ul>
-            <p>
-              选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。多次点击生成按钮，可生成不同文章。
-            </p>
-          </article>
-        </form>
-        {% if not 主页 and not 谓语错误 and not 宾语错误 %}
-        <!-- 文章区域-->
-        <article class="文章区域 卡片">
-          <section id="文章">
-            <h1>{{主题谓语}}{{主题宾语}}</h1>
-            <!-- 前半篇 -->
-            {%for 段 in range(0, 3)%}
-            <p>{{文章[段]}}</p>
-            {%endfor%}
-            <!-- Google 广告 -->
-            <ins
-              class="adsbygoogle"
-              style="display: block; text-align: center"
-              data-ad-layout="in-article"
-              data-ad-format="fluid"
-              data-ad-client="ca-pub-4089826532740408"
-              data-ad-slot="3215047669"
-            ></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-            <!-- 后半篇 -->
-            {%for 段 in range(3, 段数-1)%}
-            <p>{{文章[段]}}</p>
-            {%endfor%}
-            <!-- 最后一段 -->
-            <p>{{文章[段数-1]}}（共 {{字数}} 字）</p>
-          </section>
-          <section>
-            <div class="拷贝">
-              <button type="button" onclick="拷贝文章()">
-                <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
-                  <path
-                    d="M15 37.95Q13.8 37.95 12.9 37.05Q12 36.15 12 34.95V6.95Q12 5.75 12.9 4.85Q13.8 3.95 15 3.95H37Q38.2 3.95 39.1 4.85Q40 5.75 40 6.95V34.95Q40 36.15 39.1 37.05Q38.2 37.95 37 37.95ZM15 34.95H37Q37 34.95 37 34.95Q37 34.95 37 34.95V6.95Q37 6.95 37 6.95Q37 6.95 37 6.95H15Q15 6.95 15 6.95Q15 6.95 15 6.95V34.95Q15 34.95 15 34.95Q15 34.95 15 34.95ZM9 43.95Q7.8 43.95 6.9 43.05Q6 42.15 6 40.95V10.8H9V40.95Q9 40.95 9 40.95Q9 40.95 9 40.95H32.7V43.95ZM15 6.95Q15 6.95 15 6.95Q15 6.95 15 6.95V34.95Q15 34.95 15 34.95Q15 34.95 15 34.95Q15 34.95 15 34.95Q15 34.95 15 34.95V6.95Q15 6.95 15 6.95Q15 6.95 15 6.95Z"
-                  />
-                </svg>
-              </button>
-              <div>已拷贝文章至剪切板</div>
-            </div>
-          </section>
-        </article>
-        {% endif %}
-      </div>
-      <div class="侧栏">
-        <!-- 示例区域 -->
-        <article class="示例区域 卡片">
-          <h2>主题词示例</h2>
-          <p>
-            选择合适的主题谓语、宾语，对作文质量至关重要。主题谓语当含有褒扬之意，主题宾语为某种值得追求的品质时最佳。多次点击生成按钮，可生成不同文章。
-          </p>
-          <ul>
-            {%for 索引 in range(0, 示例数量)%}
-            <li>
-              <a href="./?谓语={{示例[索引][0]}}&宾语={{示例[索引][1]}}"
-                ><span>{{示例[索引][0]}}</span><span>{{示例[索引][1]}}</span></a
-              >
-            </li>
-            {%endfor%}
-          </ul>
-        </article>
-        <!-- 打赏区域 -->
-        {% if not 主页 and not 谓语错误 and not 宾语错误 %}
-        <article class="打赏区域 卡片">
-          <h2>打赏作者</h2>
-          <p>
-            您的打赏将鼓励作者继续维护项目，及用于网站服务器、小嘿猫粮等开销。
-          </p>
-          <div>
-            <figure onclick="显示打赏(微信图片路径)">
-              <img
-                src="{{ url_for('static',filename='./图片/微信-272x272.jpg') }}"
-                alt="微信打赏"
-              />
-              <figcaption>微信打赏</figcaption>
-            </figure>
-            <figure onclick="显示打赏(支付宝图片路径)">
-              <img
-                src="{{ url_for('static',filename='./图片/支付宝-272x272.jpg') }}"
-                alt="支付宝打赏"
-              />
-              <figcaption>支付宝打赏</figcaption>
-            </figure>
-          </div>
-        </article>
-      </div>
-      {% endif %}
-    </main>
-    <!-- 版权信息 -->
-    <footer>
-      <p>
-        <a href="https://gitee.com/songyustudio/xiaohei-zuowen">码云</a> |
-        <a href="https://github.com/jackjyq/xiaohei-zuowen">Github</a>
-      </p>
-      <p>
-        本站由 Vultr（<a href="https://www.vultr.com/?ref=8334893">推广链接</a
-        >）提供服务器
-      </p>
-      <p>
-        网站图片 <a href="https://www.jackjyq.com">松鱼工作室</a>
-        &copy;
-        <a
-          href="https://gitee.com/songyustudio/xiaohei-zuowen/blob/master/LICENSE"
-          >保留所有权利</a
-        >
-      </p>
-      <p>
-        网站文字 基于<a
-          href="https://gitee.com/songyustudio/xiaohei-zuowen/blob/master/LICENSE"
-        >
-          CC0 1.0 通用协议</a
-        >发布
-      </p>
-      <p>
-        项目代码 基于
-        <a
-          href="https://gitee.com/songyustudio/xiaohei-zuowen/blob/master/LICENSE"
-        >
-          MIT 开源许可协议</a
-        >发布
-      </p>
-    </footer>
-    <div class="对话框" style="display: none" onclick="隐藏打赏()">
-      <img style="opacity: 0" />
-    </div>
-  </body>
-  {% if 谓语错误 %}
-  <script>
-    window.onload = function () {
-      const 输入框 = document.getElementById("谓语");
-      const 结束 = 输入框.value.length;
-      输入框.setSelectionRange(结束, 结束);
-      输入框.focus();
-    };
-  </script>
-  {% elif 宾语错误 %}
-  <script>
-    window.onload = function () {
-      const 输入框 = document.getElementById("宾语");
-      const 结束 = 输入框.value.length;
-      输入框.setSelectionRange(结束, 结束);
-      输入框.focus();
-    };
-  </script>
-  {% else %} {% endif %}
-</html>
+<!-- prettier-ignore -->
+{% extends "模版.html" %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+<!-- prettier-ignore -->
+{% block nav %}
+<ul>
+  <li class="导航已选择">作文</li>
+  <li><a href="./事例/?谓语={{主题谓语}}&宾语={{主题宾语}}">事例</a></li>
+  <li><a href="./名言/?谓语={{主题谓语}}&宾语={{主题宾语}}">名言</a></li>
+  <li><a href="https://zongjie.jackjyq.com">总结</a></li>
+</ul>
+{% endblock %}
+<!-- prettier-ignore -->
+{% block article %}
+<h1>{{主题谓语}}{{主题宾语}}</h1>
+<!-- 前半篇 -->
+{%for 段 in range(0, 3)%}
+<p>{{文章[段]}}</p>
+{%endfor%}
+<!-- Google 广告 -->
+<ins
+  class="adsbygoogle"
+  style="display: block; text-align: center"
+  data-ad-layout="in-article"
+  data-ad-format="fluid"
+  data-ad-client="ca-pub-4089826532740408"
+  data-ad-slot="3215047669"
+></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- 后半篇 -->
+{%for 段 in range(3, 段数-1)%}
+<p>{{文章[段]}}</p>
+{%endfor%}
+<!-- 最后一段 -->
+<p>{{文章[段数-1]}}（共 {{字数}} 字）</p>
+{% endblock %}

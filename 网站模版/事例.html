@@ -1,0 +1,44 @@
+<!-- prettier-ignore -->
+{% extends "模版.html" %}
+{% block head %}
+  {{ super() }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static',filename='./样式表/事例.css') }}"
+/>
+{% endblock %}
+<!-- prettier-ignore -->
+{% block nav %}
+<ul>
+  <li><a href="../?谓语={{主题谓语}}&宾语={{主题宾语}}">作文</a></li>
+  <li class="导航已选择">事例</li>
+  <li><a href="../名言/?谓语={{主题谓语}}&宾语={{主题宾语}}">名言</a></li>
+  <li><a href="https://zongjie.jackjyq.com">总结</a></li>
+</ul>
+{% endblock %}
+<!-- prettier-ignore -->
+{% block article %}
+<h1>《{{主题谓语}}{{主题宾语}}》事例</h1>
+<!-- 前半篇 -->
+<ul>
+  {%for 段 in range(0, 5)%}
+  <p>{{段+1}}、{{文章[段]}}</p>
+  {%endfor%}
+  <!-- Google 广告 -->
+  <ins
+    class="adsbygoogle"
+    style="display: block; text-align: center"
+    data-ad-layout="in-article"
+    data-ad-format="fluid"
+    data-ad-client="ca-pub-4089826532740408"
+    data-ad-slot="3215047669"
+  ></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  <!-- 后半篇 -->
+  {%for 段 in range(5, 段数)%}
+  <p>{{段+1}}、{{文章[段]}}</p>
+</ul>
+{%endfor%} {% endblock %}
