@@ -1,3 +1,6 @@
+# for Google credentials
+credentials.json
+
 # other venv folders
 venv-*/
 
