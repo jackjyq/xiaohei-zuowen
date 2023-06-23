@@ -92,7 +92,7 @@ User=jack
 Group=www-data
 WorkingDirectory=/home/jack/zuowen.jackjyq.com
 Environment="PATH=/home/jack/zuowen.jackjyq.com/venv/bin"
-ExecStart=/home/jack/zuowen.jackjyq.com/venv/bin/gunicorn --workers 1 --timeout 300 --bind unix:zuowen.jackjyq.com.sock -m 007 网站服务器:app
+ExecStart=/home/jack/zuowen.jackjyq.com/venv/bin/gunicorn --worker-class=gevent --workers 3 --bind unix:zuowen.jackjyq.com.sock -m 007 网站服务器:app
 
 [Install]
 WantedBy=multi-user.target
