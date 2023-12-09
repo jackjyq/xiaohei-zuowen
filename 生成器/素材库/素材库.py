@@ -2,6 +2,7 @@ import re
 from pathlib import Path
 from pprint import pprint
 from typing import Any
+
 import editdistance
 
 
@@ -11,18 +12,22 @@ class 素材库类:
 
     def _获取子类列表(self, 大类路径: Path) -> list[str]:
         return [
-            文件.stem for 文件 in 大类路径.iterdir() if 文件.is_file() and 文件.suffix == ".txt"
+            文件.stem
+            for 文件 in 大类路径.iterdir()
+            if 文件.is_file() and 文件.suffix == ".txt"
         ]
 
     def _获取素材列表(self, 子类路径: Path) -> list[str]:
-        with open(子类路径, "r") as 文件:
+        with open(子类路径, "r", encoding="utf-8") as 文件:
             # 去掉多余的换行符，跳过空行
             return [行.strip() for 行 in 文件.readlines() if 行.strip()]
 
     def _获取大类字典(self, 大类: str) -> dict[str, list[str]]:
         大类字典: dict[str, list[str]] = {}
         for 子类 in self._获取子类列表(self.脚本所在路径 / 大类):
-            大类字典[子类] = self._获取素材列表((self.脚本所在路径 / 大类 / 子类).with_suffix(".txt"))
+            大类字典[子类] = self._获取素材列表(
+                (self.脚本所在路径 / 大类 / 子类).with_suffix(".txt")
+            )
         return 大类字典
 
     def 获取素材库(self) -> dict[str, dict[str, list[Any]]]:
